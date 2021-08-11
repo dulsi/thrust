@@ -1,0 +1,28 @@
+#! /bin/sh
+
+# Written by Peter Ekberg, peda@lysator.liu.se
+
+(exec ${AWK} -v BINMODE="rw" '
+BEGIN {
+  if (ARGC != 2 && ARGC != 3) {
+    print "reverse: Usage '\''reverse [number] [pad]'\''" | "cat 1>&2"
+    exit 1
+  }
+  r = ARGV[1] + 0
+  delete ARGV[1]
+  p = 0
+  if (ARGC == 3) {
+    p += ARGV[2]
+    delete ARGV[2]
+  }
+
+  for (;;) {
+    if (getline buf <= 0)
+      break
+    data = data buf RT
+  }
+
+  for (i = length(data) / r - 1; i >= 0; --i)
+    printf(substr(data, i * r + 1, r - p))
+}
+' "$@")

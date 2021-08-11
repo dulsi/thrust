@@ -1,0 +1,57 @@
+
+#include "@abs_top_srcdir@/src/resource.h"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_THRUST              ICON    DISCARDABLE     "@abs_srcdir@/thrust.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 0,89,0,0
+ PRODUCTVERSION 0,89,0,0
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x40004L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904b0"
+        BEGIN
+            VALUE "CompanyName", "peda\0"
+            VALUE "FileDescription", "Thrust\0"
+            VALUE "FileVersion", "0, 89, 0, 0\0"
+            VALUE "InternalName", "Thrust\0"
+            VALUE "LegalCopyright", "Copyright © 1994-2006 Peter Ekberg\0"
+            VALUE "OriginalFilename", "Thrust.exe\0"
+            VALUE "ProductName", "Thrust\0"
+            VALUE "ProductVersion", "0, 89, 0, 0\0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x41d, 1200
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Cursor
+//
+
+IDC_NOCURSOR            CURSOR  DISCARDABLE     "@abs_srcdir@/nocursor.cur"

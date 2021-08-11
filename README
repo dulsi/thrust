@@ -1,0 +1,21 @@
+
+Thrust
+
+I started to code Thrust for MSDOG but later I had a revelation so now it is
+converted to GGI, X11 and a counple of other backends.
+
+This is the game from the C64 and BBC Micro that you cannot live without.
+
+See the file INSTALL for building and installation instructions.
+
+There is a web page that is supposed to be up to date. You can find it at
+http://www.lysator.liu.se/~peda/thrust/, and it should contain information
+about the latest developement. It also contains information to help you build
+your own levels.
+
+Thrust is free software. See the file COPYING for copying conditions.
+
+Please send comments, questions and bug reports by email to the address below.
+
+Peter Ekberg
+peda@lysator.liu.se

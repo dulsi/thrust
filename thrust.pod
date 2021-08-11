@@ -1,0 +1,258 @@
+
+=head1 NAME
+
+Thrust - a rewrite of the C64 classic
+
+=head1 SYNOPSIS
+
+B<thrust> [--help] [--version] [--nodemo] [--nosoundeffects]
+[--gamma=Value] [--step] [--double] [--ggitarget=TARGET]
+
+B<xthrust> [--help] [--version] [--nodemo] [--nosoundeffects]
+[--gamma=Value] [--step] [--noshm] [--double] [-display display-name]
+[-geometry=geometry-spec]
+
+B<dxthrust> [--help] [--version] [--nodemo] [--nosoundeffects]
+[--gamma=Value] [--step]
+
+B<svgathrust> [--help] [--version] [--nodemo] [--nosoundeffects]
+[--gamma=Value] [--step] [--svgamode=MODE]
+
+=head1 DESCRIPTION
+
+This is a rewrite of Thrust, the classic Commodore 64 game, to un*x and
+Windows.
+
+The object of the game is to lift the B<Klystron Pod> from the bottom
+of a cave and return it safely to space. The B<Pod> is very heavy
+(compared to the ship) and this makes it tougher than it may seem.
+
+You must be careful not to run out of fuel, crash into the cave
+walls, or let the enemy artillary outposts shoot you down.
+
+=head1 BACKGOUND STORY
+
+The resistance is about to launch a major offensive against the Intergalactic
+Empire. In preparation for this, they have captured several battle-grade
+starships, but they lack the essential power sources for these formidable
+craft; B<Klystron Pods>.
+
+You have been commissioned by resistance to steal these pods from the Empire's
+storage planets. Each planet is defended by a battery of B<Limpet Guns>,
+powered by a B<Nuclear Power Plant>. By firing shots at the power plant,
+the guns can be temporarily disabled; the more shots fired at the nuclear
+reactor, the longer the guns will take to recharge.
+
+B<BUT BEWARE!!> If you fire too many shots at the reactor, it will become
+critical, giving you just ten seconds to clear the plantet before it is
+destroyed. If you have not already retrieved the pod stored at the planet,
+then you will have failed the mission. If you have retrieved the pod, and you
+manage to send the reactor into its critical phase, and leave the planet
+safely, you will receive a hefty bonus.
+
+=head1 OPTIONS
+
+=over 5
+
+=item I<-h, --help>
+
+Print a usage message and exit with a non-zero status.
+
+=item I<-v, --version>
+
+Print version information on standard output, then exit.
+
+=item I<-d, --nodemo>
+
+Do not run the demo which is otherwise displayed if the game is left
+untouched.
+
+=item I<-e, --nosoundeffects>
+
+If sound is compiled in, be silent anyway.
+
+=item I<-c, --gamma=Value>
+
+Change the brightness of the colors. 1.0 is the default. Higher values
+give brighter colors. The value must be positive.
+
+=item I<-j, --jump>
+
+Only draw every third frame. This makes the game a lot faster.
+
+=item I<-t, --ggitarget=TARGET>
+
+This option is only applicable to the GGI version of Thrust.
+
+The GGI target to use, which can also be specified with the GGI_DISPLAY
+environment variable. E.g. I<--ggitarget=directx:-fullscreen>. See the GGI
+documentation for full details on GGI targets.
+
+=item I<-2, --double>
+
+This option is only applicable to the GGI version and the X version of Thrust.
+
+Double the size of the window. This makes the game slow.
+
+=item I<-display display-name>
+
+=item I<-geometry geometry-spec>
+
+These options (-display and -geometry) are only applicable to the X version
+of Thrust. Se the man page of X for details.
+
+=item I<-m, --noshm>
+
+This option is only applicable to the X version of Thrust.
+
+Do not try to share memory between Thrust and the X server.
+
+=item I<-s, --svgamode=MODE>
+
+This option is only applicable to the SVGAlib version of Thrust.
+
+The format of svgamode is GE<lt>widthE<gt>x<height>x<colors> where
+<width>x<height> is at least 320x200 and <colors> has to be 256. Also,
+the mode cannot be I<planar>. See the SVGAlib documentation for details
+on this. The default is G320x200x256. There has been success with modes
+G320x200x256, G640x480x256, G800x600x256 and G1024x768x256.
+
+=back
+
+=head1 CONTROLS
+
+Note that the following keys are the default configuration. This can be
+changed by the user by creating a file named .thrustrc in the users home
+directory.
+
+=over 5
+
+=item I<A>
+
+Turn counterclockwise
+
+=item I<S>
+
+Turn clockwise
+
+=item I<Enter>
+
+Fire
+
+Shoots a bullet. Different targets have different effect:
+
+The B<Fuel Tank> explodes for 150 points.
+
+The B<Limpet guns> expolde for 750 points.
+
+The B<Nuclear Power Plant> can take a number of hits. When they are
+destroyed you are given a short period of time to clear out before
+the whole neighbourhood is nuked. If a B<Power Plant> is hit - but
+not destoyed - it will recover after a period of time. During this
+recovery period, the B<Limpet guns> are not able to fire. 2000 extra
+points are scored if the B<Power Plant> is destroyed when the level
+is finished. There is exactly one B<Power Plant> in every level.
+
+In the more advanced levels you will find other things to shoot at.
+
+=item I<Right-Ctrl> (I<Right-Shift> on MSDOG)
+
+Thrust
+
+Gives the ship a forward push at the cost of some fuel.
+
+=item I<Spacebar>
+
+Pick up and shield.
+
+If the ship is above a B<Fuel Tank> the ship is refueled, i.e the fuel
+is picked up. Two vertical bars are drawn to indicate that fuel is
+picked up. When there is no more fuel left in the tank, it disappears
+and 300 points are scored.
+
+If the ship is close to the B<Klystron Pod> a connecting wire is drawn. The
+Pod is picked up when the connecting wire is of the right
+length. If I<spacebar> is released before the correct distance is reached
+the Pod is not picked up.
+
+When the shield is activated, a circle is drawn around the ship. If
+the ship is carrying the Pod, the Pod and the wire are also
+protected by the shield. The shield costs fuel to power.
+
+=item I<ESC>/I<Q>
+
+Quit the game
+
+=item I<P>
+
+Pause
+
+=item I<C>
+
+Continue a paused game
+
+=back
+
+=head1 CONFIGURATION
+
+The .thrustrc file
+
+Each command can be customized for either X11 or the SVGAlib (console)
+versions by specifying the appropriate prefix, X11- or SVGA-, followed
+by the command, and the key to be assigned. Numpad keys can be assigned
+using KP_[number], and control, shift and alt keys can be assigned
+using [key]_[direction].
+
+Valid commands:
+
+=over 5
+
+=item counterclockwise
+
+=item clockwise
+
+=item thrust
+
+=item fire
+
+=item pickup
+
+=back
+
+Examples:
+
+=over 5
+
+=item X11-counterclockwise    a
+
+=item X11-clockwise           KP_6
+
+=item SVGA-thrust             Shift_L
+
+=item SVGA-fire               space
+
+=item SVGA-pickup             KP_0
+
+=back
+
+=head1 FILES
+
+F<thrust.highscore> in the configured shared state dir.
+
+F<${HOME}/.thrustrc>
+
+=head1 AUTHORS
+
+Game by Peter Ekberg I<peda@lysator.liu.se>.
+
+Original man page by Joey Hess I<joey@kitenet.net>.
+
+Thanks go out to the authors of the original for the C64.
+
+=head1 DISTRIBUTION
+
+Thrust may be copied under the term of the Gnu General Public Licence.
+
+=head1 BUGS
+
+Who knows?

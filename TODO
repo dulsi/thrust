@@ -1,0 +1,65 @@
+
+GGI version.
+
+* Fade the colors in and out.
+
+* Pause when focus is lost.
+
+
+X version.
+
+* Fade the colors in and out.
+
+* Take away the demand for a local colormap if it isn't absolutely
+  necessary.
+
+* Ports for other unices.
+  HP-UX, Solaris, SunOS, OpenBSD, AIX, Ultrix, OSF1, Irix and Linux are known
+  to work. At least, they have worked at some point.
+
+* Support for non 8 bpp pseudocolor visuals.
+
+* Caps lock seems to be buggy.
+
+* Use the DGA extension if available?
+
+
+DirectX version.
+
+* Display error messages during startup.
+
+* Do not hardcode the keyboard layout.
+
+* Pause when focus is lost.
+
+* Screen is not redrawn when restoring from power save.
+
+* Screen is not redrawn when restoring from CTRL-ALT-DEL.
+
+
+General
+
+* More variations of colors.
+
+* Music.
+
+* The blinking of the stars.
+
+* Rewrite of the scrolling routines (Needed? How? ggiSetOrigin?).
+
+* Steering with joystick/game controller/etc.
+
+* Documentation of the code.
+
+* Remove all sorts of arbitrary limits when parsing levels.
+
+* Load levels at run-time?
+
+* Use ALSA, JACK or libao instead of (or in addition to) soundIt and
+  DirectSound.
+
+* There should be a sound when the shield is active.
+
+* Should not require GNU make in maintainer-mode.
+
+* Determine if GNU awk is required or not in maintainer-mode.

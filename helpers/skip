@@ -1,0 +1,22 @@
+#! /bin/sh
+
+# Written by Peter Ekberg, peda@lysator.liu.se
+
+(exec ${AWK} -v BINMODE="rw" '
+BEGIN {
+  if (ARGC != 2) {
+    print "skip: Usage '\''skip [number]'\''" | "cat 1>&2"
+    exit 1
+  }
+  skip = ARGV[1] + 1
+  delete ARGV[1]
+
+  for (;;) {
+    if (getline buf <= 0)
+      break
+    data = data buf RT
+  }
+
+  printf(substr(data, skip))
+}	
+' "$@")

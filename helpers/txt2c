@@ -1,0 +1,25 @@
+#! /bin/sh
+
+# Written by Peter Ekberg, peda@lysator.liu.se
+
+if test "x$1" == x; then
+	echo "$0: Usage '$0 variable_name'"
+	exit 1
+fi
+
+cat <<EOF
+
+#include <stddef.h>
+
+char *$1[] = {
+EOF
+
+(exec sed \
+	-e 's/\\/\\\\/g' \
+	-e 's/'\''/\\'\''/g' \
+	-e 's/\"/\\"/g' \
+	-e 's/\(.*\)/\"\1\",/')
+
+cat <<EOF
+NULL };
+EOF

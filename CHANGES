@@ -1,0 +1,403 @@
+
+Version 0.89f January 29, 2006
+
+* Make sure src/compat.h finds lib/getopt.h.
+
+* Make sure lib/getopt.h is distributed. Went missing in the automake
+  conversion in 0.89d.
+
+* Readd -lm link option. Went missing in the automake conversion in 0.89d.
+
+* Really fix VPATH build of Windows resources (datasrc/thrust_rc.rc).
+
+* Fix various VPATH issues in maintainer-mode.
+
+
+Version 0.89e January 5, 2006
+
+* Fix VPATH build of Windows resources (datasrc/thrust_rc.rc).
+
+* Fix MIT shared memory compile time detection for X11 backend. I.e. properly
+  #define MITSHM when shared memory has been detected.
+
+* xthrust should not be linked with the windows resources, noted by
+  Christoph Egger.
+
+* Fix src/silence.c to match the rename of thrust.snd to engine.snd, noted
+  by Christoph Egger.
+
+* Don't require malloc.h, noted by Christoph Egger.
+
+* Put missing library function in a library that is linked with all
+  applications, if any needed library functions are missing.
+
+* Handle missing netpbm-config script.
+
+
+Version 0.89d January 4, 2006
+
+* The 'thrust' binary is using the new GGI backend, the SVGAlib version has
+  been renamed to 'svgathrust'.
+
+* The binary distribution has been discontinued.
+
+* Don't specify the exact high score file in the man page. This moves the
+  pod2man dependency to maintainer-mode.
+
+* Rewrite of helpers bin2c, txt2c and reverse in awk, which should eliminate
+  at least some cross compiling issues. However, it is possible that GNU awk
+  is required. This only affects maintainer-mode, so it is not a big issue.
+
+* Rename datasrc/thrustrc.rc to datasrc/thrust_rc.rc and datasrc/thrust.snd to
+  datasrc/engine.snd.
+
+* Look for netpbm and prefer it over plain old pbm for building the ppm2c
+  helper.
+
+* Using Automake and Autoheader instead of hand crafted files. GNU make
+  specific constructs have been removed from the build system, which should
+  remove the GNU make requirement.
+
+* Windows port is built with MinGW and MSYS. It is also possible to build with
+  Cygwin, but there seems to be some X11 problem in the keyboard area, and
+  colors in the X11 version are only displayed if the Cygwin X server runs in
+  fullscreen mode. The Visual Studio project file has been discontinued.
+
+* Abstracted away soundIt behind a thin layer, facilitating an alternative
+  sound implementation using DirectSound for the MinGW port. Also provide a
+  silent sound implementation so that the other source files are not aware of
+  the presence of a functional sound subsystem.
+
+* Adapted SoundIt so that sound works on Cygwin, albeit with a bit of delay.
+
+* A new helper program 'skip' is included, eliminating the need to use 'dd'
+  during build. All bmp-files have been revised to not include 0x0a and 0x1a
+  as these may cause build problems on Windows.
+
+* The shield is flashing when it is active and the tractor beams are flashing
+  when fuel is picked up.
+
+* Not possible to shoot with the shield active. The visible diameter of the
+  shield is one pixel larger.
+
+* Made the Pod graphically larger and physically heavier and the Pod pidestal
+  is included. Changed the dynamics of picking up the Pod.
+
+* Correct center of mass when the ship and the Pod are connected. The ship and
+  the Pod are also further from each other when they are connected.
+
+* Guns fire more, and they fire more and more as the game progresses. The
+  shots from the Guns are slightly slower. The Guns do not fire at other
+  installations.
+
+* The color of the Guns are varied on the different levels.
+
+* The teleport bars are slightly wider.
+
+* The Power Plant is flashing and there is a warning sound as it counts down
+  in it's critical phase.
+
+* One life is lost if the planet is destroyed and the player hasn't escaped.
+  The screen is flashed as the planet is destroyed.
+
+* Possible to play on with zero spare lives, effectively giving the player one
+  extra life.
+
+* Requires autoconf 2.5x and configure.in has been renamed to configure.ac.
+
+* Keyboard configuration changes are saved in .thrustrc.
+
+
+Version 0.89c September 30, 2001
+
+* Fixed an escape sequence bug in the man page source.
+
+* Fixed the description of the .thrustrc file in the man page to use a list.
+
+* Silenced a couple of warnings.
+
+* Changed the Makefile so that all .c files in datasrc/ are really prebuilt
+  and also fixed it so that the prebuilt versions are used when building. This
+  should specifically remove the build dependency on the netpbm package.
+
+* Fixed the thrust.html ducumentation target.
+
+* Updated the previously forgotten email instance of Joey Hess.
+
+
+Version 0.89b September 19, 2001
+
+* Merge from Debian package: Handle dummy SVGAlib failure gracefully.
+
+* Merge from Debian package: Include description of the .thrustrc file in the
+  man page originally contributed by Jonathan Eisenstein.
+
+* Merge from Debian package: Joey Hess changed his email address *again*. ;-)
+
+* Updated config.guess and config.sub.
+
+
+Version 0.89a September 16, 2001
+
+* Dag Asheim tripped on a bug when he designed a level. Sliders were not
+  correctly connected to buttons when multiple sets of buttons existed.
+
+* The configure script failed to detect vga_getmodenumber in SVGAlib even
+  if it was present.
+
+* Cosmetic bug fixed in level6.def.
+
+
+Version 0.89  August 18, 1998
+
+* Thrust is now behaving better with respect to the laws of physics. It
+  is the case when the ship and the blob are connected that has been
+  updated. It should now be correct. I used the following passage from
+  a physics text book as guidance:
+
+  "The center of mass of a system of particles moves as if it were a
+   particle of mass equal to the total mass of the system and subject
+   to the external force applied to the system."
+
+  Thanks to all the people (Mark Carroll, Timo Korvola, etc) who has mentioned
+  the strangeness of loss of thrust when the ship and the blob are swinging all
+  over the place.
+
+* The ground is made visible when the shield is activated. Applicable to
+  rounds where the ground is invisible. Thanks to Tim Waugh for pointing this
+  out.
+
+* Levels are incremented instead of reset to one when a new stage is
+  entered.
+
+* Port for Windows available. Bound to be buggy. Uses DirectX 3.0 which means
+  that it runs on NT 4.0 Service Pack 3 and on Windows 95/98.
+
+* All .c files in datasrc/ are prebuilt in the source distribution.
+
+* MSDOG version discontinued.
+
+* Detection of the pbm library is now successful on systems where the library
+  does not need any additional include/library dirs.
+
+* The thrust sound wasn't silenced properly if quiting while thrusting. Thanks
+  to Jan Djärv, who pointed this out.
+
+
+Version 0.83c April 7, 1997
+
+* Stupid me. You should only get 1000 units on fuel, not 5000.
+
+
+Version 0.83b April 3, 1997
+
+* A bug in the code that verifies that the level descriptions are correct
+  caused a rejection of the first level. Thanks to Joey Hess who pointed this
+  out. Shame on me for not testing prior to the release.
+
+
+Version 0.83a April 1, 1997
+
+* A restart point in level 6 caused unconditional death. Not so good, but now
+  it's fixed. Thanks to Jan Djärv, who pointed this out.
+
+* An icon (32x32) for Windows included. Thanx bro.
+
+
+Version 0.83  March 21, 1997
+
+* If two shots arrive at the same target at the same time, only that target is
+  destroyed, not the target closest to the real target as well.
+
+* Lowercase characters in the font.
+
+* Cosmetic improvments. The amount of fuel left and the score is drawn in a box
+  similar to the one in the original. The animation area was moved to the lower
+  part of the screen, making room for the new box at the top of the screen. The
+  ship appears more smooth when rotated. X11 icon included, it is not just a
+  noisy square anymore.
+
+* X11 demo is only run if the window has focus.
+
+* X11 keyboard handling is better, still not handling Compose though.
+
+* The option --step which makes Thrust skip the drawing of two out of three
+  frames and the option --double which draws Thrust in a bigger X window.
+  However, --double is incredibly slow.
+
+* Instructions include the silly background story; supplied by Wolfram Kleff
+  over a year ago.
+
+* The Power Plant is not destoyed until the countdown is ended. When the count-
+  down ends, all objects explode. Do that in level five for maximum on screen
+  explosive effect (10 objects simultaneously exploding, if you have the Pod).
+
+* In the SVGAlib version, the names of the keys are pulled out of the kernel in
+  the same way as the utility "dumpkeys" is doing this. As a consequence, some
+  keys have changed their names, so you might have to edit your .thrustrc file.
+
+* Thrust runs on MSDOG. Indrek Mandre pointed me in the direction of DJGPP and
+  a port of SVGAlib which made it a rather easy task, but I still really really
+  detest MSDOG.
+
+
+Version 0.79c February 25, 1997
+
+* The "About"-code segfaulted, and so did the gamma correction option handling
+  in some cases. Both are fixed.
+
+
+Version 0.79b February 22, 1997
+
+* Sound wasn't working. Another silly play_sound=0; assignment.
+
+
+Version 0.79a February 21, 1997
+
+* Sound wasn't working. Silly play_sound=0; statement removed.
+
+
+Version 0.79  February 20, 1997
+
+* Changed the interaction between the ship and the blob when they are connected
+  and the ship is accelerated. The new behaviour is more correct and more like
+  the original.
+
+* Sound added to the Linux version. Uses the SoundIt library written by Brad
+  Pitzel (pitzel@cs.sfu.ca). Sound was added to thrust by Maik Roeder.
+  In addition, SoundIt has been adapted so that sound works for Solaris,
+  SunOS and HP-UX as well, but only if the sound device supports linear
+  encoding.
+
+* Configurable keys. Configuration is stored in ${HOME}/.thrustrc which is read
+  at startup. See the included file "thrustrc" for an example of how .thrustrc
+  can be written.
+
+* X version understand the -display and -geometry options.
+
+* Support for X-servers not capable of MIT shared memory.
+
+* Added an option --gamma with which you can change the brightness of the
+  colors.
+
+* New rules applies for advancement to the next level. Also, there is a maximum
+  altitude.
+
+* 750 points (instead of 700) are given when the bunkers are shot down.
+
+* Messages between the levels and a game over message.
+
+* Portability changes. The X version now builds on Linux, Ultrix 4.5, OSF1 4.0,
+  OpenBSD 2.0, Solaris 2.4/2.5, HP-UX 10.20, Irix 4.0.5, AIX 4.2 and SunOS 4.1.
+  Very likely a whole bunch of others. Fix for OpenBSD by Kenneth Stailey, the
+  rest by myself.
+
+
+Version 0.73  January 14, 1997
+
+* Added syncronization for fast systems. The X version was way too fast for
+  some systems.
+
+
+Version 0.71  January 13, 1997
+
+* Preliminary X11 support. Only works with servers capable of MIT shared memory
+  and limited to visuals with 8 bits per pixel pseudocolor.
+
+* Compatibility changes and the use of GNU autoconf makes it possible to run
+  the game on Solaris 2.5. With some luck, it works for other unices as well.
+
+* The fired shots can destroy targets even when the hit is not on the screen.
+
+* Fixed the door used in level 6.
+
+* Made the mass of the blob configurable (REL_MASS in src/thrust.h). The mass
+  of the blob is given in relation to the mass of the ship. The value is also
+  changed from the previous 1.0 to 0.8 in responce to some requests.
+
+* Updated man page. Most of the needed information is in there.
+
+* Some memory allocation misfeatures corrected by Maik Roeder.
+
+* Fixed the makefile. It didn't work if you didn't have the directory where the
+  binary was supposed to be installed.
+  Thanks go to Martin Wickman who pointed this out.
+
+* Removed the bindist target from the Makefile in the binary distribution.
+
+* Enabled the use of svga modes larger than 320x200. The game is simply drawn
+  in a small area of the larger screen. Option --svgamode added. I've been able
+  to play in 640x480, 800x600 and 1024x768.
+  Start with 'thrust -s G640x480x256'. 320x200 is still the default.
+
+
+Version 0.67  December 22, 1996
+
+* Fixed the nasty little bug which caused some "unexplainable" deaths. It must
+  have been there for ages, but hasn't triggered prior to v0.61.
+
+* Level 6 included. Pictures supplied by Christian Janoff. The door is still in
+  need of some work as you will notice when you get there. The level is
+  playable though.
+
+* Fixed a small cosmetic bug in level 5.
+
+* Joey Hess changed his email address *again*. ;-)
+
+
+Version 0.61  December 19, 1996
+
+* Level 5 included. Pictures supplied by Christian Janoff.
+
+* New and improved title picture. Supplied by Christian Janoff.
+
+
+Version 0.59  December 11, 1995
+
+* Configurable keys.
+
+* The guns are silent for a while when the plant has been hit. Thanks go to
+  Wolfram Kleff since he pointed out this behaviour.
+
+* Fixed a small bug with the teleport bars.
+
+* Responds to the arguments -v, --version, -h and --help.
+
+* Changed the internal representation of the definitions of the levels to make
+  it easier to enter the block codes (was ½ and others, now normal ASCII).
+
+* A breif description of how to make your own level.
+
+* Man page, maintained by Joey Hess (joey@kitenet.net).
+
+* Binary version compiled ELF, not a.out.
+
+
+Version 0.53  November 6, 1995
+
+* ELF-problem fixed. Thanks go to Mirko Streckenbach. Now it should compile on
+  ELF systems as well.
+
+* The game enters a demo mode if not touched.
+
+* The teleport bars at the end of a completed level.
+
+* The game is now not as quick as it was before, making it easier.
+
+
+Version 0.47
+
+* Can't remember. That's why I'm starting this list.
+
+
+Version 0.41
+
+* The first version released for Linux and SVGAlib. Before this, the versions
+  wasn't numbered.
+
+___
+
+The first version got on the way when I discovered that my new fancy computer
+was able to update the whole screen in every retrace of the monitor. This must
+have been in 1993 or 1994 with my 486DX50. Not a very efficient way of
+scrolling, but this is still how it works.
