@@ -45,9 +45,6 @@
 /* Have HP sound */
 #undef HAVE_HP_SOUND
 
-/* Define to 1 if you have the <inttypes.h> header file. */
-#undef HAVE_INTTYPES_H
-
 /* Define to 1 if you have the <io.h> header file. */
 #undef HAVE_IO_H
 
@@ -60,9 +57,6 @@
 /* Define to 1 if you have the <malloc.h> header file. */
 #undef HAVE_MALLOC_H
 
-/* Define to 1 if you have the <memory.h> header file. */
-#undef HAVE_MEMORY_H
-
 /* Define to 1 if you have the `on_exit' function. */
 #undef HAVE_ON_EXIT
 
@@ -72,20 +66,8 @@
 /* Have sound */
 #undef HAVE_SOUND
 
-/* Define to 1 if you have the <stdint.h> header file. */
-#undef HAVE_STDINT_H
-
-/* Define to 1 if you have the <stdlib.h> header file. */
-#undef HAVE_STDLIB_H
-
 /* Define to 1 if you have the `strdup' function. */
 #undef HAVE_STRDUP
-
-/* Define to 1 if you have the <strings.h> header file. */
-#undef HAVE_STRINGS_H
-
-/* Define to 1 if you have the <string.h> header file. */
-#undef HAVE_STRING_H
 
 /* Define to 1 if you have the <sun/audioio.h> header file. */
 #undef HAVE_SUN_AUDIOIO_H
@@ -110,12 +92,6 @@
 
 /* Define to 1 if you have the <sys/soundcard.h> header file. */
 #undef HAVE_SYS_SOUNDCARD_H
-
-/* Define to 1 if you have the <sys/stat.h> header file. */
-#undef HAVE_SYS_STAT_H
-
-/* Define to 1 if you have the <sys/types.h> header file. */
-#undef HAVE_SYS_TYPES_H
 
 /* Define to 1 if you have the <unistd.h> header file. */
 #undef HAVE_UNISTD_H
@@ -162,20 +138,8 @@
 /* Define as the return type of signal handlers (`int' or `void'). */
 #undef RETSIGTYPE
 
-/* Define to 1 if you have the ANSI C header files. */
-#undef STDC_HEADERS
-
 /* Version number of package */
 #undef VERSION
-
-/* Define to 1 if the X Window System is missing or not being used. */
-#undef X_DISPLAY_MISSING
-
-/* posix c source */
-#undef _POSIX_C_SOURCE
-
-/* xopen source */
-#undef _XOPEN_SOURCE
 
 /* Define to empty if `const' does not conform to ANSI C. */
 #undef const

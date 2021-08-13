@@ -10,13 +10,6 @@
 #endif
 
 #include <SDL.h>
-#include <stdio.h>
-#include <ctype.h>
-#include <fcntl.h>
-#include <sys/ioctl.h>
-#include <linux/kd.h>
-#include <linux/keyboard.h>
-#include <string.h>
 
 #include "compat.h"
 #include "thrust_t.h"

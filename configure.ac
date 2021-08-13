@@ -1,7 +1,7 @@
 dnl Written by Peter Ekberg, peda@lysator.liu.se
 dnl Process this file with autoconf to produce a configure script.
 
-AC_INIT([thrust],[0.89f],[peda@lysator.liu.se])
+AC_INIT([thrust],[0.89f],[dulsi@identicalsoftware.com])
 AC_CONFIG_SRCDIR([src/thrust_t.h])
 AC_CONFIG_MACRO_DIR(m4)
 AM_INIT_AUTOMAKE([1.9 foreign])
@@ -35,12 +35,6 @@ else
       ;;
   esac
 fi
-case "$host" in
-  *-osf*)
-    AC_DEFINE([_POSIX_C_SOURCE], [1], [posix c source])
-    AC_DEFINE([_XOPEN_SOURCE], [1], [xopen source])
-    ;;
-esac
     
 AC_PROG_INSTALL
 AC_C_CONST
