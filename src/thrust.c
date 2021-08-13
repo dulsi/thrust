@@ -1177,11 +1177,12 @@ main(int argc, char *argv[])
       GGI_OPTS,
       SVGA_OPTS,
       X_OPTS,
+      SDL_OPTS,
       { 0, 0, 0, 0 }
     };
 
     optc=getopt_long_only(argc, argv,
-			  OPTC GGI_OPTC SVGA_OPTC X_OPTC, longopts, (int *)0);
+			  OPTC GGI_OPTC SVGA_OPTC X_OPTC SDL_OPTC, longopts, (int *)0);
     switch(optc) {
     case 't':      /* --ggitarget */
     case 's':      /* --svgamode */
@@ -1189,6 +1190,7 @@ main(int argc, char *argv[])
     case 'X':      /* -display */
     case 'g':      /* -geometry */
     case '2':      /* --double */
+    case 'w':      /* --windowed */
       break;
     case 'e':      /* --nosoundeffects */
       play_sound=0;
@@ -1246,6 +1248,9 @@ main(int argc, char *argv[])
 	       "  -2, --double           Double the size of the window (slower).\n"
 	       "  -display display-name  See the X man page for details.\n"
 	       "  -geometry geom-spec    See the X man page for details.\n");
+      }
+      if(!strcmp(graphicsname(), "SDL")) {
+        printf("  -w, --windowed         Run in windowed mode.\n");
       }
       printf("\n");
       exit(1);

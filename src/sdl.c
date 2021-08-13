@@ -284,6 +284,25 @@ graphics_preinit(void)
 int
 graphicsinit(int argc, char **argv)
 {
+  int optc;
+  int windowed = 0;
+
+  optind=0;
+  do {
+    static struct option longopts[] = {
+      OPTS,
+      SDL_OPTS,
+      { 0, 0, 0, 0 }
+    };
+
+    optc=getopt_long_only(argc, argv, OPTC SDL_OPTC, longopts, (int *)0);
+    switch(optc) {
+    case 'w':
+      windowed = 1;
+      break;
+    }
+  } while(optc != EOF);
+
   if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0)
   {
     printf("Failed - SDL_Init\n");
@@ -293,7 +312,7 @@ graphicsinit(int argc, char **argv)
     SDL_WINDOWPOS_UNDEFINED,
     SDL_WINDOWPOS_UNDEFINED,
     320, 200,
-    (/*fullScreen*/ 1 ? SDL_WINDOW_FULLSCREEN_DESKTOP : 0));
+    (!windowed ? SDL_WINDOW_FULLSCREEN_DESKTOP : 0));
   if (ISDLMainWindow == NULL)
   {
     printf("Failed - SDL_CreateWindow\n");
