@@ -34,8 +34,8 @@ turnship(void)
   for(k=0; k<4; k++)
     for(i=0; i<16; i++)
       for(j=0; j<16; j++)
-	*(ship+(5+k)*256 +     i*16+j)=
-	  *(ship+(3-k)*256 +(15-j)*16+15-i);
+        *(ship+(5+k)*256 +     i*16+j)=
+          *(ship+(3-k)*256 +(15-j)*16+15-i);
   for(i=0; i<4; i++) {
     memcpy(shipstorage,ship+(i<<8),256);
     memcpy(ship+(i<<8),ship+((8-i)<<8),256);
@@ -44,13 +44,13 @@ turnship(void)
   for(k=0; k<8; k++)
     for(i=0; i<16; i++)
       for(j=0; j<16; j++)
-	*(ship+(9+k)*256 +     i*16+j)=
-	  *(ship+(7-k)*256 +     i*16+15-j);
+        *(ship+(9+k)*256 +     i*16+j)=
+          *(ship+(7-k)*256 +     i*16+15-j);
   for(k=0; k<15; k++)
     for(i=0; i<16; i++)
       for(j=0; j<16; j++)
-	*(ship+(17+k)*256+     i*16+j)=
-	  *(ship+(15-k)*256+(15-i)*16+j);
+        *(ship+(17+k)*256+     i*16+j)=
+          *(ship+(15-k)*256+(15-i)*16+j);
 }
 
 void
@@ -61,12 +61,12 @@ makeshieldedship(void)
   for(i=0; i<32; i++)
     for(j=0; j<17; j++)
       for(k=0; k<17; k++) {
-	if(j&&k)
-	  *(shieldship+i*17*17+j*17+k)=*(ship+(i<<8)+((j-1)<<4)+k-1);
-	else
-	  *(shieldship+i*17*17+j*17+k)=0;
-	if(*(bin_shld+j*17+k))
-	  *(shieldship+i*17*17+j*17+k)=*(bin_shld+j*17+k);
+        if(j&&k)
+          *(shieldship+i*17*17+j*17+k)=*(ship+(i<<8)+((j-1)<<4)+k-1);
+        else
+          *(shieldship+i*17*17+j*17+k)=0;
+        if(*(bin_shld+j*17+k))
+          *(shieldship+i*17*17+j*17+k)=*(bin_shld+j*17+k);
       }
 }
 
