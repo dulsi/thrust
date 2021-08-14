@@ -212,8 +212,8 @@ fadepalette(int first, int last, ui8 *RGBtable, int fade, int flag)
     }
   }
 
-//  if(flag)
-//    vga_waitretrace();
+  if(flag)
+    displayscreen(0);
 
   SDL_Color sdlcol[256];
   int color, rgb;
@@ -231,29 +231,6 @@ void
 fade_in(unsigned long us)
 {
   int i;
-
-/*  if(PSTARTY>0 && PSTARTX>0) {
-    gl_hline(PSTARTX-3, PSTARTY-3, PSTARTX+PUSEX+2, 1);
-    gl_hline(PSTARTX-4, PSTARTY-4, PSTARTX+PUSEX+3, 2);
-    gl_hline(PSTARTX-5, PSTARTY-5, PSTARTX+PUSEX+4, 3);
-    gl_hline(PSTARTX-3, PSTARTY+PUSEY+26, PSTARTX+PUSEX+2, 3);
-    gl_hline(PSTARTX-4, PSTARTY+PUSEY+27, PSTARTX+PUSEX+3, 2);
-    gl_hline(PSTARTX-5, PSTARTY+PUSEY+28, PSTARTX+PUSEX+4, 1);
-    gl_line(PSTARTX-3, PSTARTY-3, PSTARTX-3, PSTARTY+PUSEY+26, 1);
-    gl_line(PSTARTX-4, PSTARTY-4, PSTARTX-4, PSTARTY+PUSEY+27, 2);
-    gl_line(PSTARTX-5, PSTARTY-5, PSTARTX-5, PSTARTY+PUSEY+28, 3);
-    gl_line(PSTARTX+PUSEX+2, PSTARTY-3, PSTARTX+PUSEX+2, PSTARTY+PUSEY+26, 3);
-    gl_line(PSTARTX+PUSEX+3, PSTARTY-4, PSTARTX+PUSEX+3, PSTARTY+PUSEY+27, 2);
-    gl_line(PSTARTX+PUSEX+4, PSTARTY-5, PSTARTX+PUSEX+4, PSTARTY+PUSEY+28, 1);
-  }
-  else if(PSTARTY>0) {
-    gl_hline(PSTARTX, PSTARTY-3, PSTARTX+PUSEX-1, 1);
-    gl_hline(PSTARTX, PSTARTY-4, PSTARTX+PUSEX-1, 2);
-    gl_hline(PSTARTX, PSTARTY-5, PSTARTX+PUSEX-1, 3);
-    gl_hline(PSTARTX, PSTARTY+PUSEY+26, PSTARTX+PUSEX-1, 3);
-    gl_hline(PSTARTX, PSTARTY+PUSEY+27, PSTARTX+PUSEX-1, 2);
-    gl_hline(PSTARTX, PSTARTY+PUSEY+28, PSTARTX+PUSEX-1, 1);
-  }*/
 
   for(i=1; i<=64; i++)
     fadepalette(0, 255, bin_colors, i, 1);
