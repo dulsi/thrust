@@ -12,6 +12,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
 
 #include "compat.h"
 #include "thrust_t.h"
@@ -21,6 +24,10 @@
 #include "thrust.h"
 #include "gr_drv.h"
 #include "graphics.h"
+
+#ifdef _WIN32
+#define mkdir(x,y) _mkdir(x)
+#endif
 
 char *conffield[5] = {
   "counterclockwise",
@@ -143,12 +150,58 @@ conf()
   fade_out(0UL);
 }
 
-char *getthrustrc(void)
+
+static char *
+get_user_path()
+{
+  static char userPath[255] = "";
+	struct stat statbuf;
+  if (userPath[0] == 0) {
+#ifdef WIN32
+    strcpy(userPath, "save/");
+#else
+    //Temp variable that is used to prevent NULL assignement.
+    char* env;
+
+    //First get the $XDG_DATA_HOME env var.
+    env=getenv("XDG_DATA_HOME");
+    //If it's null set userPath to $HOME/.local/share/.
+    if(env!=NULL){
+      strcpy(userPath, env);
+    }
+    else {
+      strcpy(userPath, getenv("HOME"));
+      strcat(userPath, "/.local/share");
+    }
+    strcat(userPath, "/thrust/");
+#endif
+    if (0 != stat(userPath, &statbuf))
+    {
+      int len = strlen(userPath);
+      for (int i = 1; i < len; i++)
+      {
+        if (userPath[i] == '/')
+        {
+          userPath[i] = 0;
+          if (0 != stat(userPath, &statbuf))
+          {
+            mkdir(userPath, S_IRWXU);
+          }
+          userPath[i] = '/';
+        }
+      } 
+    }
+  }
+	return userPath;
+}
+
+char *
+getthrustrc(void)
 {
   char *home;
   char *thrustrc;
 
-  home=getenv("HOME");
+  home = get_user_path();
   if(home==NULL)
     home = "";
 
@@ -173,7 +226,7 @@ char *getthrustrc(void)
   if(thrustrc[0])
     if(thrustrc[strlen(thrustrc)-1]!='/')
       strcat(thrustrc, "/");
-  strcat(thrustrc, ".thrustrc");
+  strcat(thrustrc, "thrustrc");
 #endif
 
   return thrustrc;
