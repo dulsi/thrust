@@ -36,3 +36,11 @@ SVGA-clockwise          s
 SVGA-thrust             Control_R
 SVGA-fire               Return
 SVGA-pickup             space
+
+# Keys for SDLlib version.
+
+SDL-counterclockwise   A
+SDL-clockwise          S
+SDL-thrust             Right_Ctrl
+SDL-fire               Return
+SDL-pickup             Space

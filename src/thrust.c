@@ -468,51 +468,51 @@ game(int demo)
         }
       }
       if(alive && (actionbits&thrust_bit)) {
-	if(fuel>0 || easyrider) {
-	  if(play_sound)
-	    if(Thrust_Is_On==0) {
-	      Thrust_Is_On=1;
-	      sound_play(SND_ENGINE, CHAN_1);
-	    }
+        if(fuel>0 || easyrider) {
+          if(play_sound)
+            if(Thrust_Is_On==0) {
+              Thrust_Is_On=1;
+              sound_play(SND_ENGINE, CHAN_1);
+            }
 #if !(defined(DEBUG) || defined(DEBUG2))
-	  if(!easyrider)
-	    fuel--;
+          if(!easyrider)
+            fuel--;
 #endif
-	  oldabs=speedx*(long)speedx+speedy*(long)speedy;
+          oldabs=speedx*(long)speedx+speedy*(long)speedy;
 
-	  if(loaded) { /* Ship and blob */
-	    acircum  = sin(dir * M_PI/16 - alpha);
-	    deltaalpha += SPEED/2 * acircum * M_PI/262144;
-	    ax=SPEED/2 * cos(dir * M_PI/16) / (1 + REL_MASS);
-	    ay=SPEED/2 * sin(dir * M_PI/16) / (1 + REL_MASS);
-	  }
-	  else {       /* Ship, no blob */
-	    ax=SPEED/2 * cos(dir * M_PI/16);
-	    ay=SPEED/2 * sin(dir * M_PI/16);
-	  }
+          if(loaded) { /* Ship and blob */
+            acircum  = sin(dir * M_PI/16 - alpha);
+            deltaalpha += SPEED/2 * acircum * M_PI/262144;
+            ax=SPEED/2 * cos(dir * M_PI/16) / (1 + REL_MASS);
+            ay=SPEED/2 * sin(dir * M_PI/16) / (1 + REL_MASS);
+          }
+          else {       /* Ship, no blob */
+            ax=SPEED/2 * cos(dir * M_PI/16);
+            ay=SPEED/2 * sin(dir * M_PI/16);
+          }
 
-	  speedx+=(int)ax;
-	  speedy+=(int)ay;
-	  absspeed=speedx*(long)speedx+speedy*(long)speedy;
-	  if(absspeed>1000000000L && absspeed>oldabs) {
-	    speedx-=(int)ax;
-	    speedy-=(int)ay;
-	  }
-	}
-	else {
-	  if(play_sound)
-	    if(Thrust_Is_On == 1) {
-	      sound_stop(CHAN_1);
-	      Thrust_Is_On = 0;
-	    }
-	}
+          speedx+=(int)ax;
+          speedy+=(int)ay;
+          absspeed=speedx*(long)speedx+speedy*(long)speedy;
+          if(absspeed>1000000000L && absspeed>oldabs) {
+            speedx-=(int)ax;
+            speedy-=(int)ay;
+          }
+        }
+        else {
+          if(play_sound)
+            if(Thrust_Is_On == 1) {
+              sound_stop(CHAN_1);
+              Thrust_Is_On = 0;
+            }
+        }
       }
       else {
-	if(play_sound)
-	  if(Thrust_Is_On == 1) {
-	    sound_stop(CHAN_1);
-	    Thrust_Is_On = 0;
-	  }
+        if(play_sound)
+          if(Thrust_Is_On == 1) {
+            sound_stop(CHAN_1);
+            Thrust_Is_On = 0;
+          }
       }
       if(actionbits&quit_bit) {
 #ifdef DEBUG2

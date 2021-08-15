@@ -22,6 +22,14 @@
 #include "gr_drv.h"
 #include "graphics.h"
 
+char *conffield[5] = {
+  "counterclockwise",
+  "clockwise",
+  "thrust",
+  "fire",
+  "pickup"
+};
+
 int
 getscancode(int old, int x, int y)
 {
@@ -199,24 +207,28 @@ void writekeys(void)
   int rows=0;
   int res;
   ui8 row[256], driver[256], field[256], value[256];
+  int found[5] = {0, 0, 0, 0, 0};
 
   thrustrc = getthrustrc();
 
   if(thrustrc == NULL)
     return;
 
-  f = fopen(thrustrc, "rwt");
+  f = fopen(thrustrc, "rt");
   if(f == NULL) {
+    f = fopen(thrustrc, "wt");
+    if (f == NULL) {
 #if defined(_WIN32)
-    strcpy(thrustrc, "thrustrc");
-    f = fopen(thrustrc, "rwt");
-    if(f == NULL) {
+      strcpy(thrustrc, "thrustrc");
+      f = fopen(thrustrc, "rt");
+      if(f == NULL) {
+        free(thrustrc);
+        return;
+      }
+#else
       free(thrustrc);
       return;
     }
-#else
-    free(thrustrc);
-    return;
 #endif
   }
 
@@ -243,22 +255,22 @@ void writekeys(void)
   while(!feof(f)) {
     rows++;
     if(fgets(row, 255, f) == NULL) {
-      if(ferror(f)) {
-	perror("Error while parsing row %d of \"%s\"\n");
-	break;
+      if (ferror(f)) {
+        perror("Error while parsing row %d of \"%s\"\n");
+        break;
       }
       else
-	break;
+        break;
     }
     if(row[0] == '\0')
       break;
     if(!feof(f)) {
       if(row[strlen(row)-1] != '\n') {
-	printf("Row %d of \"%s\" is too long.\n", rows, thrustrc);
-	break;
+        printf("Row %d of \"%s\" is too long.\n", rows, thrustrc);
+        break;
       }
       else
-	row[strlen(row)-1] = '\0';
+        row[strlen(row)-1] = '\0';
     }
 
     if(row[0] == '#')
@@ -267,30 +279,26 @@ void writekeys(void)
       res = sscanf(row, "%[^-]-%s %s", driver, field, value);
 
     if(res>=3 && !strcasecmp(driver, keyboarddriver)) {
-      if(!strcasecmp(field, "counterclockwise")) {
-        fprintf(g, "%s-%s %s\n", driver, field, underscore(keystring(scancode[0])));
-        continue;
+      int foundIt = 0;
+      for (int i = 0; i < 5; i++) {
+        if(!strcasecmp(field, conffield[i])) {
+          fprintf(g, "%s-%-18s %s\n", driver, field, underscore(keystring(scancode[i])));
+          foundIt = 1;
+          found[i] = 1;
+          break;
+        }
       }
-      else if(!strcasecmp(field, "clockwise")) {
-        fprintf(g, "%s-%s        %s\n", driver, field, underscore(keystring(scancode[1])));
+      if (foundIt)
         continue;
-      }
-      else if(!strcasecmp(field, "thrust")) {
-        fprintf(g, "%s-%s           %s\n", driver, field, underscore(keystring(scancode[2])));
-        continue;
-      }
-      else if(!strcasecmp(field, "fire")) {
-        fprintf(g, "%s-%s             %s\n", driver, field, underscore(keystring(scancode[3])));
-        continue;
-      }
-      else if(!strcasecmp(field, "pickup")) {
-        fprintf(g, "%s-%s           %s\n", driver, field, underscore(keystring(scancode[4])));
-        continue;
-      }
     }
 
     fprintf(g, row);
     fprintf(g, "\n");
+  }
+  for (int i = 0; i < 5; i++) {
+    if(!found[i]) {
+      fprintf(g, "%s-%-18s %s\n", keyboarddriver, conffield[i], underscore(keystring(scancode[i])));
+    }
   }
 
   fclose(f);
@@ -337,55 +345,49 @@ void initkeys(void)
     rows++;
     if(fgets(row, 255, f) == NULL) {
       if(ferror(f)) {
-	perror("Error while parsing row %d of \"%s\"\n");
-	break;
+        perror("Error while parsing row %d of \"%s\"\n");
+        break;
       }
       else
-	row[0] = '\0';
+        row[0] = '\0';
     }
     if(!feof(f)) {
       if(row[strlen(row)-1] != '\n') {
-	printf("Row %d of \"%s\" is too long.\n", rows, thrustrc);
-	break;
+        printf("Row %d of \"%s\" is too long.\n", rows, thrustrc);
+        break;
       }
       else
-	row[strlen(row)-1] = '\0';
+        row[strlen(row)-1] = '\0';
     }
     if(row[0] != '#') {
       res = sscanf(row, "%[^-]-%s %s", driver, field, value);
       if(res==2)
-	printf("Syntax error in row %d of \"%s\".\n", rows, thrustrc);
+        printf("Syntax error in row %d of \"%s\".\n", rows, thrustrc);
       else if(res>=3) {
-	if(!strcasecmp(driver, "GGI")
-	   || !strcasecmp(driver, "SVGA")
-	   || !strcasecmp(driver, "X11")
-	   || !strcasecmp(driver, "Win32")) {
-	  if(!strcasecmp(driver, keyboarddriver)) {
-	    if(!strcasecmp(field, "counterclockwise")) {
-	      scancode[0] = keycode(value);
-	    }
-	    else if(!strcasecmp(field, "clockwise")) {
-	      scancode[1] = keycode(value);
-	    }
-	    else if(!strcasecmp(field, "thrust")) {
-	      scancode[2] = keycode(value);
-	    }
-	    else if(!strcasecmp(field, "fire")) {
-	      scancode[3] = keycode(value);
-	    }
-	    else if(!strcasecmp(field, "pickup")) {
-	      scancode[4] = keycode(value);
-	    }
-	    else {
-	      printf("Illegal keyboard field \"%s\" specified in row %d.\n",
-		     field, rows);
-	    }
-	  }
-	}
-	else {
-	  printf("Illegal keyboard driver \"%s\" specified in row %d.\n",
-		 driver, rows);
-	}
+        if(!strcasecmp(driver, "GGI")
+           || !strcasecmp(driver, "SVGA")
+           || !strcasecmp(driver, "SDL")
+           || !strcasecmp(driver, "X11")
+           || !strcasecmp(driver, "Win32")) {
+          if(!strcasecmp(driver, keyboarddriver)) {
+            int foundIt = 0;
+            for (int i = 0; i < 5; i++) {
+              if(!strcasecmp(field, conffield[i])) {
+                scancode[i] = keycode(value);
+                foundIt = 1;
+                break;
+              }
+            }
+            if (!foundIt) {
+              printf("Illegal keyboard field \"%s\" specified in row %d.\n",
+               field, rows);
+            }
+          }
+        }
+        else {
+          printf("Illegal keyboard driver \"%s\" specified in row %d.\n",
+           driver, rows);
+        }
       }
     }
   }

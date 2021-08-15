@@ -139,6 +139,9 @@ keystring(int key)
 {
   static char keybuffer[100];
   strcpy(keybuffer, SDL_GetKeyName(key));
+  for(int i=0; i<strlen(keybuffer); i++)
+    if(keybuffer[i] == '_')
+      keybuffer[i] = ' ';
 
   return keybuffer;
 }
@@ -146,7 +149,16 @@ keystring(int key)
 int
 keycode(char *keyname)
 {
-  return SDL_GetKeyFromName(keyname);
+  static char keybuffer[100];
+  int i;
+
+  strncpy(keybuffer, keyname, 99);
+  keybuffer[99] = '\0';
+  for(i=0; i<strlen(keybuffer); i++)
+    if(keybuffer[i] == '_')
+      keybuffer[i] = ' ';
+
+  return SDL_GetKeyFromName(keybuffer);
 }
 
 void
