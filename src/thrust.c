@@ -327,13 +327,13 @@ game(int demo)
     srandom(time(NULL));
     if(level!=lastlevel || !powerplant) {
       if(level==0 && lastlevel>0) {
-	gravitymsg = 1;
-	if(round == 2)
-	  visibilitymsg = 1;
+        gravitymsg = 1;
+        if(round == 2)
+          visibilitymsg = 1;
       }
       if(!readbana(levels[level])) {
-	printf("Illegal definition of level %d.\n", level+1);
-	return(1);
+        printf("Illegal definition of level %d.\n", level+1);
+        return(1);
       }
       userestartpoint(&restartpoints[0], 0, round&1, &restart);
       initgame(round, 1, restart.x, restart.y);
@@ -354,7 +354,7 @@ game(int demo)
     if(gravitymsg) {
       gcenter(60, (round&1) ? "Reversed gravity" : "Normal gravity");
       if(visibilitymsg)
-	gcenter(52, (round&2) ? "Invisible ground" : "Visible ground");
+        gcenter(52, (round&2) ? "Invisible ground" : "Visible ground");
     }
     displayscreen(0UL);
     syncscreen(0UL);
@@ -373,99 +373,99 @@ game(int demo)
       actionbits=demo ? nextmove(0) : whatkeys();
 
       if(fps) {
-	time_t timenow = time(0);
-	++localfps;
-	if(timenow != lasttime) {
-	  frames_per_second = localfps;
-	  localfps = 1;
-	}
-	lasttime = timenow;
+        time_t timenow = time(0);
+        ++localfps;
+        if(timenow != lasttime) {
+          frames_per_second = localfps;
+          localfps = 1;
+        }
+        lasttime = timenow;
       }
 
       if(alive && (actionbits&right_bit)) {
-	decr(kdir, 0, 96);
-	dir=kdir/3;
+        decr(kdir, 0, 96);
+        dir=kdir/3;
       }
       if(alive && (actionbits&left_bit)) {
-	incr(kdir, 96, 0);
-	dir=kdir/3;
+        incr(kdir, 96, 0);
+        dir=kdir/3;
       }
       if(alive && (actionbits&fire_bit) && !shield) {
-	if(!shoot) {
-	  shoot=1;
-	  newbullet((word)(x+((160+shipdx)<<3)+74*cos(dir * M_PI/16)),
-		    (word)(y+(( 88+shipdy)<<3)-74*sin(dir * M_PI/16)),
-		    (int)(speedx/256.0+32*cos(dir * M_PI/16)),
-		    (int)(speedy/256.0+32*sin(dir * M_PI/16)),
-		    kdir/6, 1);
-	}
-	else if(repetetive || easyrider)
-	  shoot=0;
+        if(!shoot) {
+          shoot=1;
+          newbullet((word)(x+((160+shipdx)<<3)+74*cos(dir * M_PI/16)),
+              (word)(y+(( 88+shipdy)<<3)-74*sin(dir * M_PI/16)),
+              (int)(speedx/256.0+32*cos(dir * M_PI/16)),
+              (int)(speedy/256.0+32*sin(dir * M_PI/16)),
+              kdir/6, 1);
+        }
+        else if(repetetive || easyrider)
+          shoot=0;
       }
       else
-	shoot=0;
+        shoot=0;
       refueling=0;
       if(alive && (actionbits&pickup_bit)) {
-	if(fuel>0 || easyrider) {
-	  if(shield==0 && round&2) {
-	    setcolor(BGCOLOR, &bgcolor);
-	    fadepalette(0, 255, bin_colors, 64, 0);
-	  }
-	  shield++;
-	  if(shield) {
+        if(fuel>0 || easyrider) {
+          if(shield==0 && round&2) {
+            setcolor(BGCOLOR, &bgcolor);
+            fadepalette(0, 255, bin_colors, 64, 0);
+          }
+          shield++;
+          if(shield) {
 #if !(defined(DEBUG) || defined(DEBUG2))
-	    if(!easyrider)
-	      if(--fuel)
-		--fuel;
+            if(!easyrider)
+              if(--fuel)
+            --fuel;
 #endif
-	  }
-	  shield=((shield-1)%6)+1;
-	}
-	else
-	  shield=0;
-	l=closestfuel((pixx+shipdx+160)%lenx3,
-		      (pixy+shipdy+88)%leny3);
-	if(l>=0)
-	  if(resonablefuel((pixx+shipdx+160)%lenx3,
-			   (pixy+shipdy+88)%leny3, l)) {
+          }
+          shield=((shield-1)%6)+1;
+        }
+        else
+          shield=0;
+        l=closestfuel((pixx+shipdx+160)%lenx3,
+                (pixy+shipdy+88)%leny3);
+        if(l>=0)
+          if(resonablefuel((pixx+shipdx+160)%lenx3,
+               (pixy+shipdy+88)%leny3, l)) {
 #ifndef DEBUG
-	    if(!easyrider)
-	      fuel+=22;
+            if(!easyrider)
+              fuel+=22;
 #endif
-	    refueling=1;
-	    things[l].alive--;
-	    if(things[l].alive==1)
-	      things[l].score=300;
-	  }
-	if(!loaded)
-	  if(inloadcontact((pixx+shipdx+160)%lenx3,
-			   (pixy+shipdy+88)%leny3)) {
-	    loadcontact=1;
-	    *(bana+lenx* loadby   +loadbx  )=' ';
-	    *(bana+lenx* loadby   +loadbx+1)=' ';
-	    *(bana+lenx*(loadby+1)+loadbx  )=' ';
-	    *(bana+lenx*(loadby+1)+loadbx+1)=' ';
-	    *(bana+lenx*(loadby+2)+loadbx  )=' ';
-	    *(bana+lenx*(loadby+2)+loadbx+1)=' ';
-	    drawload(0);
-	  }
+            refueling=1;
+            things[l].alive--;
+            if(things[l].alive==1)
+              things[l].score=300;
+          }
+        if(!loaded)
+          if(inloadcontact((pixx+shipdx+160)%lenx3,
+               (pixy+shipdy+88)%leny3)) {
+            loadcontact=1;
+            *(bana+lenx* loadby   +loadbx  )=' ';
+            *(bana+lenx* loadby   +loadbx+1)=' ';
+            *(bana+lenx*(loadby+1)+loadbx  )=' ';
+            *(bana+lenx*(loadby+1)+loadbx+1)=' ';
+            *(bana+lenx*(loadby+2)+loadbx  )=' ';
+            *(bana+lenx*(loadby+2)+loadbx+1)=' ';
+            drawload(0);
+          }
       }
       else {
-	if(shield!=0 && round&2) {
-	  setcolor(BGCOLOR, 0);
-	  fadepalette(0, 255, bin_colors, 64, 0);
-	}
-	shield=0;
-	if(alive && loadcontact) {
-	  *(bana+lenx* loadby   +loadbx  )='m';
-	  *(bana+lenx* loadby   +loadbx+1)='0';
-	  *(bana+lenx*(loadby+1)+loadbx  )='1';
-	  *(bana+lenx*(loadby+1)+loadbx+1)='2';
-	  *(bana+lenx*(loadby+2)+loadbx  )='3';
-	  *(bana+lenx*(loadby+2)+loadbx+1)='4';
-	  drawload(1);
-	  loadcontact=0;
-	}
+        if(shield!=0 && round&2) {
+          setcolor(BGCOLOR, 0);
+          fadepalette(0, 255, bin_colors, 64, 0);
+        }
+        shield=0;
+        if(alive && loadcontact) {
+          *(bana+lenx* loadby   +loadbx  )='m';
+          *(bana+lenx* loadby   +loadbx+1)='0';
+          *(bana+lenx*(loadby+1)+loadbx  )='1';
+          *(bana+lenx*(loadby+1)+loadbx+1)='2';
+          *(bana+lenx*(loadby+2)+loadbx  )='3';
+          *(bana+lenx*(loadby+2)+loadbx+1)='4';
+          drawload(1);
+          loadcontact=0;
+        }
       }
       if(alive && (actionbits&thrust_bit)) {
 	if(fuel>0 || easyrider) {
@@ -516,145 +516,145 @@ game(int demo)
       }
       if(actionbits&quit_bit) {
 #ifdef DEBUG2
-	printf("Endlevel: User pressed quit-key\n");
+        printf("Endlevel: User pressed quit-key\n");
 #endif
-	normalcolors();
-	endlevel=1;
+        normalcolors();
+        endlevel=1;
       }
 
       if(actionbits&pause_bit) {
-	if(play_sound) {
-	  Thrust_Is_On=0;
-	  sound_stop(CHAN_1);
-	}
-	normalcolors();
-	pause_message();
-	singlekey();
-	end=NOTHING;
-	while(getkey());
-	while(end==NOTHING) {
-	  ch=getkey();
-	  if(ch > 255)
-	    ch = 0;
-	  switch(islower(ch) ? ch : tolower(ch)) {
-	  case 'p':
-	    if(easyrider!=9)
-	      easyrider=0;
-	    break;
-	  case 't':
-	    checkfork('m', 0);
-	    checkfork('b', 1);
-	    checkfork('z', 2);
-	    checkfork('h', 3);
-	    checkfork('s', 4);
-	    checkfork('p', 5);
-	    checkfork('v', 6);
-	    checkfork('o', 7);
-	    checkfork('e', 8);
-	    break;
-	  case 'c':
-	  case 'q':
-	  case 27:
-	    end=PLAY;
-	    break;
-	  }
-	  usleep(50000UL);
-	}
-	if(easyrider!=9)
-	  easyrider=0;
-	multiplekeys();
+        if(play_sound) {
+          Thrust_Is_On=0;
+          sound_stop(CHAN_1);
+        }
+        normalcolors();
+        pause_message();
+        singlekey();
+        end=NOTHING;
+        while(getkey());
+        while(end==NOTHING) {
+          ch=getkey();
+          if(ch > 255)
+            ch = 0;
+          switch(islower(ch) ? ch : tolower(ch)) {
+          case 'p':
+            if(easyrider!=9)
+              easyrider=0;
+            break;
+          case 't':
+            checkfork('m', 0);
+            checkfork('b', 1);
+            checkfork('z', 2);
+            checkfork('h', 3);
+            checkfork('s', 4);
+            checkfork('p', 5);
+            checkfork('v', 6);
+            checkfork('o', 7);
+            checkfork('e', 8);
+            break;
+          case 'c':
+          case 'q':
+          case 27:
+            end=PLAY;
+            break;
+          }
+          usleep(50000UL);
+        }
+        if(easyrider!=9)
+          easyrider=0;
+        multiplekeys();
       }
       if(actionbits&escape_bit) {
-	if(play_sound) {
-	  Thrust_Is_On=0;
-	  sound_stop(CHAN_1);
-	}
-	normalcolors();
-	escape_message();
-	singlekey();
-	end=NOTHING;
-	while(end==NOTHING) {
-	  ch=getkey();
-	  if(ch > 255)
-	    ch = 0;
-	  switch(islower(ch) ? ch : tolower(ch)) {
-	  case 'y':
-	    end=END;
+        if(play_sound) {
+          Thrust_Is_On=0;
+          sound_stop(CHAN_1);
+        }
+        normalcolors();
+        escape_message();
+        singlekey();
+        end=NOTHING;
+        while(end==NOTHING) {
+          ch=getkey();
+          if(ch > 255)
+            ch = 0;
+          switch(islower(ch) ? ch : tolower(ch)) {
+          case 'y':
+            end=END;
 #ifdef DEBUG2
-	    printf("Endlevel: User answered yes efter ESC.\n");
+            printf("Endlevel: User answered yes efter ESC.\n");
 #endif
-	    endlevel=1;
-	    level=LEVELS;
-	    break;
-	  case 'n':
-	    end=PLAY;
-	    break;
-	  }
-	  usleep(50000UL);
-	}
-	multiplekeys();
+            endlevel=1;
+            level=LEVELS;
+            break;
+          case 'n':
+            end=PLAY;
+            break;
+          }
+          usleep(50000UL);
+        }
+        multiplekeys();
       }
 
 
       if(loaded) {
-	if(loadpointshift) {
-	  speedx+=shipdx*12;
-	  speedy+=shipdy*12;
-	}
-	alpha+=deltaalpha;
-	if(alpha>2*M_PI)
-	  alpha-=2*M_PI;
-	if(alpha<0)
-	  alpha+=2*M_PI;
-	loadpointshift=0;
-	if(++loadpoint>LOADPOINT)
-	  loadpoint=LOADPOINT;
-	else
-	  loadpointshift=1;
-	shipdx=(int)( cos(alpha)*loadpoint/5.90625);
-	shipdy=(int)(-sin(alpha)*loadpoint/5.90625);
-	if(loadpointshift) {
-	  speedx-=shipdx*12;
-	  speedy-=shipdy*12;
-	}
-	deltaalpha-=deltaalpha/1024;
+        if(loadpointshift) {
+          speedx+=shipdx*12;
+          speedy+=shipdy*12;
+        }
+        alpha+=deltaalpha;
+        if(alpha>2*M_PI)
+          alpha-=2*M_PI;
+        if(alpha<0)
+          alpha+=2*M_PI;
+        loadpointshift=0;
+        if(++loadpoint>LOADPOINT)
+          loadpoint=LOADPOINT;
+        else
+          loadpointshift=1;
+        shipdx=(int)( cos(alpha)*loadpoint/5.90625);
+        shipdy=(int)(-sin(alpha)*loadpoint/5.90625);
+        if(loadpointshift) {
+          speedx-=shipdx*12;
+          speedy-=shipdy*12;
+        }
+        deltaalpha-=deltaalpha/1024;
       }
       else
-	shipdx=shipdy=0;
+        shipdx=shipdy=0;
       /* Gravity and Aerodynamics */
       if(speedx>0)
-	speedx=speedx-(speedx>>9)-1;
+        speedx=speedx-(speedx>>9)-1;
       else if(speedx<0)
-	speedx=speedx-(speedx>>9)+1;
+        speedx=speedx-(speedx>>9)+1;
       if(alive) {
-	if(gravity>=0)
-	  speedy-=(SPEED*gravity+1)>>8;
-	else
-	  speedy-=(SPEED*gravity>>8)+1;
-	if(speedy>0)
-	  speedy--;
-	else if(speedy<0)
-	  speedy++;
-	/* Move the Ship */
-	speedx=min(speedx, 16384);
-	speedx=max(speedx, -16384);
-	speedy=min(speedy, 16384);
-	speedy=max(speedy, -16384);
-	if(speedx>=0)
-	  vx=(speedx+1)>>8;
-	else
-	  vx=(speedx>>8)+1;
-	if(speedy>=0)
-	  vy=(speedy+1)>>8;
-	else
-	  vy=(speedy>>8)+1;
-	x=(x+vx+(lenx<<6))%(lenx<<6);
-	y=(y-vy+(leny<<6))%(leny<<6);
+        if(gravity>=0)
+          speedy-=(SPEED*gravity+1)>>8;
+        else
+          speedy-=(SPEED*gravity>>8)+1;
+        if(speedy>0)
+          speedy--;
+        else if(speedy<0)
+          speedy++;
+        /* Move the Ship */
+        speedx=min(speedx, 16384);
+        speedx=max(speedx, -16384);
+        speedy=min(speedy, 16384);
+        speedy=max(speedy, -16384);
+        if(speedx>=0)
+          vx=(speedx+1)>>8;
+        else
+          vx=(speedx>>8)+1;
+        if(speedy>=0)
+          vy=(speedy+1)>>8;
+        else
+          vy=(speedy>>8)+1;
+        x=(x+vx+(lenx<<6))%(lenx<<6);
+        y=(y-vy+(leny<<6))%(leny<<6);
       }
 
       /* Bunkerfire */
       if(!ppblip)
-	bunkerfirebullets(round*LEVELS + level+1);
+        bunkerfirebullets(round*LEVELS + level+1);
       movebullets();
       movefragments();
       drawfuel(fuel);
@@ -662,32 +662,32 @@ game(int demo)
       /* Move the Power Plant blip */
       ppcount=(ppcount+1)&15;
       if(!ppcount && powerplant && ppblip)
-	ppblip--;
+        ppblip--;
 
       if(!powerplant) {
-	countdown--;
-	if(countdown<0) {
+        countdown--;
+        if(countdown<0) {
 #ifndef DEBUG
-	  if(alive && !easyrider) {
-	    lives--;
-	    dying=1;
+          if(alive && !easyrider) {
+            lives--;
+            dying=1;
 #ifdef DEBUG2
-	    printf("Dying: Power Plant countdown.\n");
+            printf("Dying: Power Plant countdown.\n");
 #endif
-	  }
+          }
 #endif
-	}
-	else {
-	  chflag=1;
-	  sprintf(textstr, "%d  ", (countdown+79)/80);
-	  printgs(105, 12, textstr);
-	  printgs(205, 12, textstr);
-	  chflag=0;
-	  if(play_sound && (countdown%80)==1)
-	    sound_play(SND_BLIP, CHAN_2);
-	}
-	if(countdown == -12)
-	  normalcolors();
+        }
+        else {
+          chflag=1;
+          sprintf(textstr, "%d  ", (countdown+79)/80);
+          printgs(105, 12, textstr);
+          printgs(205, 12, textstr);
+          chflag=0;
+          if(play_sound && (countdown%80)==1)
+            sound_play(SND_BLIP, CHAN_2);
+        }
+        if(countdown == -12)
+          normalcolors();
       }
 
       /* Precalculate some values */
@@ -701,14 +701,14 @@ game(int demo)
       bblocky=bildy>>3;
 
       if(pblocky>(int)leny-3) {
-	endlevel=1;
+        endlevel=1;
 #ifdef DEBUG2
-	printf("Endlevel: Finished level.\n");
+        printf("Endlevel: Finished level.\n");
 #endif
-	teleport=1;
-	y=0;
-	pixy=0;
-	pblocky=0;
+        teleport=1;
+        y=0;
+        pixy=0;
+        pblocky=0;
       }
 
       /* Check if at a restart barrier. If so, update the restart point. */
@@ -723,20 +723,20 @@ game(int demo)
       drawpowerplantblip();
       drawbullets();
       if(alive)
-	crash=drawshuttle();
+        crash=drawshuttle();
       drawfragments();
       if(alive && refueling)
-	drawfuellines();
+        drawfuellines();
       /* Check if end of life. */
 #ifndef DEBUG
       if(!easyrider)
-	if(alive && crash) {
-	  lives--;
-	  dying=1;
+        if(alive && crash) {
+          lives--;
+          dying=1;
 #ifdef DEBUG2
-	  printf("Dying: Crashing.\n");
+          printf("Dying: Crashing.\n");
 #endif
-	}
+        }
 #endif
       /* Wait for the screen retrace and then dump the graphics to it. */
       /* Screendump */
@@ -744,57 +744,57 @@ game(int demo)
       syncscreen(0UL);
       skip_counter++;
       if(!skip_frames || skip_counter==3) {
-	skip_counter=0;
-	putscr(bildx, bildy);
-	displayscreen(0UL);
+        skip_counter=0;
+        putscr(bildx, bildy);
+        displayscreen(0UL);
       }
 
       /* Remove moveable objects from screen in reverse order. */
       if(alive && refueling)
-	undrawfuellines();
+        undrawfuellines();
       undrawfragments();
       if(alive)
-	undrawshuttle();
+        undrawshuttle();
       undrawbullets();
 	
       /* Remove objects */
       if(!easyrider)
-	localscore+=killdyingthings();
+        localscore+=killdyingthings();
       else
-	killdyingthings();
+        killdyingthings();
       if(dying) {
-	alive=0;
-	dying=0;
-	if(play_sound) {
-	  sound_stop(CHAN_1);
-	  Thrust_Is_On=0;
-	  sound_play(SND_BOOM2, CHAN_2);
-	}
-	explodeship();
+        alive=0;
+        dying=0;
+        if(play_sound) {
+          sound_stop(CHAN_1);
+          Thrust_Is_On=0;
+          sound_play(SND_BOOM2, CHAN_2);
+        }
+        explodeship();
       }
       if(!alive && !livefragments()) {
-	if(play_sound) {
-	  sound_stop(CHAN_1);
-	  Thrust_Is_On=0;
-	}
-	endlevel=1;
+        if(play_sound) {
+          sound_stop(CHAN_1);
+          Thrust_Is_On=0;
+        }
+        endlevel=1;
 #ifdef DEBUG2
-	printf("Endlevel: Ship crashed.\n");
+        printf("Endlevel: Ship crashed.\n");
 #endif
       }
       animatesliders();
       if(localscore>score || fps) {
-	chflag=1;
-	if(localscore/10000 > score/10000)
-	  lives++;
-	score=localscore;
-	gamestatus(lives, fuel, score);
-	chflag=0;	
+        chflag=1;
+        if(localscore/10000 > score/10000)
+          lives++;
+        score=localscore;
+        gamestatus(lives, fuel, score);
+        chflag=0;
       }
     }
     if(teleport) {
       if(play_sound)
-	sound_stop(CHAN_1);
+        sound_stop(CHAN_1);
       setcolor(BGCOLOR, &bgcolor);
       fadepalette(0, 255, bin_colors, 64, 1);
       drawteleport(0);
@@ -807,48 +807,48 @@ game(int demo)
 
     if(!demo && !(actionbits&(quit_bit|escape_bit))) {
       if(teleport || !powerplant) {
-	chflag=1;
-	gamestatusframe();
-	gamestatus(lives, fuel, score);
+        chflag=1;
+        gamestatusframe();
+        gamestatus(lives, fuel, score);
 
-	if(!powerplant) {
-	  sprintf(textstr, "Planet destroyed");
-	  gcenter(61, textstr);
-	}
+        if(!powerplant) {
+          sprintf(textstr, "Planet destroyed");
+          gcenter(61, textstr);
+        }
 
-	if(teleport && loaded)
-	  sprintf(textstr, "Mission %d complete", (round%4)*LEVELS + level+1);
-	else if(powerplant)
-	  sprintf(textstr, "Mission incomplete");
-	else
-	  sprintf(textstr, "Misson  %d  failed", (round%4)*LEVELS + level+1);
-	gcenter(73-6*(teleport && loaded && powerplant), textstr);
+        if(teleport && loaded)
+          sprintf(textstr, "Mission %d complete", (round%4)*LEVELS + level+1);
+        else if(powerplant)
+          sprintf(textstr, "Mission incomplete");
+        else
+          sprintf(textstr, "Misson  %d  failed", (round%4)*LEVELS + level+1);
+        gcenter(73-6*(teleport && loaded && powerplant), textstr);
 
-	if((teleport && loaded) || !powerplant) {
-	  if(teleport && loaded)
-	    sprintf(textstr, "Bonus %d", 4000+400*level-2000*powerplant);
-	  else
-	    sprintf(textstr, "No bonus");
-	  gcenter(85-6*(!!powerplant), textstr);
-	}
+        if((teleport && loaded) || !powerplant) {
+          if(teleport && loaded)
+            sprintf(textstr, "Bonus %d", 4000+400*level-2000*powerplant);
+          else
+            sprintf(textstr, "No bonus");
+          gcenter(85-6*(!!powerplant), textstr);
+        }
 
-	displayscreen(0UL);
-	fade_in(2000000UL);
-	if(!easyrider && teleport && loaded)
-	  localscore+=4000+400*level-2000*powerplant;
-	if((teleport && loaded) || !powerplant) {
-	  if(++level==LEVELS) {
-	    level=0;
-	    round++;
-	  }
-	}
-	if(localscore/10000 > score/10000)
-	  lives++;
-	score=localscore;
-	gamestatus(lives, fuel, score);
-	chflag=0;
-	displayscreen(0UL);
-	fade_out(2000000UL);
+        displayscreen(0UL);
+        fade_in(2000000UL);
+        if(!easyrider && teleport && loaded)
+          localscore+=4000+400*level-2000*powerplant;
+        if((teleport && loaded) || !powerplant) {
+          if(++level==LEVELS) {
+            level=0;
+            round++;
+          }
+        }
+        if(localscore/10000 > score/10000)
+          lives++;
+        score=localscore;
+        gamestatus(lives, fuel, score);
+        chflag=0;
+        displayscreen(0UL);
+        fade_out(2000000UL);
       }
     }
     teleport=0;
@@ -1154,7 +1154,7 @@ menu(void)
 
     if(++count==160 && end==NOTHING) {
       if(!nodemo)
-	end=DEMO;
+        end=DEMO;
       count=0;
     }
   }
@@ -1200,21 +1200,21 @@ main(int argc, char *argv[])
       break;
     case 'c':      /* --gamma */
       {
-	char *end;
-	double tmp;
+        char *end;
+        double tmp;
 
-	if(*optarg) {
-	  tmp = strtod(optarg, &end);
-	  if(*end || tmp==HUGE_VAL || tmp<=0.0)
-	    tmp = 0.0;
-	}
-	else
-	  tmp = 0.0;
+        if(*optarg) {
+          tmp = strtod(optarg, &end);
+          if(*end || tmp==HUGE_VAL || tmp<=0.0)
+            tmp = 0.0;
+        }
+        else
+          tmp = 0.0;
 
-	if(tmp == 0.0)
-	  printf("Illegal gamma correction value: \"%s\"\n", optarg);
-	else
-	  gamma_correction = tmp;
+        if(tmp == 0.0)
+          printf("Illegal gamma correction value: \"%s\"\n", optarg);
+        else
+          gamma_correction = tmp;
       }
       break;
     case 'j':      /* --step */
@@ -1237,17 +1237,17 @@ main(int argc, char *argv[])
 	     "  -c, --gamma=Value      Gamma correction of colors.\n"
 	     "  -j, --step             Only draw every third frame (faster).\n");
       if(!strcmp(graphicsname(), "GGI")) {
-	printf("  -2, --double           Double the size of the window (slower).\n"
-	       "  -t, --ggitarget=TARGET A GGI target, see GGI documentation.\n");
+        printf("  -2, --double           Double the size of the window (slower).\n"
+               "  -t, --ggitarget=TARGET A GGI target, see GGI documentation.\n");
       }
       if(!strcmp(graphicsname(), "SVGA")) {
-	printf("  -s, --svgamode=MODE    The format of MODE is G<width>x<height>x<colors>\n");
+        printf("  -s, --svgamode=MODE    The format of MODE is G<width>x<height>x<colors>\n");
       }
       if(!strcmp(graphicsname(), "X11")) {
-	printf("  -m, --noshm            Do not use shared memory (slower).\n"
-	       "  -2, --double           Double the size of the window (slower).\n"
-	       "  -display display-name  See the X man page for details.\n"
-	       "  -geometry geom-spec    See the X man page for details.\n");
+        printf("  -m, --noshm            Do not use shared memory (slower).\n"
+               "  -2, --double           Double the size of the window (slower).\n"
+               "  -display display-name  See the X man page for details.\n"
+               "  -geometry geom-spec    See the X man page for details.\n");
       }
       if(!strcmp(graphicsname(), "SDL")) {
         printf("  -w, --windowed         Run in windowed mode.\n");
@@ -1285,8 +1285,8 @@ main(int argc, char *argv[])
       break;
     case PLAY:
       if(!(end=game(0)))
-	if(ahighscore(score))
-	  newhighscore();
+        if(ahighscore(score))
+          newhighscore();
       break;
     case HI:
       showhighscores();

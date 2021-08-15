@@ -664,9 +664,9 @@ drawshuttle(void)
       x1=loadbx<<3;
       y1=(loadby<<3)+5;
       if(pixx+PBILDX>(int)lenx3 && x1<PBILDX)
-	x1+=lenx3;
+        x1+=lenx3;
       if(pixy+PBILDY>(int)leny3 && y1<PBILDY)
-	y1+=leny3;
+        y1+=leny3;
       drawsquare(bildx-pixx+x1, y1%PBILDY, loadmap, loadstorage, 11, 19);
     }
     tmp=testcrash(loadmap, loadstorage, 11*11, shield);
