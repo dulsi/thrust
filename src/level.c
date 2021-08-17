@@ -38,43 +38,43 @@ matchsliders(void)
 	  case 1:
 	    if(sliders[j].type!=12) { /* Horizontal sliders */
 	      if((sliders[i].y1 == sliders[j].y1)
-		 && (sliders[j].x1>sliders[i].x1)
-		 && (sliders[j].x1-sliders[i].x1 < dist)) {
-		dist=sliders[j].x1-sliders[i].x1;
-		match=j;
+            && (sliders[j].x1>sliders[i].x1)
+            && (sliders[j].x1-sliders[i].x1 < dist)) {
+          dist=sliders[j].x1-sliders[i].x1;
+          match=j;
 	      }
 	    }
 	    else /* Vertical sliders */
 	      if((sliders[i].x1 == sliders[j].x1)
-		 && (sliders[j].y1>sliders[i].y1)
-		 && (sliders[j].y1-sliders[i].y1 < dist)) {
-		dist=sliders[j].y1-sliders[i].y1;
-		match=j;
+            && (sliders[j].y1>sliders[i].y1)
+            && (sliders[j].y1-sliders[i].y1 < dist)) {
+          dist=sliders[j].y1-sliders[i].y1;
+          match=j;
 	      }	      
 	    break;
 	  case 2:
 	    if(sliders[j].type!=12) { /* Horizontal sliders */
 	      if((sliders[i].y1 == sliders[j].y1)
-		 && (sliders[i].x1>sliders[j].x1)
-		 && (sliders[i].x1-sliders[j].x1 < dist)) {
-		dist=sliders[i].x1-sliders[j].x1;
-		match=j;
+            && (sliders[i].x1>sliders[j].x1)
+            && (sliders[i].x1-sliders[j].x1 < dist)) {
+          dist=sliders[i].x1-sliders[j].x1;
+          match=j;
 	      }
 	    }
 	    else /* Vertical sliders */
 	      if((sliders[i].x1 == sliders[j].x1)
-		 && (sliders[i].y1>sliders[j].y1)
-		 && (sliders[i].y1-sliders[j].y1 < dist)) {
-		dist=sliders[i].y1-sliders[j].y1;
-		match=j;
+            && (sliders[i].y1>sliders[j].y1)
+            && (sliders[i].y1-sliders[j].y1 < dist)) {
+          dist=sliders[i].y1-sliders[j].y1;
+          match=j;
 	      }
 	    break;
 	  }
 	}
       }
       if(match==nrsliders) {
-	printf("Found slider with no blocker.\n");
-	return(0);
+        printf("Found slider with no blocker.\n");
+        return(0);
       }
       sliders[i].match=1;
       sliders[match].match=1;
@@ -83,8 +83,8 @@ matchsliders(void)
       j=closestbutton((sliders[i].x1+sliders[i].x2)<<2,
 		      (sliders[i].y1+sliders[i].y2)<<2);
       if(j<0) {
-	printf("Found no botton to connect the slider with.\n");
-	return(0);
+        printf("Found no botton to connect the slider with.\n");
+        return(0);
       }
       j=majorbutton(j);
       sliders[i].next=((buttondata *)things[j].data)->sliders;
@@ -260,7 +260,7 @@ readbana(char **ptr)
 	      bdata->sliders=NULL;
 	      bdata->tag=temp[x-1];
 	      bdata->major=ismajorbutton(bdata->tag);
-	      newthing((x<<3)+9,(y<<3)+8,x,y,7,bdata);
+	      newthing((x<<3)+9,(y<<3)+8,x,y,THING_BUTTON1,bdata);
 	    }
 	  }
 	  else
@@ -277,7 +277,7 @@ readbana(char **ptr)
 	      bdata->sliders=NULL;
 	      bdata->tag=temp[x-1];
 	      bdata->major=ismajorbutton(bdata->tag);
-	      newthing((x<<3)-1,(y<<3)+8,x,y,8,bdata);
+	      newthing((x<<3)-1,(y<<3)+8,x,y,THING_BUTTON2,bdata);
 	    }
 	  }
 	  else
@@ -285,31 +285,31 @@ readbana(char **ptr)
 	  break;
 	case 'P':       /*  |\x Bunker */
 	  if(nrthings<maxthings)
-	    newthing((x<<3)+14,(y<<3)+8,x,y,3,NULL);
+	    newthing((x<<3)+14,(y<<3)+8,x,y,THING_BUNKER1,NULL);
 	  else
 	    stat=0;
 	  break;
 	case 'U':       /*  x/| Bunker */
 	  if(nrthings<maxthings)
-	    newthing((x<<3)+10,(y<<3)+8,x,y,4,NULL);
+	    newthing((x<<3)+10,(y<<3)+8,x,y,THING_BUNKER2,NULL);
 	  else
 	    stat=0;
 	  break;
 	case '[':       /*  |/x Bunker */
 	  if(nrthings<maxthings)
-	    newthing((x<<3)-2,(y<<3)+8,x-2,y,5,NULL);
+	    newthing((x<<3)-2,(y<<3)+8,x-2,y,THING_BUNKER3,NULL);
 	  else
 	    stat=0;
 	  break;
 	case '\\':      /*  x\| Bunker */
 	  if(nrthings<maxthings)
-	    newthing((x<<3)+10,(y<<3)+7,x,y,6,NULL);
+	    newthing((x<<3)+10,(y<<3)+7,x,y,THING_BUNKER4,NULL);
 	  else
 	    stat=0;
 	  break;
 	case '`':       /* Fuel */
 	  if(nrthings<maxthings)
-	    newthing((x<<3)+8,(y<<3)+8,x,y,1,NULL);
+	    newthing((x<<3)+8,(y<<3)+8,x,y,THING_FUEL,NULL);
 	  else
 	    stat=0;
 	  break;
@@ -319,7 +319,7 @@ readbana(char **ptr)
 	    ppblip=1;
 	    ppx=x+2;
 	    ppy=y;
-	    newthing((x<<3)+12,(y<<3)+9,x,y,2,NULL);
+	    newthing((x<<3)+12,(y<<3)+9,x,y,THING_POWERPLANT,NULL);
 	  }
 	  else
 	    stat=0;
@@ -340,9 +340,9 @@ readbana(char **ptr)
   if(stat) {
     for(x=0; x<nrthings; x++) {
       if(things[x].type==7)
-	*(bana+(long)things[x].py*lenx+things[x].px-1)='p';
+        *(bana+(long)things[x].py*lenx+things[x].px-1)='p';
       if(things[x].type==8)
-	*(bana+(long)things[x].py*lenx+things[x].px-1)=' ';
+        *(bana+(long)things[x].py*lenx+things[x].px-1)=' ';
       if(things[x].type>=3 && things[x].type<=6)
         things[x].mask = testbullets(&things[x]);
     }
@@ -359,11 +359,11 @@ readbana(char **ptr)
     for(x=0; x<nrbarriers; x++) {
       barriers[x].restart=&restartpoints[0];
       for(y=1; y<nrrestartpoints; y++)
-	if((abs(barriers[x].x-restartpoints[y].x)
-	    + abs(barriers[x].y-restartpoints[y].y))
-	   < (abs(barriers[x].x-barriers[x].restart->x)
-	      + abs(barriers[x].y-barriers[x].restart->y)))
-	  barriers[x].restart=&restartpoints[y];
+        if((abs(barriers[x].x-restartpoints[y].x)
+            + abs(barriers[x].y-restartpoints[y].y))
+           < (abs(barriers[x].x-barriers[x].restart->x)
+              + abs(barriers[x].y-barriers[x].restart->y)))
+          barriers[x].restart=&restartpoints[y];
     }
   }
 

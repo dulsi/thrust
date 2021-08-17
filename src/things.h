@@ -57,6 +57,14 @@ struct restartinfodef {
 };
 typedef struct restartinfodef restartinfo;
 
+#define THING_FUEL 1
+#define THING_POWERPLANT 2
+#define THING_BUNKER1 3
+#define THING_BUNKER2 4
+#define THING_BUNKER3 5
+#define THING_BUNKER4 6
+#define THING_BUTTON1 7
+#define THING_BUTTON2 8
 
 #define maxbullets (64)
 extern bullet bullets[maxbullets];
