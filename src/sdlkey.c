@@ -16,6 +16,8 @@
 #include "gr_drv.h"
 
 #include "keyboard.h"
+#include "init.h"
+#include "statistics.h"
 
 int scancode[5] = {
   SDLK_a,
@@ -102,7 +104,9 @@ getkeys(void)
     {
       case SDL_QUIT:
       {
-        SDL_Quit();
+        writestatistics();
+        restoremem();
+        restorehardware();
         exit(0);
       }
       case SDL_KEYDOWN:

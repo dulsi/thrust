@@ -102,7 +102,7 @@ int closestbutton(int x, int y);
 void hit(word x, word y, word crash, word owner);
 void bunkerfirebullet(thing *b);
 void bunkerfirebullets(int intensity);
-int killdyingthings(void);
+int killdyingthings(int updatestats);
 void killallthings(void);
 void newfragment(word x, word y);
 void explodething(thing *thingptr);

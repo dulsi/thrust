@@ -11,6 +11,7 @@ extern char *keynames[];
 void initkeys(void);
 void writekeys(void);
 char *underscore(char *keystring);
+char *getuserfile(char *name);
 char *getthrustrc(void);
 void conf(void);
 int getscancode(int old, int x, int y);

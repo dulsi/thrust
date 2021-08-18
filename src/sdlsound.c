@@ -15,7 +15,7 @@ int sdlLoop[SOUND_SAMPLES];
 int
 sound_depends_on_graphics()
 {
-  return 0;
+  return 1;
 }
 
 int

@@ -196,7 +196,7 @@ get_user_path()
 }
 
 char *
-getthrustrc(void)
+getuserfile(char *name)
 {
   char *home;
   char *thrustrc;
@@ -205,7 +205,7 @@ getthrustrc(void)
   if(home==NULL)
     home = "";
 
-  thrustrc = malloc(strlen(home) + 11);
+  thrustrc = malloc(strlen(home) + strlen(name) + 2);
   if(thrustrc == NULL) {
     printf("Out of memory when trying to read .thrustrc.\n");
     return NULL;
@@ -221,15 +221,21 @@ getthrustrc(void)
     if(thrustrc[strlen(thrustrc)-1]!='\\')
       strcat(thrustrc, "\\");
   }
-  strcat(thrustrc, "thrustrc");
+  strcat(thrustrc, name);
 #else
   if(thrustrc[0])
     if(thrustrc[strlen(thrustrc)-1]!='/')
       strcat(thrustrc, "/");
-  strcat(thrustrc, "thrustrc");
+  strcat(thrustrc, name);
 #endif
 
   return thrustrc;
+}
+
+char *
+getthrustrc(void)
+{
+  return getuserfile("thrustrc");
 }
 
 char *underscore(char *keystring)

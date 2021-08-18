@@ -17,7 +17,8 @@ SRC = \
   src/init.c src/level.c src/font5x5.c src/graphics.c src/compat.h \
   src/conf.h src/fast_gr.h src/font5x5.h src/gr_drv.h src/graphics.h \
   src/hiscore.h src/init.h src/keyboard.h src/level.h src/options.h \
-  src/sound.h src/soundIt.h src/things.h src/thrust.h src/thrust_t.h
+  src/sound.h src/soundIt.h src/things.h src/thrust.h src/thrust_t.h \
+  src/statistics.c src/statistics.h
 
 GENDATASRC = \
   datasrc/blks.c datasrc/ship.c datasrc/shld.c datasrc/colors.c \

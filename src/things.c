@@ -18,6 +18,7 @@
 #include "fast_gr.h"
 #include "graphics.h"
 #include "thrust.h"
+#include "statistics.h"
 
 #include "sound.h"
 
@@ -92,204 +93,204 @@ animatesliders(void)
     if(s->active) {
       switch(s->stage) {
       case 0:
-	if(!(s->count&7)) {
-	  switch(s->type) {
-	  case 2:
-	    if(s->count==0) {
-	      writeblock(s->x1-(s->count>>3),   s->y1, 'x');
-	      writeblock(s->x1-(s->count>>3)-1, s->y1, 136);
-	      writeblock(s->x1-(s->count>>3)-2, s->y1, 'q');
-	    }
-	    else if(s->count==8) {
-	      writeblock(s->x1-(s->count>>3),   s->y1, 'w');
-	      writeblock(s->x1-(s->count>>3)-1, s->y1, 'r');
-	      writeblock(s->x1-(s->count>>3)-2, s->y1, 'q');
-	    }
-	    else {
-	      writeblock(s->x1-(s->count>>3),   s->y1, ' ');
-	      writeblock(s->x1-(s->count>>3)-1, s->y1, 'r');
-	      writeblock(s->x1-(s->count>>3)-2, s->y1, 'q');
-	    }
-	    break;
-	  case 5:
-	    if(s->count==0) {
-	      writeblock(s->x1-(s->count>>3)  , s->y1, 138);
-	      writeblock(s->x1-(s->count>>3)-1, s->y1, 139);
-	    }
-	    else if(s->count==8) {
-	      writeblock(s->x1-(s->count>>3)  , s->y1, 141);
-	      writeblock(s->x1-(s->count>>3)-1, s->y1, 134);
-	    }
-	    else {
-	      writeblock(s->x1-(s->count>>3)  , s->y1, 135);
-	      writeblock(s->x1-(s->count>>3)-1, s->y1, 134);
-	    }
-	    break;
-	  case 7:
-	    writeblock(s->x1+(s->count>>3), s->y1, 'y');
-	    break;
-	  case 8:
-	    writeblock(s->x1-(s->count>>3), s->y1, '|');
-	    break;
-	  case 10:
-	    writeblock(s->x1, s->y1+(s->count>>3), 129);
-	    break;
-	  case 11:
-	    writeblock(s->x1, s->y1-(s->count>>3), 128);
-	    break;
-	  }
-	}
-	else if(!(s->count&3)) {
-	  switch(s->type) {
-	  case 2:
-	    if(s->count==4) {
-	      writeblock(s->x1-(s->count>>3)-1, s->y1, 137);
-	      writeblock(s->x1-(s->count>>3)-2, s->y1, 'n');
-	    }
-	    else {
-	      writeblock(s->x1-(s->count>>3)-1, s->y1, 'o');
-	      writeblock(s->x1-(s->count>>3)-2, s->y1, 'n');
-	    }
-	    break;
-	  case 5:
-	    if(s->count==4) {
-	      writeblock(s->x1-(s->count>>3),   s->y1, 133);
-	      writeblock(s->x1-(s->count>>3)-1, s->y1, 140);
-	      writeblock(s->x1-(s->count>>3)-2, s->y1, 'u');
-	    }
-	    else if(s->count==12) {
-	      writeblock(s->x1-(s->count>>3),   s->y1, 132);
-	      writeblock(s->x1-(s->count>>3)-1, s->y1, 'v');
-	      writeblock(s->x1-(s->count>>3)-2, s->y1, 'u');
-	    }
-	    else {
-	      writeblock(s->x1-(s->count>>3),   s->y1, ' ');
-	      writeblock(s->x1-(s->count>>3)-1, s->y1, 'v');
-	      writeblock(s->x1-(s->count>>3)-2, s->y1, 'u');
-	    }
-	    break;
-	  case 7:
-	    writeblock(s->x1+(s->count>>3), s->y1, ' ');
-	    break;
-	  case 8:
-	    writeblock(s->x1-(s->count>>3), s->y1, ' ');
-	    break;
-	  case 10:
-	    writeblock(s->x1, s->y1+(s->count>>3), ' ');
-	    break;
-	  case 11:
-	    writeblock(s->x1, s->y1-(s->count>>3), ' ');
-	    break;
-	  }
-	}
-	s->count++;
-	if(s->count >= ((abs(s->x1-s->x2)+abs(s->y1-s->y2)+1) << 3)-1) {
-	  s->count=0;
-	  s->stage=1;
-	}
-	break;
-      case 1:
-	s->count++;
-	if(s->count>500) {
-	  s->count=0;
-	  s->stage=2;
-	}
-	break;
-      case 2:
-	if(!(s->count&7)) {
-	  switch(s->type) {
-	  case 2:
-	    if(s->count>>3==s->x1-s->x2) {
-	      writeblock(s->x2+(s->count>>3)-1, s->y1, 136);
-	      writeblock(s->x2+(s->count>>3)-2, s->y1, 'q');
-	    }
-	    else {
-	      writeblock(s->x2+(s->count>>3)-1, s->y1, 'r');
-	      writeblock(s->x2+(s->count>>3)-2, s->y1, 'q');
-	    }
-	    break;
-	  case 5:
-	    if(s->count>>3==s->x1-s->x2) {
-	      writeblock(s->x2+(s->count>>3)  , s->y1, 138);
-	      writeblock(s->x2+(s->count>>3)-1, s->y1, 139);
-	      writeblock(s->x2+(s->count>>3)-2, s->y1, 'p');
-	    }
-	    else if(s->count>>3==s->x1-s->x2-1) {
-	      writeblock(s->x2+(s->count>>3)  , s->y1, 141);
-	      writeblock(s->x2+(s->count>>3)-1, s->y1, 134);
-	      writeblock(s->x2+(s->count>>3)-2, s->y1, 'p');
-	    }
-	    else {
-	      writeblock(s->x2+(s->count>>3)  , s->y1, 135);
-	      writeblock(s->x2+(s->count>>3)-1, s->y1, 134);
-	      writeblock(s->x2+(s->count>>3)-2, s->y1, 'p');
-	    }
-	    break;
-	  case 7:
-	    writeblock(s->x2-(s->count>>3), s->y1, 'y');
-	    break;
-	  case 8:
-	    writeblock(s->x2+(s->count>>3), s->y1, '|');
-	    break;
-	  case 10:
-	    writeblock(s->x1, s->y2-(s->count>>3), 129);
-	    break;
-	  case 11:
-	    writeblock(s->x1, s->y2+(s->count>>3), 128);
-	    break;
-	  }
-	}
-	else if(!(s->count&3)) {
-	  switch(s->type) {
-	  case 2:
-	    if(s->count>>3==s->x1-s->x2) {
-	      writeblock(s->x2+(s->count>>3)  , s->y1, 'p');
-	      writeblock(s->x2+(s->count>>3)-1, s->y1, 'p');
-	      writeblock(s->x2+(s->count>>3)-2, s->y1, 'p');
-	    }
-	    else if(s->count>>3==s->x1-s->x2-1) {
-	      writeblock(s->x2+(s->count>>3)  , s->y1, 137);
-	      writeblock(s->x2+(s->count>>3)-1, s->y1, 'n');
-	      writeblock(s->x2+(s->count>>3)-2, s->y1, 'p');
-	    }
-	    else {
-	      writeblock(s->x2+(s->count>>3)  , s->y1, 'o');
-	      writeblock(s->x2+(s->count>>3)-1, s->y1, 'n');
-	      writeblock(s->x2+(s->count>>3)-2, s->y1, 'p');
-	    }
-	    break;
-	  case 5:
-	    if(s->count>>3==s->x1-s->x2) {
-	      writeblock(s->x2+(s->count>>3)  , s->y1, 'p');
-	      writeblock(s->x2+(s->count>>3)-1, s->y1, 'p');
-	    }
-	    else if(s->count>>3==s->x1-s->x2-1) {
-	      writeblock(s->x2+(s->count>>3)  , s->y1, 140);
-	      writeblock(s->x2+(s->count>>3)-1, s->y1, 'u');
-	    }
-	    else {
-	      writeblock(s->x2+(s->count>>3)  , s->y1, 'v');
-	      writeblock(s->x2+(s->count>>3)-1, s->y1, 'u');
-	    }
-	    break;
-	  case 7:
-	    writeblock(s->x2-(s->count>>3), s->y1, 'p');
-	    break;
-	  case 8:
-	    writeblock(s->x2+(s->count>>3), s->y1, 'p');
-	    break;
-	  case 10:
-	    writeblock(s->x1, s->y2-(s->count>>3), 'p');
-	    break;
-	  case 11:
-	    writeblock(s->x1, s->y2+(s->count>>3), 'p');
-	    break;
-	  }
-	}
-	s->count++;
-	if(s->count >= ((abs(s->x1-s->x2)+abs(s->y1-s->y2)+1) << 3)-1)
-	  s->active=0;
-	break;
+        if(!(s->count&7)) {
+          switch(s->type) {
+          case 2:
+            if(s->count==0) {
+              writeblock(s->x1-(s->count>>3),   s->y1, 'x');
+              writeblock(s->x1-(s->count>>3)-1, s->y1, 136);
+              writeblock(s->x1-(s->count>>3)-2, s->y1, 'q');
+            }
+            else if(s->count==8) {
+              writeblock(s->x1-(s->count>>3),   s->y1, 'w');
+              writeblock(s->x1-(s->count>>3)-1, s->y1, 'r');
+              writeblock(s->x1-(s->count>>3)-2, s->y1, 'q');
+            }
+            else {
+              writeblock(s->x1-(s->count>>3),   s->y1, ' ');
+              writeblock(s->x1-(s->count>>3)-1, s->y1, 'r');
+              writeblock(s->x1-(s->count>>3)-2, s->y1, 'q');
+            }
+            break;
+          case 5:
+            if(s->count==0) {
+              writeblock(s->x1-(s->count>>3)  , s->y1, 138);
+              writeblock(s->x1-(s->count>>3)-1, s->y1, 139);
+            }
+            else if(s->count==8) {
+              writeblock(s->x1-(s->count>>3)  , s->y1, 141);
+              writeblock(s->x1-(s->count>>3)-1, s->y1, 134);
+            }
+            else {
+              writeblock(s->x1-(s->count>>3)  , s->y1, 135);
+              writeblock(s->x1-(s->count>>3)-1, s->y1, 134);
+            }
+            break;
+          case 7:
+            writeblock(s->x1+(s->count>>3), s->y1, 'y');
+            break;
+          case 8:
+            writeblock(s->x1-(s->count>>3), s->y1, '|');
+            break;
+          case 10:
+            writeblock(s->x1, s->y1+(s->count>>3), 129);
+            break;
+          case 11:
+            writeblock(s->x1, s->y1-(s->count>>3), 128);
+            break;
+          }
+        }
+        else if(!(s->count&3)) {
+          switch(s->type) {
+          case 2:
+            if(s->count==4) {
+              writeblock(s->x1-(s->count>>3)-1, s->y1, 137);
+              writeblock(s->x1-(s->count>>3)-2, s->y1, 'n');
+            }
+            else {
+              writeblock(s->x1-(s->count>>3)-1, s->y1, 'o');
+              writeblock(s->x1-(s->count>>3)-2, s->y1, 'n');
+            }
+            break;
+          case 5:
+            if(s->count==4) {
+              writeblock(s->x1-(s->count>>3),   s->y1, 133);
+              writeblock(s->x1-(s->count>>3)-1, s->y1, 140);
+              writeblock(s->x1-(s->count>>3)-2, s->y1, 'u');
+            }
+            else if(s->count==12) {
+              writeblock(s->x1-(s->count>>3),   s->y1, 132);
+              writeblock(s->x1-(s->count>>3)-1, s->y1, 'v');
+              writeblock(s->x1-(s->count>>3)-2, s->y1, 'u');
+            }
+            else {
+              writeblock(s->x1-(s->count>>3),   s->y1, ' ');
+              writeblock(s->x1-(s->count>>3)-1, s->y1, 'v');
+              writeblock(s->x1-(s->count>>3)-2, s->y1, 'u');
+            }
+            break;
+          case 7:
+            writeblock(s->x1+(s->count>>3), s->y1, ' ');
+            break;
+          case 8:
+            writeblock(s->x1-(s->count>>3), s->y1, ' ');
+            break;
+          case 10:
+            writeblock(s->x1, s->y1+(s->count>>3), ' ');
+            break;
+          case 11:
+            writeblock(s->x1, s->y1-(s->count>>3), ' ');
+            break;
+          }
+        }
+        s->count++;
+        if(s->count >= ((abs(s->x1-s->x2)+abs(s->y1-s->y2)+1) << 3)-1) {
+          s->count=0;
+          s->stage=1;
+        }
+        break;
+            case 1:
+        s->count++;
+        if(s->count>500) {
+          s->count=0;
+          s->stage=2;
+        }
+        break;
+            case 2:
+        if(!(s->count&7)) {
+          switch(s->type) {
+          case 2:
+            if(s->count>>3==s->x1-s->x2) {
+              writeblock(s->x2+(s->count>>3)-1, s->y1, 136);
+              writeblock(s->x2+(s->count>>3)-2, s->y1, 'q');
+            }
+            else {
+              writeblock(s->x2+(s->count>>3)-1, s->y1, 'r');
+              writeblock(s->x2+(s->count>>3)-2, s->y1, 'q');
+            }
+            break;
+          case 5:
+            if(s->count>>3==s->x1-s->x2) {
+              writeblock(s->x2+(s->count>>3)  , s->y1, 138);
+              writeblock(s->x2+(s->count>>3)-1, s->y1, 139);
+              writeblock(s->x2+(s->count>>3)-2, s->y1, 'p');
+            }
+            else if(s->count>>3==s->x1-s->x2-1) {
+              writeblock(s->x2+(s->count>>3)  , s->y1, 141);
+              writeblock(s->x2+(s->count>>3)-1, s->y1, 134);
+              writeblock(s->x2+(s->count>>3)-2, s->y1, 'p');
+            }
+            else {
+              writeblock(s->x2+(s->count>>3)  , s->y1, 135);
+              writeblock(s->x2+(s->count>>3)-1, s->y1, 134);
+              writeblock(s->x2+(s->count>>3)-2, s->y1, 'p');
+            }
+            break;
+          case 7:
+            writeblock(s->x2-(s->count>>3), s->y1, 'y');
+            break;
+          case 8:
+            writeblock(s->x2+(s->count>>3), s->y1, '|');
+            break;
+          case 10:
+            writeblock(s->x1, s->y2-(s->count>>3), 129);
+            break;
+          case 11:
+            writeblock(s->x1, s->y2+(s->count>>3), 128);
+            break;
+          }
+        }
+        else if(!(s->count&3)) {
+          switch(s->type) {
+          case 2:
+            if(s->count>>3==s->x1-s->x2) {
+              writeblock(s->x2+(s->count>>3)  , s->y1, 'p');
+              writeblock(s->x2+(s->count>>3)-1, s->y1, 'p');
+              writeblock(s->x2+(s->count>>3)-2, s->y1, 'p');
+            }
+            else if(s->count>>3==s->x1-s->x2-1) {
+              writeblock(s->x2+(s->count>>3)  , s->y1, 137);
+              writeblock(s->x2+(s->count>>3)-1, s->y1, 'n');
+              writeblock(s->x2+(s->count>>3)-2, s->y1, 'p');
+            }
+            else {
+              writeblock(s->x2+(s->count>>3)  , s->y1, 'o');
+              writeblock(s->x2+(s->count>>3)-1, s->y1, 'n');
+              writeblock(s->x2+(s->count>>3)-2, s->y1, 'p');
+            }
+            break;
+          case 5:
+            if(s->count>>3==s->x1-s->x2) {
+              writeblock(s->x2+(s->count>>3)  , s->y1, 'p');
+              writeblock(s->x2+(s->count>>3)-1, s->y1, 'p');
+            }
+            else if(s->count>>3==s->x1-s->x2-1) {
+              writeblock(s->x2+(s->count>>3)  , s->y1, 140);
+              writeblock(s->x2+(s->count>>3)-1, s->y1, 'u');
+            }
+            else {
+              writeblock(s->x2+(s->count>>3)  , s->y1, 'v');
+              writeblock(s->x2+(s->count>>3)-1, s->y1, 'u');
+            }
+            break;
+          case 7:
+            writeblock(s->x2-(s->count>>3), s->y1, 'p');
+            break;
+          case 8:
+            writeblock(s->x2+(s->count>>3), s->y1, 'p');
+            break;
+          case 10:
+            writeblock(s->x1, s->y2-(s->count>>3), 'p');
+            break;
+          case 11:
+            writeblock(s->x1, s->y2+(s->count>>3), 'p');
+            break;
+          }
+        }
+        s->count++;
+        if(s->count >= ((abs(s->x1-s->x2)+abs(s->y1-s->y2)+1) << 3)-1)
+          s->active=0;
+        break;
       }
     }
 }
@@ -305,21 +306,21 @@ startupsliders(int button)
     if(s->active) {
       switch(s->stage) {
       case 1:
-	s->count=0;
-	break;
+        s->count=0;
+        break;
       case 2:
-	s->count=(((abs(s->x1-s->x2)+abs(s->y1-s->y2)+1) << 3)-1) - s->count-7;
-	if(s->count<0)
-	  s->count=0;
-	s->stage=0;
-	break;
+        s->count=(((abs(s->x1-s->x2)+abs(s->y1-s->y2)+1) << 3)-1) - s->count-7;
+        if(s->count<0)
+          s->count=0;
+        s->stage=0;
+        break;
       default:
-	break;
+        break;
       }
     }
     else {
       if(play_sound)
-	sound_play(SND_HARP, CHAN_3);
+        sound_play(SND_HARP, CHAN_3);
       s->active=1;
       s->stage=0;
       s->count=0;
@@ -352,36 +353,36 @@ deletething(thing *tp)
     {
     case 1:		/* Fuel */
       for(i=0; i<2; i++)
-	for(j=0; j<2; j++)
-	  writeblock(tx+i, ty+j, ' ');
+        for(j=0; j<2; j++)
+          writeblock(tx+i, ty+j, ' ');
       break;
     case 2:		/* Power Plant */
       if(powerplant) {
-	powerplant=0;
-	countdown=800;
+        powerplant=0;
+        countdown=800;
       }
       if((countdown&0x1f) == 0x10) {
       	ui8 ch = 'd';
-	for(j=0; j<3; j++)
-	  for(i=0; i<3; i++)
-	    writeblock(tx+i, ty+j, ch++);
+        for(j=0; j<3; j++)
+          for(i=0; i<3; i++)
+            writeblock(tx+i, ty+j, ch++);
       }
       else if((countdown&0xf) == 0) {
-	for(j=0; j<3; j++)
-	  for(i=0; i<3; i++)
-	    writeblock(tx+i, ty+j, ' ');
+        for(j=0; j<3; j++)
+          for(i=0; i<3; i++)
+            writeblock(tx+i, ty+j, ' ');
       }
       if(countdown)
-	(*tp).alive=1;
+        (*tp).alive=1;
       else {
       	invertedcolors();
-	killallthings();
-	if(play_sound)
-	  sound_play(SND_BOOM2, CHAN_4);
-	for(j=0; j<3; j++)
-	  for(i=0; i<3; i++)
-	    writeblock(tx+i, ty+j, ' ');
-	explodething(tp);
+        killallthings();
+        if(play_sound)
+          sound_play(SND_BOOM2, CHAN_4);
+        for(j=0; j<3; j++)
+          for(i=0; i<3; i++)
+            writeblock(tx+i, ty+j, ' ');
+        explodething(tp);
       }
     break;
     case 3:             /* Bunkers */
@@ -453,14 +454,14 @@ word
 crashtype(word type)
 {
   switch(type) {
-  case 1:      /* Fuel */
-  case 2:      /* Power Plant */
-  case 3:      /* 3-6 Bunkers */
-  case 4:
-  case 5:
-  case 6:
-  case 7:      /* 7-8 Buttons */
-  case 8:
+  case THING_FUEL:      /* Fuel */
+  case THING_POWERPLANT:      /* Power Plant */
+  case THING_BUNKER1:      /* 3-6 Bunkers */
+  case THING_BUNKER2:
+  case THING_BUNKER3:
+  case THING_BUNKER4:
+  case THING_BUTTON1:      /* 7-8 Buttons */
+  case THING_BUTTON2:
     return(4);
   }
   return(0);
@@ -526,13 +527,13 @@ closestfuel(int x, int y)
       dx=abs((int)x-(int)(*thingptr).x);
       dy=abs((int)y-(int)(*thingptr).y);
       if(dx>(int)(lenx3>>1))
-	dx-=lenx3;
+        dx-=lenx3;
       dy*=3;
       d=dx*dx+dy*dy;
       if(d<minimum) {
-	minimum=d;
-	which=i;
-	hit=1;
+        minimum=d;
+        which=i;
+        hit=1;
       }
     }
   return(hit?which:-1);
@@ -552,12 +553,12 @@ closestbutton(int x, int y)
       dx=abs((int)x-(int)(*thingptr).x);
       dy=abs((int)y-(int)(*thingptr).y);
       if(dx>(int)(lenx>>1))
-	dx-=lenx;
+        dx-=lenx;
       d=dx*dx+dy*dy;
       if(d<minimum) {
-	minimum=d;
-	which=i;
-	hit=1;
+        minimum=d;
+        which=i;
+        hit=1;
       }
     }
   return(hit?which:-1);
@@ -579,9 +580,9 @@ hit(word x, word y, word crash, word owner)
       dy=(int)y-(int)(*thingptr).y;
       d=(long)dx*dx+(long)dy*dy;
       if(d<minimum) {
-	minimum=d;
-	which=i;
-	hit=1;
+        minimum=d;
+        which=i;
+        hit=1;
       }
     }
   if(hit) {
@@ -593,13 +594,13 @@ hit(word x, word y, word crash, word owner)
     hit=0;
   if(hit) {
     switch(things[which].type) {
-    case 2:
+    case THING_POWERPLANT:
       ppblip+=10;
       if(ppblip>100)
-	things[which].alive=1;  /* Dying */
+        things[which].alive=1;  /* Dying */
       break;
-    case 7:                     /* Cannot kill buttons */
-    case 8:
+    case THING_BUTTON1:                     /* Cannot kill buttons */
+    case THING_BUTTON2:
       startupsliders(majorbutton(which));
       break;
     default:
@@ -610,15 +611,15 @@ hit(word x, word y, word crash, word owner)
     }
     if(owner)
       switch(things[which].type) {
-      case 1:
-	things[which].score=150;
-	break;
-      case 3:
-      case 4:
-      case 5:
-      case 6:
-	things[which].score=750;
-	break;
+      case THING_FUEL:
+        things[which].score=150;
+        break;
+      case THING_BUNKER1:
+      case THING_BUNKER2:
+      case THING_BUNKER3:
+      case THING_BUNKER4:
+        things[which].score=750;
+        break;
       }
   }
 }
@@ -675,15 +676,15 @@ testbullets(thing *b)
       res=0;
       for(j=0;j<4;++j) {
       	ty=((y>>3)+j)%leny3;
-	for(k=0;k<4;++k) {
-	  if(!*(bulletmap+((dir>>1)<<4)+j*4+k))
-	    continue;
-	  tx=((x>>3)+k)%lenx3;
-	  blk=*(bana+(long)(ty>>3)*lenx+(tx>>3));
-	  pix=*(blocks+(blk<<6)+((ty&7)<<3)+(tx&7));
-	  if(pix>res)
-	    res=pix;
-	}
+        for(k=0;k<4;++k) {
+          if(!*(bulletmap+((dir>>1)<<4)+j*4+k))
+            continue;
+          tx=((x>>3)+k)%lenx3;
+          blk=*(bana+(long)(ty>>3)*lenx+(tx>>3));
+          pix=*(blocks+(blk<<6)+((ty&7)<<3)+(tx&7));
+          if(pix>res)
+            res=pix;
+        }
       }
       res=CRASH_VALUE(res);
       if(res)
@@ -744,19 +745,45 @@ bunkerfirebullets(int intensity)
 }
 
 int
-killdyingthings(void)
+killdyingthings(int updatestats)
 {
   word l;
   thing *thingptr;
   int res;
+  long planets = 0;
+  long bunkers = 0;
+  long fuelacquired = 0;
+  long fueldestroyed = 0;
 
   res=0;
   for(l=0, thingptr=things; l<nrthings; l++, thingptr++)
     if((*thingptr).alive==1) {
+      switch(thingptr->type) {
+        case THING_BUNKER1:
+        case THING_BUNKER2:
+        case THING_BUNKER3:
+        case THING_BUNKER4:
+          bunkers++;
+          break;
+        case THING_POWERPLANT:
+          if (powerplant)
+            planets++;
+          break;
+        case THING_FUEL:
+          if (thingptr->score == 300)
+            fuelacquired++;
+          else
+            fueldestroyed++;
+          break;
+        default:
+          break;
+      }
       deletething(thingptr);
       res+=(*thingptr).score;
     }
 
+  if (updatestats)
+    updatestatistics(planets, bunkers, 0, 0, fuelacquired, fueldestroyed);
   return(res);
 }
 
@@ -845,9 +872,9 @@ movefragments(void)
     if((*fragmentptr).life>0) {
       (*fragmentptr).life--;
       (*fragmentptr).x=((*fragmentptr).x+(lenx<<6)+(*fragmentptr).vx)
-	% (lenx<<6);
+        % (lenx<<6);
       (*fragmentptr).y=((*fragmentptr).y+(leny<<6)-(*fragmentptr).vy)
-	% (leny<<6);
+        % (leny<<6);
     }
 }
 

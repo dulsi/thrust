@@ -30,6 +30,7 @@
 #include "level.h"
 #include "keyboard.h"
 #include "options.h"
+#include "statistics.h"
 
 #include "sound.h"
 
@@ -301,6 +302,7 @@ game(int demo)
 
   if(demo)
     nextmove(1);
+  clearcurrentstats();
 
   lives=3; /* 3 */
   localscore=0;
@@ -759,9 +761,9 @@ game(int demo)
 	
       /* Remove objects */
       if(!easyrider)
-        localscore+=killdyingthings();
+        localscore+=killdyingthings((demo == 0) && !easyrider);
       else
-        killdyingthings();
+        killdyingthings(0);
       if(dying) {
         alive=0;
         dying=0;
@@ -816,12 +818,18 @@ game(int demo)
           gcenter(61, textstr);
         }
 
-        if(teleport && loaded)
+        if(teleport && loaded) {
           sprintf(textstr, "Mission %d complete", (round%4)*LEVELS + level+1);
+          if (!easyrider)
+            updatestatistics(0, 0, 1, 1, 0, 0);
+        }
         else if(powerplant)
           sprintf(textstr, "Mission incomplete");
-        else
+        else {
           sprintf(textstr, "Misson  %d  failed", (round%4)*LEVELS + level+1);
+          if (!easyrider)
+            updatestatistics(0, 0, 1, 0, 0, 0);
+        }
         gcenter(73-6*(teleport && loaded && powerplant), textstr);
 
         if((teleport && loaded) || !powerplant) {
@@ -1275,6 +1283,7 @@ main(int argc, char *argv[])
   }
   inithighscorelist();
   initkeys();
+  initstatistics();
 
   usleep(1000000UL);
 
@@ -1308,6 +1317,7 @@ main(int argc, char *argv[])
     }
   }
 
+  writestatistics();
   restoremem();
   restorehardware();
 

@@ -24,7 +24,7 @@ file(GLOB SOURCES   src/thrust.c src/fast_gr.c src/hiscore.c src/conf.c src/thin
   datasrc/font.c
   datasrc/blip.c datasrc/boom.c datasrc/boom2.c datasrc/harp.c
   datasrc/engine.c datasrc/zero.c
-  src/sdl.c src/sdlsound.c src/sdlkey.c
+  src/sdl.c src/sdlsound.c src/sdlkey.c src/statistics.c
 )
 
 Add_Executable (sdlthrust ${SOURCES})
