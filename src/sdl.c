@@ -211,6 +211,19 @@ fadepalette(int first, int last, ui8 *RGBtable, int fade, int flag)
       d++;
     }
   }
+  i = 192;
+  c=&tmpRGBtable[3*192];
+  d = RGBtable + (192 * 3);
+  while(i<entries) {
+    *c++ = (*d++ * fade) >> 8;
+    *c++ = (*d++ * fade) >> 8;
+    *c = (*d * fade) >> 8;
+    used_entries++;
+    if(++i<entries) {
+      c++;
+      d++;
+    }
+  }
 
   if(flag)
     displayscreen(0);
@@ -224,7 +237,7 @@ fadepalette(int first, int last, ui8 *RGBtable, int fade, int flag)
     sdlcol[color].g = tmpRGBtable[color* 3 + 1] << 2;
     sdlcol[color].b = tmpRGBtable[color * 3 + 2] << 2;
   }
-  SDL_SetPaletteColors((SDL_Palette *)IPaletteMain, sdlcol, used_first, used_entries);
+  SDL_SetPaletteColors((SDL_Palette *)IPaletteMain, sdlcol, 0, 256);
 }
 
 void

@@ -122,12 +122,15 @@ initmem(void)
     memcpy(bulletmap+((20-i)&15)*16, bin_bullet+i*16, 16);
 
   for(i=0; i<title_cols*title_rows; i++)
+  {
     *(title_pixels+i) += 192;
+//    printf("%x ", *(title_pixels+i));
+  }
 
   memcpy(bin_colors+192*3, title_colors, title_nr_colors*3);
 
-  for(i=0; i<3*256; i++)
-    bin_colors[i]=GAMMA(bin_colors[i]);
+//  for(i=0; i<3*256; i++)
+//    bin_colors[i]=GAMMA(bin_colors[i]);
 
   printf("Turning the ship...");
   fflush(stdout);
@@ -165,8 +168,12 @@ initmem(void)
     *(loadmap+i) = color_lookup[*(loadmap+i)] + palette_shift;
   for(i=0; i<2*4*32; i++)
     *(fuelmap+i) = color_lookup[*(fuelmap+i)] + palette_shift;
-  for(i=0; i<title_cols*title_rows; i++)
+/*  for(i=0; i<title_cols*title_rows; i++)
+  {
+    int z = *(title_pixels+i);
     *(title_pixels+i) = color_lookup[*(title_pixels+i)] + palette_shift;
+    printf("%x %x ", z, *(title_pixels+i));
+  }*/
   for(i=0; i<256*8*8; i++)
     *(blocks+i) = color_lookup[*(blocks+i)] + palette_shift;
 

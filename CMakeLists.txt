@@ -1,4 +1,4 @@
-Project (thrust)
+Project (inertiablast)
 CMake_Minimum_Required (VERSION 3.1)
 
 Set (BINDIR "bin" CACHE STRING "Where to install binaries")
@@ -27,12 +27,12 @@ file(GLOB SOURCES   src/thrust.c src/fast_gr.c src/hiscore.c src/conf.c src/thin
   src/sdl.c src/sdlsound.c src/sdlkey.c src/statistics.c
 )
 
-Add_Executable (sdlthrust ${SOURCES})
+Add_Executable (inertiablast ${SOURCES})
 Target_Link_Libraries (
- 	sdlthrust
+ 	inertiablast
  	${SDL2_LIBRARIES}
  	${SDL2_MIXER_LIBRARIES}
   -lm
 )
 
-Install (TARGETS sdlthrust RUNTIME DESTINATION ${BINDIR})
+Install (TARGETS inertiablast RUNTIME DESTINATION ${BINDIR})

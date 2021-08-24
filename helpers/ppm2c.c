@@ -8,8 +8,9 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <pnm.h>
+#include <getopt.h>
 
-#include "../src/compat.h"
+//#include "../src/compat.h"
 
 pixel **picture;
 int cols;

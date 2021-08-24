@@ -1,44 +1,6 @@
 # .thrustrc
 # Put this file in your home directory to customize thrust.
 
-# Keys for GGI version. Letters are case sensitive, not other
-# keys such as Enter or Space.
-
-GGI-counterclockwise A
-GGI-clockwise        S
-GGI-thrust           CtrlR
-GGI-fire             Enter
-GGI-pickup           Space
-
-# Keys for X11 version. Do observe that the names of the keys
-# are case sensitive. Look in the X11 include file keysymdef.h
-# (usually found in /usr/X11R6/include/X11) for a full list of
-# keysyms. Exclude the "XK_"-prefix.
-
-X11-counterclockwise    a
-X11-clockwise           s
-X11-thrust              Control_R
-X11-fire                Return
-X11-pickup              space
-
-# Keys for Win32 version. Not case sensitive.
-
-Win32-counterclockwise A
-Win32-clockwise        S
-Win32-thrust           Right_Control
-Win32-fire             Enter
-Win32-pickup           Space
-
-# Keys for SVGAlib version. Not case sensitive.
-
-SVGA-counterclockwise   a
-SVGA-clockwise          s
-SVGA-thrust             Control_R
-SVGA-fire               Return
-SVGA-pickup             space
-
-# Keys for SDLlib version.
-
 SDL-counterclockwise   A
 SDL-clockwise          S
 SDL-thrust             Right_Ctrl

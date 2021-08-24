@@ -373,6 +373,10 @@ game(int demo)
 
     while(!endlevel) {
       actionbits=demo ? nextmove(0) : whatkeys();
+      if (demo) {
+        if (getkey())
+          dying = 1;
+      }
 
       if(fps) {
         time_t timenow = time(0);
@@ -902,26 +906,22 @@ instructions(void)
     "Turn left", "Turn right", "Thrust", "Fire",
     "Pick up & Shield", "Quit Game (Q=Esc)", "Pause", "Continue" };
   static char *story[] = {
-    "The resistance is about to launch a major offensive against",
-    "the Intergalactic Empire. In preparation for this, they have",
-    "captured several battle-grade starships, but they lack the",
-    "essential power sources for these formidable craft; Klystron",
-    "Pods. You have been commissioned by resistance to steal these",
-    "pods from the Empire's storage planets. Each planet is",
-    "defended by a battery of 'Limpet' guns, powered by a nuclear",
-    "power plant. By firing shots at the power plant, the guns can",
-    "be temporarily disabled; the more shots fired at the nuclear",
-    "reactor, the longer the guns will take to recharge.",
-    "BUT BEWARE!! If you fire too many shots at the reactor, it",
-    "will become critical, giving you just ten seconds to clear",
-    "the plantet before it is destroyed. If you have not already",
-    "retrieved the pod stored at the planet, then you will have",
-    "failed the mission. If you have retrieved the pod, and you",
-    "manage to send the reactor into its critical phase, and",
-    "leave the planet safely, you will receive a hefty bonus.",
+    "The rebellion struggled against the might of the empire.",
+    "In a stroke of luck, they captured several warships in a",
+    "recent battle. The energy pods powering the ships were",
+    "destoryed. Securing new energy pods could turn the tide",
+    "against the empire. You are part of a risky expedition to",
+    "steal energy pods. All pod construction sites include",
+    "defense systems which you need to avoid or destroy.",
+    "The power plant used to construct the pods and power the",
+    "defenses is unstable. It can be temporarily disabled with a",
+    "laser blast but too many blasts will cause it to go critical",
+    "and destroy the entire planet. You will have limited time to",
+    "escape. The rebellion is counting on your success.",
+    "Good luck.",
     NULL };
   static char *score[] = {
-    "Destroying a limpet gun:",
+    "Destroying a defense system:",
     "Destroying a fuel cell:",
     "Picking up a fuel cell:",
     "Bonus for destroying planet:",
@@ -938,7 +938,7 @@ instructions(void)
   };
 
   chcolor = HIGHLIGHT;
-  gcenter(20, "THE SILLY STORY!");
+  gcenter(20, "THE STORY!");
   chcolor = TEXTCOLOR;
   for(i=0; story[i]; i++)
     gcenter(35 + i*8, story[i]);
@@ -992,27 +992,30 @@ about(void)
 {
   int i;
   static char *str[] = {
-    "Thrust version " PACKAGE_VERSION,
+    "Inertia Blast version " PACKAGE_VERSION,
     "",
-    "Written by",
-    "",
+    "Originally by",
     "Peter Ekberg",
     "peda@lysator.liu.se",
     "",
+    "Modified by",
+    "Dennis Payne",
+    "dulsi@identicalsoftware.com",
+    "",
     "Thanks to the authors",
-    "of the original",
+    "of Thurst",
     "for the 6502/6510.",
     NULL
   };
 
   for(i=0; str[i]; i++) {
-    if(i==5)
+    if((i==4) || (i == 8))
       chcolor = HIGHLIGHT;
     else
       chcolor = TEXTCOLOR;
     gcenter(40+9*i, str[i]);
   }
-  gcenter(145, "Press any key for the main menu.");
+  gcenter(165, "Press any key for the main menu.");
 
   fade_in(0UL);
   pressanykey();
@@ -1119,7 +1122,6 @@ menu(void)
     chcolor = HIGHLIGHT;
     printgs(20, 134+i*11, menuchoises[i]);
   }
-  printgs(60, 35, "GRATTIS CALLE!");
   chcolor = TEXTCOLOR;
 
   fade_in(0UL);

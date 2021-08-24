@@ -1,21 +1,33 @@
+Inertia Blast
 
-Thrust
+In Inertia Blast, you control a ship attempting to steal energy pods to help
+the rebellion. A tractor beam lifts the energy pod but it's weight makes the
+ship harder to control. Watch out for the defense systems. Good luck.
 
-I started to code Thrust for MSDOG but later I had a revelation so now it is
-converted to GGI, X11 and a counple of other backends.
+Inertia Blast is a clone of Thrust from the C64 and BBC Micro. Peter Ekberg
+created this version for MSDOS but later ported it to other systems. All of
+those other systems have been removed from this version in favor of SDL.
 
-This is the game from the C64 and BBC Micro that you cannot live without.
+Installing
 
-See the file INSTALL for building and installation instructions.
+cmake . && make && sudo make install
 
-There is a web page that is supposed to be up to date. You can find it at
-http://www.lysator.liu.se/~peda/thrust/, and it should contain information
-about the latest developement. It also contains information to help you build
-your own levels.
+Credits
 
-Thrust is free software. See the file COPYING for copying conditions.
+Current programmer - Dennis Payne, dulsi@identicalsoftware.com
+Original programmer - Peter Ekberg, peda@lysator.liu.se
+License: GPL2+
 
-Please send comments, questions and bug reports by email to the address below.
+Title screen's tractor beam and engine flame
+Modified from Sci-fi effects (https://opengameart.org/content/sci-fi-effects)
+by Skorpio under CC-BY 3.0 or GPL3
 
-Peter Ekberg
-peda@lysator.liu.se
+Title screen's title font
+Modified from Pixel Block Font (https://opengameart.org/content/pixel-block-font)
+by JROB774 under CC-BY 3.0
+
+Older Versions
+
+Peter Ekberg's web page is still available at:
+http://www.lysator.liu.se/~peda/thrust/
+It also contains information to help you build your own levels.

@@ -1,54 +1,42 @@
 
 =head1 NAME
 
-Thrust - a rewrite of the C64 classic
+inertiablast - Steal energy pods to defeat the empire.
 
 =head1 SYNOPSIS
 
-B<thrust> [--help] [--version] [--nodemo] [--nosoundeffects]
-[--gamma=Value] [--step] [--double] [--ggitarget=TARGET]
-
-B<xthrust> [--help] [--version] [--nodemo] [--nosoundeffects]
-[--gamma=Value] [--step] [--noshm] [--double] [-display display-name]
-[-geometry=geometry-spec]
-
-B<dxthrust> [--help] [--version] [--nodemo] [--nosoundeffects]
-[--gamma=Value] [--step]
-
-B<svgathrust> [--help] [--version] [--nodemo] [--nosoundeffects]
-[--gamma=Value] [--step] [--svgamode=MODE]
+B<inertiablast> [--help] [--version] [--nodemo] [--nosoundeffects]
+[--gamma=Value] [--step] [--windowed]
 
 =head1 DESCRIPTION
 
-This is a rewrite of Thrust, the classic Commodore 64 game, to un*x and
-Windows.
-
-The object of the game is to lift the B<Klystron Pod> from the bottom
+The object of the game is to lift the B<Energy Pod> from the bottom
 of a cave and return it safely to space. The B<Pod> is very heavy
 (compared to the ship) and this makes it tougher than it may seem.
 
 You must be careful not to run out of fuel, crash into the cave
 walls, or let the enemy artillary outposts shoot you down.
 
+This is a clone of Thrust, the classic Commodore 64 game.
+
 =head1 BACKGOUND STORY
 
-The resistance is about to launch a major offensive against the Intergalactic
-Empire. In preparation for this, they have captured several battle-grade
-starships, but they lack the essential power sources for these formidable
-craft; B<Klystron Pods>.
+The rebellion struggled against the might of the empire.
+In a stroke of luck, they captured several warships in a
+recent battle. The energy pods powering the ships were
+destoryed. Securing new energy pods could turn the tide
+against the empire.
 
-You have been commissioned by resistance to steal these pods from the Empire's
-storage planets. Each planet is defended by a battery of B<Limpet Guns>,
-powered by a B<Nuclear Power Plant>. By firing shots at the power plant,
-the guns can be temporarily disabled; the more shots fired at the nuclear
-reactor, the longer the guns will take to recharge.
+You are part of a risky expedition to
+steal energy pods. All pod construction sites include
+defense systems which you need to avoid or destroy.
+The power plant used to construct the pods and power the
+defenses is unstable. It can be temporarily disabled with a
+laser blast but too many blasts will cause it to go critical
+and destroy the entire planet. You will have limited time to
+escape.
 
-B<BUT BEWARE!!> If you fire too many shots at the reactor, it will become
-critical, giving you just ten seconds to clear the plantet before it is
-destroyed. If you have not already retrieved the pod stored at the planet,
-then you will have failed the mission. If you have retrieved the pod, and you
-manage to send the reactor into its critical phase, and leave the planet
-safely, you will receive a hefty bonus.
+The rebellion is counting on your success. Good luck.
 
 =head1 OPTIONS
 
@@ -80,42 +68,9 @@ give brighter colors. The value must be positive.
 
 Only draw every third frame. This makes the game a lot faster.
 
-=item I<-t, --ggitarget=TARGET>
+=item I<-w, --windowed>
 
-This option is only applicable to the GGI version of Thrust.
-
-The GGI target to use, which can also be specified with the GGI_DISPLAY
-environment variable. E.g. I<--ggitarget=directx:-fullscreen>. See the GGI
-documentation for full details on GGI targets.
-
-=item I<-2, --double>
-
-This option is only applicable to the GGI version and the X version of Thrust.
-
-Double the size of the window. This makes the game slow.
-
-=item I<-display display-name>
-
-=item I<-geometry geometry-spec>
-
-These options (-display and -geometry) are only applicable to the X version
-of Thrust. Se the man page of X for details.
-
-=item I<-m, --noshm>
-
-This option is only applicable to the X version of Thrust.
-
-Do not try to share memory between Thrust and the X server.
-
-=item I<-s, --svgamode=MODE>
-
-This option is only applicable to the SVGAlib version of Thrust.
-
-The format of svgamode is GE<lt>widthE<gt>x<height>x<colors> where
-<width>x<height> is at least 320x200 and <colors> has to be 256. Also,
-the mode cannot be I<planar>. See the SVGAlib documentation for details
-on this. The default is G320x200x256. There has been success with modes
-G320x200x256, G640x480x256, G800x600x256 and G1024x768x256.
+Run in windowed mode.
 
 =back
 
@@ -143,19 +98,19 @@ Shoots a bullet. Different targets have different effect:
 
 The B<Fuel Tank> explodes for 150 points.
 
-The B<Limpet guns> expolde for 750 points.
+The B<Defense Systems> expolde for 750 points.
 
 The B<Nuclear Power Plant> can take a number of hits. When they are
 destroyed you are given a short period of time to clear out before
 the whole neighbourhood is nuked. If a B<Power Plant> is hit - but
 not destoyed - it will recover after a period of time. During this
-recovery period, the B<Limpet guns> are not able to fire. 2000 extra
+recovery period, the B<Defense Systems> are not able to fire. 2000 extra
 points are scored if the B<Power Plant> is destroyed when the level
 is finished. There is exactly one B<Power Plant> in every level.
 
 In the more advanced levels you will find other things to shoot at.
 
-=item I<Right-Ctrl> (I<Right-Shift> on MSDOG)
+=item I<Right-Ctrl>
 
 Thrust
 
@@ -170,8 +125,8 @@ is picked up. Two vertical bars are drawn to indicate that fuel is
 picked up. When there is no more fuel left in the tank, it disappears
 and 300 points are scored.
 
-If the ship is close to the B<Klystron Pod> a connecting wire is drawn. The
-Pod is picked up when the connecting wire is of the right
+If the ship is close to the B<Energy Pod> a tractor beam is initiated. The
+Pod is picked up when the tractor beam is of the right
 length. If I<spacebar> is released before the correct distance is reached
 the Pod is not picked up.
 
@@ -197,25 +152,21 @@ Continue a paused game
 
 The .thrustrc file
 
-Each command can be customized for either X11 or the SVGAlib (console)
-versions by specifying the appropriate prefix, X11- or SVGA-, followed
-by the command, and the key to be assigned. Numpad keys can be assigned
-using KP_[number], and control, shift and alt keys can be assigned
-using [key]_[direction].
+Each key command can be customized. Key names are defined by SDL.
 
 Valid commands:
 
 =over 5
 
-=item counterclockwise
+=item SDL-counterclockwise
 
-=item clockwise
+=item SDL-clockwise
 
-=item thrust
+=item SDL-thrust
 
-=item fire
+=item SDL-fire
 
-=item pickup
+=item SDL-pickup
 
 =back
 
@@ -223,15 +174,9 @@ Examples:
 
 =over 5
 
-=item X11-counterclockwise    a
+=item SDL-counterclockwise    A
 
-=item X11-clockwise           KP_6
-
-=item SVGA-thrust             Shift_L
-
-=item SVGA-fire               space
-
-=item SVGA-pickup             KP_0
+=item SDL-fire                Space
 
 =back
 
@@ -243,16 +188,14 @@ F<${HOME}/.thrustrc>
 
 =head1 AUTHORS
 
-Game by Peter Ekberg I<peda@lysator.liu.se>.
+Current programming by Dennis Payne I<dulsi@identicalsoftware.com>
+
+Original programming by Peter Ekberg I<peda@lysator.liu.se>.
 
 Original man page by Joey Hess I<joey@kitenet.net>.
 
-Thanks go out to the authors of the original for the C64.
+Thanks go out to the authors of the Thrust for the C64.
 
 =head1 DISTRIBUTION
 
-Thrust may be copied under the term of the Gnu General Public Licence.
-
-=head1 BUGS
-
-Who knows?
+Inertia Blast may be copied under the term of the Gnu General Public Licence.

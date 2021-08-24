@@ -26,7 +26,7 @@
 #include "graphics.h"
 
 #ifdef _WIN32
-#define mkdir(x,y) _mkdir(x)
+#define mkdir(x,y) mkdir(x)
 #endif
 
 char *conffield[5] = {
@@ -287,8 +287,8 @@ void writekeys(void)
 #else
       free(thrustrc);
       return;
-    }
 #endif
+    }
   }
 
   thrustrctmp = strdup(thrustrc);
