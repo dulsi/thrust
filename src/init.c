@@ -124,13 +124,12 @@ initmem(void)
   for(i=0; i<title_cols*title_rows; i++)
   {
     *(title_pixels+i) += 192;
-//    printf("%x ", *(title_pixels+i));
   }
 
   memcpy(bin_colors+192*3, title_colors, title_nr_colors*3);
 
-//  for(i=0; i<3*256; i++)
-//    bin_colors[i]=GAMMA(bin_colors[i]);
+  for(i=0; i<3*256; i++)
+    bin_colors[i]=GAMMA(bin_colors[i]);
 
   printf("Turning the ship...");
   fflush(stdout);
