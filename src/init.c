@@ -117,12 +117,16 @@ initmem(void)
   fflush(stdout);
 
   blocks=bin_blks;
-  memcpy(ship, bin_ship, 256*5);
+  memcpy(ship, ship_pixels, 256*5);
+  for(i=0; i<ship_cols*ship_rows; i++) {
+    if (*(ship + i) > 0)
+      *(ship+i) += 224;
+  }
+  memcpy(bin_colors+224*3, ship_colors, ship_nr_colors*3);
   for(i=0; i<16; i++)
     memcpy(bulletmap+((20-i)&15)*16, bin_bullet+i*16, 16);
 
-  for(i=0; i<title_cols*title_rows; i++)
-  {
+  for(i=0; i<title_cols*title_rows; i++) {
     *(title_pixels+i) += 192;
   }
 
@@ -157,10 +161,10 @@ initmem(void)
   printf("Shifting palette(%d)...", palette_shift);
   fflush(stdout);
 
-  for(i=0; i<32*16*16; i++)
-    *(ship+i) = color_lookup[*(ship+i)] + palette_shift;
-  for(i=0; i<32*17*17; i++)
-    *(shieldship+i) = color_lookup[*(shieldship+i)] + palette_shift;
+/*  for(i=0; i<32*16*16; i++)
+    *(ship+i) = color_lookup[*(ship+i)] + palette_shift;*/
+/*  for(i=0; i<32*17*17; i++)
+    *(shieldship+i) = color_lookup[*(shieldship+i)] + palette_shift;*/
   for(i=0; i<16*4*4; i++)
     *(bulletmap+i) = color_lookup[*(bulletmap+i)] + palette_shift;
   for(i=0; i<11*19; i++)
@@ -168,11 +172,7 @@ initmem(void)
   for(i=0; i<2*4*32; i++)
     *(fuelmap+i) = color_lookup[*(fuelmap+i)] + palette_shift;
 /*  for(i=0; i<title_cols*title_rows; i++)
-  {
-    int z = *(title_pixels+i);
-    *(title_pixels+i) = color_lookup[*(title_pixels+i)] + palette_shift;
-    printf("%x %x ", z, *(title_pixels+i));
-  }*/
+    *(title_pixels+i) = color_lookup[*(title_pixels+i)] + palette_shift;*/
   for(i=0; i<256*8*8; i++)
     *(blocks+i) = color_lookup[*(blocks+i)] + palette_shift;
 
