@@ -13,32 +13,42 @@
 #define PUSEX	(PBILDX-8)
 #define PUSEY	(PBILDY-8)
 
-#define USED_COLORS (51)
-extern ui8 color_conversion[USED_COLORS];
-extern ui8 color_lookup[256];
-extern ui8 palette_shift;
-#define TEXTCOLOR     (color_lookup[0x20] + palette_shift)
-#define HIGHLIGHT     (color_lookup[0x21] + palette_shift)
-#define FUELCOLOR     (color_lookup[0x22] + palette_shift)
-#define SCORETEXT     (color_lookup[0x23] + palette_shift)
-#define SCORENAME     (color_lookup[0x24] + palette_shift)
-#define BGCOLOR       (color_lookup[0x41] + palette_shift)
-#define FUELHIGHLIGHT (color_lookup[0x88] + palette_shift)
-#define STATUSFRAME   (color_lookup[0x88] + palette_shift)
-#define STATUSNUMBERS (color_lookup[0x88] + palette_shift)
-#define STATUSTEXT    (color_lookup[0x89] + palette_shift)
-#define BLACK         (color_lookup[0x00] + palette_shift)
-#define TRACTOR       (color_lookup[0x01] + palette_shift)
-#define FRAGMENT      (color_lookup[0x0c] + palette_shift)
-#define BULBS         (color_lookup[0x89] + palette_shift)
-#define GUN           (color_lookup[0x8f] + palette_shift)
-#define STAND         (color_lookup[0xa4] + palette_shift)
-#define POD           (color_lookup[0xa5] + palette_shift)
-#define SHIELD        (color_lookup[0xfe] + palette_shift)
-#define SHIP          (color_lookup[0xff] + palette_shift)
+extern ui8 pixel_collision[256];
 
-#define SHIELDLIMIT SHIELD
-#define CRASH_VALUE(x) (((ui8)(color_conversion[(x)-palette_shift]))>>5)
+#define EXTRA_COLORS (12)
+extern ui8 extracolor[EXTRA_COLORS * 3];
+extern ui8 extracolor_shift;
+#define TEXTCOLOR     (0 + extracolor_shift)
+#define HIGHLIGHT     (1 + extracolor_shift)
+#define FUELCOLOR     (2 + extracolor_shift)
+#define SCORETEXT     (3 + extracolor_shift)
+#define SCORENAME     (4 + extracolor_shift)
+#define FUELHIGHLIGHT (5 + extracolor_shift)
+#define STATUSFRAME   (6 + extracolor_shift)
+#define STATUSNUMBERS (7 + extracolor_shift)
+#define STATUSTEXT    (8 + extracolor_shift)
+#define FRAGMENT      (9 + extracolor_shift)
+#define SHIP          (10 + extracolor_shift)
+#define TRACTOR       (11 + extracolor_shift)
+
+#define BLACK         (0)
+#define FIND_COLORS (5)
+extern ui8 findcolor[FIND_COLORS * 3];
+extern ui8 foundcolor[FIND_COLORS];
+#define BGCOLOR       (foundcolor[0])
+#define BULBS         (foundcolor[1])
+#define GUN           (foundcolor[2])
+#define STAND         (foundcolor[3])
+#define POD           (foundcolor[4])
+
+extern ui8 bullet_shift;
+extern ui8 shield_shift;
+extern ui8 ship_shift;
+#define SHIELD        (shield_shift + 1)
+
+#define SHIELDLIMIT 1
+#define CRASH_VALUE(x) x
+//(((ui8)(color_conversion[(x)-palette_shift]))>>5)
 
 #ifdef __STDC__
 void putscr(int x, int y);

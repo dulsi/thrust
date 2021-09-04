@@ -1277,12 +1277,11 @@ main(int argc, char *argv[])
   } while(optc != EOF);
 
   graphics_preinit();
-  inithardware(argc, argv);
-
   if(!initmem()) {
-    restorehardware();
     return(1);
   }
+  inithardware(argc, argv);
+
   inithighscorelist();
   initkeys();
   initstatistics();

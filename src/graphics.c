@@ -364,55 +364,55 @@ drawbullets(void)
       tempx=(*bulletptr).x>>3;
       tempy=(*bulletptr).y>>3;
       if(pixx+PUSEX>(int)lenx3 && tempx<PUSEX)
-	tempx+=lenx3;
+        tempx+=lenx3;
       if(pixy+PUSEY>(int)leny3 && tempy<PUSEY)
-	tempy+=leny3;
+        tempy+=leny3;
       if(insidepixel(tempx, tempy, pixx, pixy, 4, 4))
-	drawsquare(bildx+tempx-pixx, tempy%PBILDY,
-		   bulletmap+((*bulletptr).dir<<4),
-		   bulletstorage+(l<<4), 4, 4);
+        drawsquare(bildx+tempx-pixx, tempy%PBILDY,
+          bulletmap+((*bulletptr).dir<<4),
+          bulletstorage+(l<<4), 4, 4);
       else {
-	target = *(bana+(tempx>>3)%lenx+((tempy>>3)%leny)*lenx);
-	if(target!=' ') {
-	  /* Add code to take care of offscreen hits */
-	  if((*bulletptr).owner)
-	    switch(target) {
-	    case '`':
-	    case 'a':
-	    case 'b':
-	    case 'c':
-	    case 'd':
-	    case 'e':
-	    case 'f':
-	    case 'g':
-	    case 'h':
-	    case 'i':
-	    case 'j':
-	    case 'k':
-	    case 'l':
-	    case 'L':
-	    case 'M':
-	    case 'N':
-	    case 'O':
-	    case 'P':
-	    case 'Q':
-	    case 'R':
-	    case 'S':
-	    case 'T':
-	    case 'U':
-	    case 'V':
-	    case 'W':
-	    case 'X':
-	    case 'Y':
-	    case 'Z':
-	    case ']':
-	    case '\\':
-	    case '^':
-	    case '_':
-	      hit((tempx+3)%lenx3, (tempy+3)%leny3, 4, (*bulletptr).owner);
-	    }
-	  (*bulletptr).life=0;
-	}
+        target = *(bana+(tempx>>3)%lenx+((tempy>>3)%leny)*lenx);
+        if(target!=' ') {
+          /* Add code to take care of offscreen hits */
+          if((*bulletptr).owner)
+            switch(target) {
+            case '`':
+            case 'a':
+            case 'b':
+            case 'c':
+            case 'd':
+            case 'e':
+            case 'f':
+            case 'g':
+            case 'h':
+            case 'i':
+            case 'j':
+            case 'k':
+            case 'l':
+            case 'L':
+            case 'M':
+            case 'N':
+            case 'O':
+            case 'P':
+            case 'Q':
+            case 'R':
+            case 'S':
+            case 'T':
+            case 'U':
+            case 'V':
+            case 'W':
+            case 'X':
+            case 'Y':
+            case 'Z':
+            case ']':
+            case '\\':
+            case '^':
+            case '_':
+              hit((tempx+3)%lenx3, (tempy+3)%leny3, 4, (*bulletptr).owner);
+            }
+          (*bulletptr).life=0;
+        }
       }
     }
 }
@@ -430,19 +430,20 @@ undrawbullets(void)
       tempx=(*bulletptr).x>>3;
       tempy=(*bulletptr).y>>3;
       if(pixx+PUSEX>(int)lenx3 && tempx<PUSEX)
-	tempx+=lenx3;
+        tempx+=lenx3;
       if(pixy+PUSEY>(int)leny3 && tempy<PUSEY)
-	tempy+=leny3;
+        tempy+=leny3;
       if(insidepixel(tempx, tempy, pixx, pixy, 4, 4)) {
-	crash=testcrash(bulletmap+((*bulletptr).dir<<4),
-			bulletstorage+(l<<4), 16, 0);
-	if(crash) {
-	  if(crash>=4)
-	    hit((tempx+3)%lenx3, (tempy+3)%leny3, crash, (*bulletptr).owner);
-	  (*bulletptr).life=0;
-	}
-	undrawsquare(bildx+tempx-pixx, tempy%PBILDY,
-		     bulletstorage+(l<<4), 4, 4);
+        crash=testcrash(bulletmap+((*bulletptr).dir<<4),
+          bulletstorage+(l<<4), 16, 0);
+        if(crash) {
+          printf("Crash: %d\n", crash);
+          if(crash>=3)
+            hit((tempx+3)%lenx3, (tempy+3)%leny3, crash, (*bulletptr).owner);
+          (*bulletptr).life=0;
+        }
+        undrawsquare(bildx+tempx-pixx, tempy%PBILDY,
+          bulletstorage+(l<<4), 4, 4);
       }
     }
 }
@@ -653,7 +654,7 @@ drawshuttle(void)
 	   ship+(dir<<8), shipstorage, 16);
   tmp=testcrash(ship+(dir<<8), shipstorage, 256, shield);
   crash=max(crash, tmp);
-#ifdef DEBUG2
+#if 1 //def DEBUG2
   if(tmp)
     printf("Crash: Ship destroyed. By %d.\n", tmp);
 #endif
@@ -671,7 +672,7 @@ drawshuttle(void)
     }
     tmp=testcrash(loadmap, loadstorage, 11*11, shield);
     crash=max(crash, tmp);
-#ifdef DEBUG2
+#if 1 //def DEBUG2
     if(tmp)
       printf("Crash: Load destroyed. By %d.\n", tmp);
 #endif
@@ -742,8 +743,6 @@ undrawfuellines(void)
 void
 setcolor(ui8 c, color *rgb)
 {
-  c = color_conversion[c - palette_shift];
-
   if(!rgb) {
     bin_colors[c*3+0] = 0;
     bin_colors[c*3+1] = 0;

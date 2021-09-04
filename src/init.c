@@ -65,8 +65,8 @@ makeshieldedship(void)
           *(shieldship+i*17*17+j*17+k)=*(ship+(i<<8)+((j-1)<<4)+k-1);
         else
           *(shieldship+i*17*17+j*17+k)=0;
-        if(*(bin_shld+j*17+k))
-          *(shieldship+i*17*17+j*17+k)=*(bin_shld+j*17+k);
+        if(*(shld_pixels+j*17+k))
+          *(shieldship+i*17*17+j*17+k)=*(shld_pixels+j*17+k) + shield_shift;
       }
 }
 
@@ -78,8 +78,8 @@ makefuelmap(ui8 *fuelmap)
   memset(fuelmap, 0, 2*4*32);
 
   for(i=0; i<32; i++) {
-    *(fuelmap+4*(i+32)+(i>6)+(i>16)+(i>26)) = 255;
-    *(fuelmap+4*i+(i<27)+(i<17)+(i<7)) = 255;
+    *(fuelmap+4*(i+32)+(i>6)+(i>16)+(i>26)) = SHIP;
+    *(fuelmap+4*i+(i<27)+(i<17)+(i<7)) = SHIP;
   }
 }
 
@@ -116,21 +116,77 @@ initmem(void)
   printf("done.\n");
   fflush(stdout);
 
-  blocks=bin_blks;
+  for(i=0; i<256; i++)
+    pixel_collision[i] = 0;
+  for (i = 0; i < blks_nr_colors; i++) {
+    if ((blks_colors[i * 3] == 0) && (blks_colors[i * 3 + 1] == 0) && (blks_colors[i * 3 + 2] == 0)) {
+      if (i == 0)
+        break;
+      blks_colors[i * 3] = blks_colors[0];
+      blks_colors[i * 3 + 1] = blks_colors[1];
+      blks_colors[i * 3 + 2] = blks_colors[2];
+      blks_colors[0] = 0;
+      blks_colors[1] = 0;
+      blks_colors[2] = 0;
+      for (int k = 0; k < blks_rows * blks_cols; k++) {
+        if (blks_pixels[k] == i)
+          blks_pixels[k] = 0;
+        else if (blks_pixels[k] == 0)
+          blks_pixels[k] = i;
+      }
+      break;
+    }
+  }
+  memcpy(bin_colors, blks_colors, blks_nr_colors*3);
+  for (i = 0; i < FIND_COLORS; i++) {
+    for (int k = 0; k < blks_nr_colors; k++) {
+      if ((blks_colors[k * 3] == findcolor[i * 3]) && (blks_colors[k * 3 + 1] == findcolor[i * 3 + 1]) && (blks_colors[k * 3 + 2] == findcolor[i * 3 + 2])) {
+        foundcolor[i] = k;
+        printf("Found %d at %d\n", i, k);
+        break;
+      }
+    }
+  }
+  blocks=blks_pixels;
+  for(i=39; i<256; i++) {
+    if (i == 109)
+      continue;
+    if ((i >= 48) && (i <= 52))
+      continue;
+    for (int k = 0; k < 8 * 8; k++)
+      if (blks_pixels[i * 8 * 8 + k] != 0) {
+        if (i >=76 && i <= 108)
+          pixel_collision[blks_pixels[i * 8 * 8 + k]] = 4;
+        else if (pixel_collision[blks_pixels[i * 8 * 8 + k]] == 0)
+          pixel_collision[blks_pixels[i * 8 * 8 + k]] = 2;
+      }
+  }
+  bullet_shift = blks_nr_colors;
+  memcpy(bin_colors + bullet_shift*3, bullet_colors, bullet_nr_colors*3);
+  shield_shift = bullet_shift + bullet_nr_colors;
+  memcpy(bin_colors + shield_shift*3, shld_colors, shld_nr_colors*3);
+  ship_shift = shield_shift + shld_nr_colors;
   memcpy(ship, ship_pixels, 256*5);
   for(i=0; i<ship_cols*ship_rows; i++) {
     if (*(ship + i) > 0)
-      *(ship+i) += 224;
+      *(ship+i) += ship_shift;
   }
-  memcpy(bin_colors+224*3, ship_colors, ship_nr_colors*3);
+  memcpy(bin_colors+ship_shift*3, ship_colors, ship_nr_colors*3);
+  extracolor_shift = ship_shift + ship_nr_colors;
+  memcpy(bin_colors + extracolor_shift*3, extracolor, EXTRA_COLORS * 3);
+  for(i=0; i<16*4*4; i++)
+    if (bullet_pixels[i] != 0) {
+      bullet_pixels[i] += bullet_shift;
+      pixel_collision[bullet_pixels[i]] = 1;
+    }
   for(i=0; i<16; i++)
-    memcpy(bulletmap+((20-i)&15)*16, bin_bullet+i*16, 16);
+    memcpy(bulletmap+((20-i)&15)*16, bullet_pixels+i*16, 16);
 
   for(i=0; i<title_cols*title_rows; i++) {
-    *(title_pixels+i) += 192;
+    *(title_pixels+i) += extracolor_shift + EXTRA_COLORS;
   }
 
-  memcpy(bin_colors+192*3, title_colors, title_nr_colors*3);
+  memcpy(bin_colors+(extracolor_shift + EXTRA_COLORS)*3, title_colors, title_nr_colors*3);
 
   for(i=0; i<3*256; i++)
     bin_colors[i]=GAMMA(bin_colors[i]);
@@ -158,23 +214,20 @@ initmem(void)
   printf("done.\n");
   fflush(stdout);
 
-  printf("Shifting palette(%d)...", palette_shift);
-  fflush(stdout);
-
 /*  for(i=0; i<32*16*16; i++)
     *(ship+i) = color_lookup[*(ship+i)] + palette_shift;*/
 /*  for(i=0; i<32*17*17; i++)
     *(shieldship+i) = color_lookup[*(shieldship+i)] + palette_shift;*/
-  for(i=0; i<16*4*4; i++)
-    *(bulletmap+i) = color_lookup[*(bulletmap+i)] + palette_shift;
-  for(i=0; i<11*19; i++)
-    *(loadmap+i) = color_lookup[*(loadmap+i)] + palette_shift;
-  for(i=0; i<2*4*32; i++)
-    *(fuelmap+i) = color_lookup[*(fuelmap+i)] + palette_shift;
+/*  for(i=0; i<16*4*4; i++)
+    *(bulletmap+i) += bullet_shift;*/
+/*  for(i=0; i<11*19; i++)
+    *(loadmap+i) = color_lookup[*(loadmap+i)] + palette_shift;*/
+/*  for(i=0; i<2*4*32; i++)
+    *(fuelmap+i) = color_lookup[*(fuelmap+i)] + palette_shift;*/
 /*  for(i=0; i<title_cols*title_rows; i++)
     *(title_pixels+i) = color_lookup[*(title_pixels+i)] + palette_shift;*/
-  for(i=0; i<256*8*8; i++)
-    *(blocks+i) = color_lookup[*(blocks+i)] + palette_shift;
+/*  for(i=0; i<256*8*8; i++)
+    *(blocks+i) = color_lookup[*(blocks+i)] + palette_shift;*/
 
   printf("done.\n");
   fflush(stdout);
@@ -196,10 +249,6 @@ inithardware(int argc, char **argv)
     else
       play_sound=1;
   }
-
-  memset(color_lookup, 0xff, sizeof(color_lookup));
-  for(i=0; i<sizeof(color_conversion); ++i)
-     color_lookup[color_conversion[i]] = i;
 
   if(graphicsinit(argc, argv))
     exit(-1);
@@ -235,7 +284,13 @@ initscreen(int round)
   setcolor(GUN,     &guncolor);
   setcolor(STAND,   &guncolor);
   setcolor(POD,     &podcolor);
-  setcolor(SHIELD,  &shieldcolor);
+  for (int i = 0; i < 4; i++) {
+    color tmp = shieldcolor;
+    shieldcolor.r = shieldcolor.r * (1.0 - (3 - i) / 10.0);
+    shieldcolor.g = shieldcolor.g * (1.0 - (3 - i) / 10.0);
+    shieldcolor.b = shieldcolor.b * (1.0 - (3 - i) / 10.0);
+    setcolor(SHIELD + i,  &shieldcolor);
+  }
 
   for(j=pblocky; j<BBILDY+pblocky; j++)
     for(i=pblockx; i<BBILDX+pblockx; i++)

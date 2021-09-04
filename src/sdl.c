@@ -184,45 +184,18 @@ fadepalette(int first, int last, ui8 *RGBtable, int fade, int flag)
   int entries,i;
   int *c;
   ui8 *d;
-  int used_first;
-  int used_entries=0;
 
   entries=last-first+1;
-  
-  used_first = color_lookup[first];
-  if(used_first == 0xff)
-    printf("Aiee, bad fadepalette call.\n");
-  c=&tmpRGBtable[3*used_first];
+
+  c=tmpRGBtable;
   d=RGBtable;
   i=0;
 
   while(i<entries) {
-    if(color_lookup[first+i] != 0xff) {
-      *c++ = (*d++ * fade) >> 8;
-      *c++ = (*d++ * fade) >> 8;
-      *c = (*d * fade) >> 8;
-      used_entries++;
-    }
-    else
-      d += 2;
-    if(++i<entries) {
-      if(color_lookup[first+i-1] != 0xff)
-        c++;
-      d++;
-    }
-  }
-  i = 192;
-  c=&tmpRGBtable[3*192];
-  d = RGBtable + (192 * 3);
-  while(i<entries) {
     *c++ = (*d++ * fade) >> 8;
     *c++ = (*d++ * fade) >> 8;
     *c = (*d * fade) >> 8;
-    used_entries++;
-    if(++i<entries) {
-      c++;
-      d++;
-    }
+    i++;
   }
 
   if(flag)
