@@ -197,7 +197,6 @@ testcrash(ui8 *object, ui8 *storage, word len, ui8 shield)
     if(*(object++)!=BLACK) {
       if(pixel_collision[*storage]>res && (!shield || (shield && pixel_collision[*storage]>SHIELDLIMIT))) {
         res=pixel_collision[*storage];
-        printf("Found %d\n", *storage);
       }
     }
     storage++;

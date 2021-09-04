@@ -437,7 +437,6 @@ undrawbullets(void)
         crash=testcrash(bulletmap+((*bulletptr).dir<<4),
           bulletstorage+(l<<4), 16, 0);
         if(crash) {
-          printf("Crash: %d\n", crash);
           if(crash>=3)
             hit((tempx+3)%lenx3, (tempy+3)%leny3, crash, (*bulletptr).owner);
           (*bulletptr).life=0;
@@ -654,7 +653,7 @@ drawshuttle(void)
 	   ship+(dir<<8), shipstorage, 16);
   tmp=testcrash(ship+(dir<<8), shipstorage, 256, shield);
   crash=max(crash, tmp);
-#if 1 //def DEBUG2
+#ifdef DEBUG2
   if(tmp)
     printf("Crash: Ship destroyed. By %d.\n", tmp);
 #endif
@@ -672,7 +671,7 @@ drawshuttle(void)
     }
     tmp=testcrash(loadmap, loadstorage, 11*11, shield);
     crash=max(crash, tmp);
-#if 1 //def DEBUG2
+#ifdef DEBUG2
     if(tmp)
       printf("Crash: Load destroyed. By %d.\n", tmp);
 #endif

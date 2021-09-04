@@ -142,7 +142,6 @@ initmem(void)
     for (int k = 0; k < blks_nr_colors; k++) {
       if ((blks_colors[k * 3] == findcolor[i * 3]) && (blks_colors[k * 3 + 1] == findcolor[i * 3 + 1]) && (blks_colors[k * 3 + 2] == findcolor[i * 3 + 2])) {
         foundcolor[i] = k;
-        printf("Found %d at %d\n", i, k);
         break;
       }
     }
@@ -211,24 +210,6 @@ initmem(void)
     memcpy(loadmap+8+(i+11)*11, blocks+64*'4'+i*8, 3);
   }
   makeshieldedship();
-  printf("done.\n");
-  fflush(stdout);
-
-/*  for(i=0; i<32*16*16; i++)
-    *(ship+i) = color_lookup[*(ship+i)] + palette_shift;*/
-/*  for(i=0; i<32*17*17; i++)
-    *(shieldship+i) = color_lookup[*(shieldship+i)] + palette_shift;*/
-/*  for(i=0; i<16*4*4; i++)
-    *(bulletmap+i) += bullet_shift;*/
-/*  for(i=0; i<11*19; i++)
-    *(loadmap+i) = color_lookup[*(loadmap+i)] + palette_shift;*/
-/*  for(i=0; i<2*4*32; i++)
-    *(fuelmap+i) = color_lookup[*(fuelmap+i)] + palette_shift;*/
-/*  for(i=0; i<title_cols*title_rows; i++)
-    *(title_pixels+i) = color_lookup[*(title_pixels+i)] + palette_shift;*/
-/*  for(i=0; i<256*8*8; i++)
-    *(blocks+i) = color_lookup[*(blocks+i)] + palette_shift;*/
-
   printf("done.\n");
   fflush(stdout);
 

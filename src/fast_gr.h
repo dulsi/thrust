@@ -48,7 +48,6 @@ extern ui8 ship_shift;
 
 #define SHIELDLIMIT 1
 #define CRASH_VALUE(x) x
-//(((ui8)(color_conversion[(x)-palette_shift]))>>5)
 
 #ifdef __STDC__
 void putscr(int x, int y);
