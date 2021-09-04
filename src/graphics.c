@@ -316,9 +316,9 @@ undrawlineh(int x1, int y1, int x2, int y2, ui8 *storage)
       ptr+=yi;
       y2+=i;
       if(y2==-1)
-	ptr+=PBILDY*PBILDX<<1;
+        ptr+=PBILDY*PBILDX<<1;
       if(y2==PBILDY)
-	ptr=bild;
+        ptr=bild;
       d+=Ai;
     }
     *(ptr+x1)=*(storage++);
@@ -467,14 +467,14 @@ drawfragments(void)
       tempx=(*fragmentptr).x>>3;
       tempy=(*fragmentptr).y>>3;
       if(pixx+PUSEX>(int)lenx3 && tempx<PUSEX)
-	tempx+=lenx3;
+        tempx+=lenx3;
       if(pixy+PUSEY>(int)leny3 && tempy<PUSEY)
-	tempy+=leny3;
+        tempy+=leny3;
       if(insidepixel(tempx, tempy, pixx, pixy, 2, 2))
-	drawsquare(bildx+tempx-pixx, tempy%PBILDY,
-		   fragmentmap, fragmentstorage+(l<<2), 2, 2);
+        drawsquare(bildx+tempx-pixx, tempy%PBILDY,
+          fragmentmap, fragmentstorage+(l<<2), 2, 2);
       else if(*(bana+(tempx>>3)%lenx+((tempy>>3)%leny)*lenx)!=' ')
-	(*fragmentptr).life=0;
+        (*fragmentptr).life=0;
     }
 }
 
@@ -501,16 +501,16 @@ undrawfragments(void)
       tempx=(*fragmentptr).x>>3;
       tempy=(*fragmentptr).y>>3;
       if(pixx+PUSEX>(int)lenx3 && tempx<PUSEX)
-	tempx+=lenx3;
+        tempx+=lenx3;
       if(pixy+PUSEY>(int)leny3 && tempy<PUSEY)
-	tempy+=leny3;
+        tempy+=leny3;
       if(insidepixel(tempx, tempy, pixx, pixy, 2, 2)) {
-	crash=testcrash(fragmentmap, fragmentstorage+(l<<2), 4, 0);
-	if(crash) {
-	  (*fragmentptr).life=0;
-	}
-	undrawsquare(bildx+tempx-pixx, tempy%PBILDY,
-		     fragmentstorage+(l<<2), 2, 2);
+        crash=testcrash(fragmentmap, fragmentstorage+(l<<2), 4, 0);
+        if(crash) {
+          (*fragmentptr).life=0;
+        }
+        undrawsquare(bildx+tempx-pixx, tempy%PBILDY,
+               fragmentstorage+(l<<2), 2, 2);
       }
     }
 }
@@ -618,7 +618,7 @@ drawshuttle(void)
     else {
       x2=(loadbx<<3)+5;
       if(abs(x2-x1)>PBILDX/2)
-	x2+=PBILDX;
+        x2+=PBILDX;
       y2=(loadby<<3)+10;
     }
     lx=abs(x1-x2)%PBILDX;
@@ -636,7 +636,7 @@ drawshuttle(void)
 	     tmp, max(lx, ly)+1);
       printf("Wirestorage:");
       for(debug2i=0; debug2i<max(lx, ly)+1; debug2i++)
-	printf(" %02x", *(wirestorage+debug2i));
+        printf(" %02x", *(wirestorage+debug2i));
       printf("\n");
       printf("Killer line: x1=%d, y1=%d, x2=%d, y2=%d\n",
 	     x1, y1%PBILDY, x2, y2%PBILDY);
