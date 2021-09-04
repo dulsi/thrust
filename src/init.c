@@ -117,7 +117,8 @@ initmem(void)
   fflush(stdout);
 
   for(i=0; i<256; i++)
-    pixel_collision[i] = 0;
+    pixel_collision[i] = 255;
+  int copy_color = 0;
   for (i = 0; i < blks_nr_colors; i++) {
     if ((blks_colors[i * 3] == 0) && (blks_colors[i * 3 + 1] == 0) && (blks_colors[i * 3 + 2] == 0)) {
       if (i == 0)
@@ -138,6 +139,42 @@ initmem(void)
     }
   }
   memcpy(bin_colors, blks_colors, blks_nr_colors*3);
+  for(i=0; i<39; i++) {
+    for (int k = 0; k < 8 * 8; k++)
+      if (blks_pixels[i * 8 * 8 + k] != 0) {
+        pixel_collision[blks_pixels[i * 8 * 8 + k]] = 0;
+      }
+  }
+  for(i=39; i<256; i++) {
+    if (i == 109)
+      continue;
+    if ((i >= 48) && (i <= 52))
+      continue;
+    for (int k = 0; k < 8 * 8; k++)
+      if (blks_pixels[i * 8 * 8 + k] != 0) {
+        if (pixel_collision[blks_pixels[i * 8 * 8 + k]] == 0)
+        {
+          int pixel_color = 0;
+          for (; pixel_color < copy_color; pixel_color++)
+            if ((bin_colors[(blks_nr_colors + pixel_color) * 3] == bin_colors[blks_pixels[i * 8 * 8 + k] * 3]) &&
+                (bin_colors[(blks_nr_colors + pixel_color) * 3 + 1] == bin_colors[blks_pixels[i * 8 * 8 + k] * 3 + 1]) &&
+                (bin_colors[(blks_nr_colors + pixel_color) * 3 + 2] == bin_colors[blks_pixels[i * 8 * 8 + k] * 3 + 2])) {
+              break;
+            }
+          if (pixel_color == copy_color) {
+            copy_color++;
+            bin_colors[(blks_nr_colors + pixel_color) * 3] = bin_colors[blks_pixels[i * 8 * 8 + k] * 3];
+            bin_colors[(blks_nr_colors + pixel_color) * 3 + 1] = bin_colors[blks_pixels[i * 8 * 8 + k] * 3 + 1];
+            bin_colors[(blks_nr_colors + pixel_color) * 3 + 2] = bin_colors[blks_pixels[i * 8 * 8 + k] * 3 + 2];
+          }
+          blks_pixels[i * 8 * 8 + k] = blks_nr_colors + pixel_color;
+        }
+        if (i >=76 && i <= 108)
+          pixel_collision[blks_pixels[i * 8 * 8 + k]] = 4;
+        else if (pixel_collision[blks_pixels[i * 8 * 8 + k]] == 255)
+          pixel_collision[blks_pixels[i * 8 * 8 + k]] = 2;
+      }
+  }
   for (i = 0; i < FIND_COLORS; i++) {
     for (int k = 0; k < blks_nr_colors; k++) {
       if ((blks_colors[k * 3] == findcolor[i * 3]) && (blks_colors[k * 3 + 1] == findcolor[i * 3 + 1]) && (blks_colors[k * 3 + 2] == findcolor[i * 3 + 2])) {
@@ -147,20 +184,7 @@ initmem(void)
     }
   }
   blocks=blks_pixels;
-  for(i=39; i<256; i++) {
-    if (i == 109)
-      continue;
-    if ((i >= 48) && (i <= 52))
-      continue;
-    for (int k = 0; k < 8 * 8; k++)
-      if (blks_pixels[i * 8 * 8 + k] != 0) {
-        if (i >=76 && i <= 108)
-          pixel_collision[blks_pixels[i * 8 * 8 + k]] = 4;
-        else if (pixel_collision[blks_pixels[i * 8 * 8 + k]] == 0)
-          pixel_collision[blks_pixels[i * 8 * 8 + k]] = 2;
-      }
-  }
-  bullet_shift = blks_nr_colors;
+  bullet_shift = blks_nr_colors + copy_color;
   memcpy(bin_colors + bullet_shift*3, bullet_colors, bullet_nr_colors*3);
   shield_shift = bullet_shift + bullet_nr_colors;
   memcpy(bin_colors + shield_shift*3, shld_colors, shld_nr_colors*3);
@@ -180,6 +204,10 @@ initmem(void)
     }
   for(i=0; i<16; i++)
     memcpy(bulletmap+((20-i)&15)*16, bullet_pixels+i*16, 16);
+  for(i=0; i<256; i++) {
+    if (pixel_collision[i] == 255)
+      pixel_collision[i] = 0;
+  }
 
   for(i=0; i<title_cols*title_rows; i++) {
     *(title_pixels+i) += extracolor_shift + EXTRA_COLORS;
@@ -267,10 +295,10 @@ initscreen(int round)
   setcolor(POD,     &podcolor);
   for (int i = 0; i < 4; i++) {
     color tmp = shieldcolor;
-    shieldcolor.r = shieldcolor.r * (1.0 - (3 - i) / 10.0);
-    shieldcolor.g = shieldcolor.g * (1.0 - (3 - i) / 10.0);
-    shieldcolor.b = shieldcolor.b * (1.0 - (3 - i) / 10.0);
-    setcolor(SHIELD + i,  &shieldcolor);
+    tmp.r = shieldcolor.r * (1.0 - (3 - i) / 10.0);
+    tmp.g = shieldcolor.g * (1.0 - (3 - i) / 10.0);
+    tmp.b = shieldcolor.b * (1.0 - (3 - i) / 10.0);
+    setcolor(SHIELD + i,  &tmp);
   }
 
   for(j=pblocky; j<BBILDY+pblocky; j++)
