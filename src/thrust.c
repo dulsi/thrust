@@ -47,6 +47,7 @@ ui8 *fragmentstorage;
 ui8 *fuelstorage;
 ui8 *loadstorage;
 ui8 *wirestorage;
+ui8 *blipstorage;
 
 word lenx; /* x-size of level */
 word leny; /* y-size of level */
@@ -719,7 +720,7 @@ game(int demo)
 
       /* Check if at a restart barrier. If so, update the restart point. */
       restartxy=atbarrier((pblockx+((154+shipdx)>>3))%lenx,
-			  pblocky+((82+shipdy)>>3));
+        pblocky+((82+shipdy)>>3));
       if(restartxy)
       	userestartpoint(restartxy, loaded, round&1, &restart);
 
@@ -762,6 +763,7 @@ game(int demo)
       if(alive)
         undrawshuttle();
       undrawbullets();
+      undrawpowerplantblip();
 	
       /* Remove objects */
       if(!easyrider)

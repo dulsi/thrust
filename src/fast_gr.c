@@ -41,7 +41,8 @@ ui8 findcolor[FIND_COLORS * 3] = {
  0xa8, 0xa8, 0xff,
  0xff, 0x55, 0xaa,
  0x80, 0xff, 0xaa,
- 0xaa, 0xff, 0xaa
+ 0xaa, 0xff, 0xaa,
+ 0x7a, 0x7a, 0xbb
 };
 ui8 foundcolor[FIND_COLORS];
 
@@ -73,6 +74,51 @@ putblock(int x, int y, ui8 *source)
     memcpy(dest1, source, 8);
     memcpy(dest2, source, 8);
     source+=8;
+    dest1+=PBILDX<<1;
+    dest2+=PBILDX<<1;
+  }
+}
+
+void
+drawblock(int x, int y, ui8 *source, ui8 *storage)
+{
+  int i;
+  ui8 *dest1, *dest2;
+
+  dest1=bild+((y<<3)*(PBILDX<<1))+(x<<3);
+  dest2=dest1+((x>=BBILDX)?-(PBILDX):(PBILDX));
+  
+  for(i=0; i<8; i++) {
+    memcpy(storage, dest1, 8);
+    storage += 8;
+    memcpy(storage, dest2, 8);
+    storage += 8;
+    for (int k = 0; k < 8; k++) {
+      if (source[k] != BLACK) {
+        dest1[k] = source[k];
+        dest2[k] = source[k];
+      }
+    }
+    source+=8;
+    dest1+=PBILDX<<1;
+    dest2+=PBILDX<<1;
+  }
+}
+
+void
+undrawblock(int x, int y, ui8 *storage)
+{
+  int i;
+  ui8 *dest1, *dest2;
+
+  dest1=bild+((y<<3)*(PBILDX<<1))+(x<<3);
+  dest2=dest1+((x>=BBILDX)?-(PBILDX):(PBILDX));
+  
+  for(i=0; i<8; i++) {
+    memcpy(dest1, storage, 8);
+    storage += 8;
+    memcpy(dest2, storage, 8);
+    storage += 8;
     dest1+=PBILDX<<1;
     dest2+=PBILDX<<1;
   }
@@ -114,7 +160,7 @@ drawship(word bx, word by, ui8 *ship, ui8 *storage, int size)
     for(j=0; j<size; j++) {
       pix=*(ship++);
       if(pix!=BLACK)
-	*(tmp+j)=pix;
+        *(tmp+j)=pix;
     }
     if(tmp>=maxtmp)
       tmp=bild+bx;
@@ -157,7 +203,7 @@ drawsquare(word bx, word by,
     for(j=0; j<(int)deltax; j++) {
       pix=*(object++);
       if(pix!=BLACK)
-	*(tmp+j)=pix;
+        *(tmp+j)=pix;
     }
     if(tmp>=maxtmp)
       tmp=bild+bx;

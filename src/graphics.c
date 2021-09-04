@@ -526,9 +526,30 @@ drawpowerplantblip(void)
     tempx+=lenx;
   if(pblocky+BBILDY>(int)leny && tempy<BBILDY)
     tempy+=leny;
+  if(insideblock(tempx, tempy, pblockx, pblocky, 0, 0)) {
+    drawblock(bblockx-pblockx+tempx, tempy%BBILDY,
+      blocks+((ppblip?' ':222-(ppcount&0xc))<<6), blipstorage);
+/*    drawsquare((bblockx+pblockx+tempx) * 8, tempy%BBILDY * 8,
+      blocks+((ppblip?' ':222-(ppcount&0xc))<<6), blipstorage, 8, 8);*/
+  }
+}
+
+void
+undrawpowerplantblip(void)
+{
+  word tempx, tempy;
+
+  tempx=ppx;
+  tempy=ppy;
+  if(pblockx+BBILDX>(int)lenx && tempx<BBILDX)
+    tempx+=lenx;
+  if(pblocky+BBILDY>(int)leny && tempy<BBILDY)
+    tempy+=leny;
   if(insideblock(tempx, tempy, pblockx, pblocky, 0, 0))
-    putblock(bblockx-pblockx+tempx, tempy%BBILDY,
-	     blocks+((ppblip?' ':222-(ppcount&0xc))<<6));
+    undrawblock(bblockx-pblockx+tempx, tempy%BBILDY,
+      blipstorage);
+/*    undrawsquare((bblockx+pblockx+tempx) * 8, tempy%BBILDY * 8,
+           blipstorage, 8, 8);*/
 }
 
 void

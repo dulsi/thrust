@@ -104,6 +104,7 @@ initmem(void)
   loadmap=(ui8 *)malloc(11*19);
   loadstorage=(ui8 *)malloc(11*19);
   wirestorage=(ui8 *)malloc(64);
+  blipstorage=(ui8 *)malloc(16*8);
 
   if(!bild || !bana || !ship || !shieldship || !shipstorage
      || !bulletmap || !bulletstorage || !fragmentstorage
@@ -282,6 +283,7 @@ void
 initscreen(int round)
 {
   int i,j;
+  color tmp;
 
   if(round&2)
     setcolor(BGCOLOR, 0);
@@ -290,11 +292,14 @@ initscreen(int round)
 
   setcolor(TRACTOR, &bgcolor);
   setcolor(BULBS,   &guncolor);
+  tmp.r = guncolor.r * 0.8;
+  tmp.g = guncolor.g * 0.8;
+  tmp.b = guncolor.b * 0.8;
+  setcolor(BULBS2,  &tmp);
   setcolor(GUN,     &guncolor);
   setcolor(STAND,   &guncolor);
   setcolor(POD,     &podcolor);
   for (int i = 0; i < 4; i++) {
-    color tmp = shieldcolor;
     tmp.r = shieldcolor.r * (1.0 - (3 - i) / 10.0);
     tmp.g = shieldcolor.g * (1.0 - (3 - i) / 10.0);
     tmp.b = shieldcolor.b * (1.0 - (3 - i) / 10.0);

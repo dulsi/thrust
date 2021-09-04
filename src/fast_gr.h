@@ -32,7 +32,7 @@ extern ui8 extracolor_shift;
 #define TRACTOR       (11 + extracolor_shift)
 
 #define BLACK         (0)
-#define FIND_COLORS (5)
+#define FIND_COLORS (6)
 extern ui8 findcolor[FIND_COLORS * 3];
 extern ui8 foundcolor[FIND_COLORS];
 #define BGCOLOR       (foundcolor[0])
@@ -40,6 +40,7 @@ extern ui8 foundcolor[FIND_COLORS];
 #define GUN           (foundcolor[2])
 #define STAND         (foundcolor[3])
 #define POD           (foundcolor[4])
+#define BULBS2        (foundcolor[5])
 
 extern ui8 bullet_shift;
 extern ui8 shield_shift;
@@ -52,6 +53,8 @@ extern ui8 ship_shift;
 #ifdef __STDC__
 void putscr(int x, int y);
 void putblock(int x, int y, ui8 *source);
+void drawblock(int x, int y, ui8 *source, ui8 *storage);
+void undrawblock(int x, int y, ui8 *storage);
 void drawfuel(int fuel);
 void drawship(word bx, word by, ui8 *ship, ui8 *storage, int size);
 void undrawship(word bx, word by, ui8 *storage, int size);

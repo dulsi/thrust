@@ -111,6 +111,7 @@ extern ui8 *fragmentstorage;
 extern ui8 *fuelstorage;
 extern ui8 *loadstorage;
 extern ui8 *wirestorage;
+extern ui8 *blipstorage;
 
 extern word lenx; /* Banans max i x-len, används senare till den aktuella */
 extern word leny; /* Banans max i y-len, storleken på banan.Sätts i readbana */

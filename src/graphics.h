@@ -26,6 +26,7 @@ void undrawbullets(void);
 void drawfragments(void);
 void undrawfragments(void);
 void drawpowerplantblip(void);
+void undrawpowerplantblip(void);
 void drawload(int flag);
 word drawshuttle(void);
 void undrawshuttle(void);
