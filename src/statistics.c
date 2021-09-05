@@ -86,17 +86,19 @@ initstatistics()
     statgroup *s = NULL;
     while (!feof(f))
     {
-      fgets(line, 256, f);
-      if (line[0] == '[') {
-        if (strncmp("Overall]", line + 1, 8) == 0)
-          s = &stats.overall;
-        else if (strncmp("Best]", line + 1, 5) == 0)
-          s = &stats.best;
-        else
-          s = NULL;
+      char *ln = fgets(line, 256, f);
+      if (ln) {
+        if (line[0] == '[') {
+          if (strncmp("Overall]", line + 1, 8) == 0)
+            s = &stats.overall;
+          else if (strncmp("Best]", line + 1, 5) == 0)
+            s = &stats.best;
+          else
+            s = NULL;
+        }
+        else if (s != NULL)
+          parsestatline(line, s);
       }
-      else if (s != NULL)
-        parsestatline(line, s);
     }
     fclose(f);
   }

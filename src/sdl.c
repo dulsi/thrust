@@ -50,10 +50,6 @@ putarea(ui8 *source,
 	int x, int y, int width, int height, int bytesperline,
 	int destx, int desty)
 {
-  ui8 *tmp;
-  int res=PSTARTX+destx+320*(PSTARTY+desty);
-  int dy, seg, lastseg, endseg;
-
   if(bytesperline==320 && width==320 && 320==320 && x==0 && destx==0) {
     memcpy(IScreenMain + desty*320, source + y*320, height*320);
   }
@@ -202,7 +198,7 @@ fadepalette(int first, int last, ui8 *RGBtable, int fade, int flag)
     displayscreen(0);
 
   SDL_Color sdlcol[256];
-  int color, rgb;
+  int color;
 
   for (color = 0; color < 256; color++)
   {

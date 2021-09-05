@@ -6,5 +6,5 @@ Exec=inertiablast %f
 Terminal=false
 Type=Application
 Icon=inertiablast
-Categories=Game;Arcade;
+Categories=Game;ArcadeGame;
 

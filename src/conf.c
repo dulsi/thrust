@@ -308,7 +308,7 @@ void writekeys(void)
   FILE *g;
   int rows=0;
   int res;
-  ui8 row[256], driver[256], field[256], value[256];
+  char row[256], driver[256], field[256], value[256];
   int found[5] = {0, 0, 0, 0, 0};
 
   thrustrc = getthrustrc();
@@ -394,7 +394,7 @@ void writekeys(void)
         continue;
     }
 
-    fprintf(g, row);
+    fprintf(g, "%s", row);
     fprintf(g, "\n");
   }
   for (int i = 0; i < 5; i++) {
@@ -420,7 +420,7 @@ void initkeys(void)
   FILE *f;
   int rows=0;
   int res;
-  ui8 row[256], driver[256], field[256], value[256];
+  char row[256], driver[256], field[256], value[256];
 
   thrustrc = getthrustrc();
   if(thrustrc == NULL)

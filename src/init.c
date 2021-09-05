@@ -251,8 +251,6 @@ initmem(void)
 void
 inithardware(int argc, char **argv)
 {
-  int i;
-	
   if(play_sound && !sound_depends_on_graphics()) {
     if(initsound())
       play_sound=0;
