@@ -1,0 +1,22 @@
+{
+	"shortname": "inertiablast",
+	"name": "Inertia Blast",
+	"image": "gamerzilla/inertiablast.png",
+	"version": "1",
+	"trophy": [
+		{
+			"trophy_name": "First Pod",
+			"trophy_desc": "Retrieve your first energy pod for the rebellion.",
+			"max_progress": "0",
+			"trueimage": "gamerzilla/firstpod.png",
+			"falseimage": "gamerzilla/notachieved.png"
+		},
+		{
+			"trophy_name": "Completed Normal Levels",
+			"trophy_desc": "Retrieve all energy pods on the normal levels.",
+			"max_progress": "6",
+			"trueimage": "gamerzilla/sixpods.png",
+			"falseimage": "gamerzilla/notachieved.png"
+		}
+	]
+}

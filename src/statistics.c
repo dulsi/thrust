@@ -3,6 +3,11 @@
 #include <string.h>
 #include "conf.h"
 #include "statistics.h"
+#ifdef HAVE_GAMERZILLA
+#include <gamerzilla.h>
+#endif
+
+int game_id = -1;
 
 statistics stats;
 
@@ -61,6 +66,16 @@ writestatgroup(FILE *f, statgroup *s)
 void
 initstatistics()
 {
+#ifdef HAVE_GAMERZILLA
+  GamerzillaStart(false, get_user_path());
+  char *data_path = get_data_path();
+  char *game_file = malloc(strlen(data_path) + 35);
+  strcpy(game_file, data_path);
+  strcat(game_file, "gamerzilla/inertiablast.game");
+  game_id = GamerzillaSetGameFromFile(game_file, data_path);
+  free(game_file);
+  free(data_path);
+#endif
   clearstatgroup(&stats.overall);
   clearstatgroup(&stats.best);
   clearstatgroup(&stats.current);
@@ -136,4 +151,11 @@ updatestatistics(long planets, long bunkers, long level, long pods, long fuelacq
     stats.best.fuelacquired = stats.current.fuelacquired;
   if (stats.current.fueldestroyed > stats.best.fueldestroyed)
     stats.best.fueldestroyed = stats.current.fueldestroyed;
+#ifdef HAVE_GAMERZILLA
+  bool achieved;
+  if ((pods > 0) && (GamerzillaGetTrophy(game_id, "First Pod", &achieved)) && (!achieved))
+    GamerzillaSetTrophy(game_id, "First Pod");
+  if ((stats.current.podsacquired == stats.current.level) && (GamerzillaGetTrophy(game_id, "Completed Normal Levels", &achieved)) && (!achieved))
+    GamerzillaSetTrophyStat(game_id, "Completed Normal Levels", stats.current.level);
+#endif
 }

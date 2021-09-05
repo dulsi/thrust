@@ -2,10 +2,23 @@ Project (inertiablast)
 CMake_Minimum_Required (VERSION 3.1)
 
 Set (BINDIR "bin" CACHE STRING "Where to install binaries")
+Set (DATAROOTDIR "${CMAKE_INSTALL_PREFIX}/share" CACHE STRING "Sets the root of data directories to a non-default location")
+
+add_definitions(-DDATA_DIR=\"${DATAROOTDIR}/inertiablast\")
 
 include(FindPkgConfig)
 pkg_search_module(SDL2 REQUIRED sdl2)
 pkg_search_module(SDL2_MIXER REQUIRED SDL2_mixer)
+
+# Find LibGamerzilla library
+if (NOT APPLE)
+    pkg_search_module(GAMERZILLA OPTIONAL gamerzilla)
+
+    if (GAMERZILLA_LIBRARIES)
+        message(STATUS "Gamerzilla found")
+        add_definitions(-DHAVE_GAMERZILLA)
+    endif()
+endif()
 
 add_definitions(-DHAVE_CONFIG_H)
 
@@ -13,6 +26,7 @@ add_definitions(-DHAVE_CONFIG_H)
 Include_Directories(
  	${SDL2_INCLUDE_DIRS}
  	${SDL2_MIXER_INCLUDE_DIRS}
+  ${GAMERZILLA_INCLUDE_DIRS}
 )
 
 file(GLOB SOURCES   src/thrust.c src/fast_gr.c src/hiscore.c src/conf.c src/things.c
@@ -32,7 +46,9 @@ Target_Link_Libraries (
  	inertiablast
  	${SDL2_LIBRARIES}
  	${SDL2_MIXER_LIBRARIES}
+  ${GAMERZILLA_LIBRARIES}
   -lm
 )
 
+Install (DIRECTORY ${PROJECT_SOURCE_DIR}/gamerzilla DESTINATION ${DATAROOTDIR}/inertiablast/)
 Install (TARGETS inertiablast RUNTIME DESTINATION ${BINDIR})

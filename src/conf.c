@@ -150,12 +150,55 @@ conf()
   fade_out(0UL);
 }
 
-
 static char *
+get_combine_path(char *dirs, char *subdir)
+{
+  struct stat statbuf;
+  char *result = malloc(strlen(dirs) + strlen(subdir) + 2);
+  char *end = dirs;
+  do
+  {
+    int i;
+    for (i = 0; (*end != ':') && (*end != 0); i++, end++)
+      result[i] = *end;
+    if (result[i - 1] != '/')
+      result[i++] = '/';
+    strcpy(result + i, subdir);
+    if (0 == stat(result, &statbuf))
+    {
+      return result;
+    }
+    while (*end == ':')
+      end++;
+  } while (*end);
+  strcpy(result, "./");
+	return result;
+}
+
+char *
+get_data_path()
+{
+#ifdef WIN32
+	char *file_path = strdup("./");
+#else
+#ifdef DATA_DIR
+	char *file_path = DATA_DIR;
+	char *data_home = getenv("XDG_DATA_DIRS");
+	if (data_home)
+		file_path = data_home;
+	file_path = get_combine_path(file_path, "inertiablast/");
+#else
+	char *file_path = strdup("./");
+#endif
+#endif
+	return file_path;
+}
+
+char *
 get_user_path()
 {
   static char userPath[255] = "";
-	struct stat statbuf;
+  struct stat statbuf;
   if (userPath[0] == 0) {
 #ifdef WIN32
     strcpy(userPath, "save/");
@@ -192,7 +235,7 @@ get_user_path()
       } 
     }
   }
-	return userPath;
+  return userPath;
 }
 
 char *

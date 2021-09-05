@@ -11,6 +11,8 @@ extern char *keynames[];
 void initkeys(void);
 void writekeys(void);
 char *underscore(char *keystring);
+char *get_data_path();
+char *get_user_path();
 char *getuserfile(char *name);
 char *getthrustrc(void);
 void conf(void);
