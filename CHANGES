@@ -1,3 +1,18 @@
+Version 0.90 September 5, 2021
+
+* Rename the project to Inertia Blast.
+
+* Add SDL support
+
+* Remove GGI, svgalib, X11, and DirectX support.
+
+* Replace images for shield, ship, power plant, and fuel.
+
+* Replace title screen and story text.
+
+* Add Gamerzilla trophies.
+
+* Switch to cmake.
 
 Version 0.89f January 29, 2006
 

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright 2021 Dennis Payne <dulsi@identicalsoftware.com> -->
+<component type="desktop-application">
+  <id>inertiablast</id>
+  <metadata_license>FSFAP</metadata_license>
+  <project_license>GPL-2.0+</project_license>
+  <name>Inertia Blast</name>
+  <summary>Steal energy pods to defeat the empire</summary>
+
+  <description>
+    <p>
+      The rebellion captured several warships but lack the energy pod to
+      power the ships. You are part of a risky expedition to steal the energy
+      pods. Defense systems will attempt to stop you. The energy pods are
+      often stored in tunnels making them hard to retrieve. The massive weight
+      of the pod increases the difficultly in getting out.
+    </p>
+
+    <p>
+      Inertia Blast is a remake of an C64 game called Thrust.
+    </p>
+  </description>
+
+  <launchable type="desktop-id">inertiablast.desktop</launchable>
+
+  <screenshots>
+    <screenshot type="default">
+      <image>http://www.identicalsoftware.com/inertiablast/screenshot1.png</image>
+    </screenshot>
+    <screenshot>
+      <image>http://www.identicalsoftware.com/inertiablast/screenshot2.png</image>
+    </screenshot>
+  </screenshots>
+
+  <url type="homepage">http://www.identicalsoftware.com/inertiablast/</url>
+
+  <provides>
+    <binary>inertiablast</binary>
+  </provides>
+
+  <releases>
+    <release version="0.90" date="2021-09-05" />
+  </releases>
+
+  <content_rating type="oars-1.1">
+    <content_attribute id="violence-fantasy">moderate</content_attribute>
+  </content_rating>
+</component>
