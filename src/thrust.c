@@ -669,7 +669,11 @@ game(int demo)
       /* Move the Power Plant blip */
       ppcount=(ppcount+1)&15;
       if(!ppcount && powerplant && ppblip)
+      {
         ppblip--;
+        if (ppblip == 0)
+          restorepowerplant();
+      }
 
       if(!powerplant) {
         countdown--;

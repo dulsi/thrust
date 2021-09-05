@@ -111,6 +111,7 @@ void movefragments(void);
 word livefragments(void);
 void userestartpoint(restartpoint *restartxy, int loaded,
 	int reverse, restartinfo *restart);
+void restorepowerplant(void);
 #endif
 
 #endif /* THINGS_H */

@@ -362,7 +362,7 @@ deletething(thing *tp)
         countdown=800;
       }
       if((countdown&0x1f) == 0x10) {
-      	ui8 ch = 'd';
+        ui8 ch = 244;
         for(j=0; j<3; j++)
           for(i=0; i<3; i++)
             writeblock(tx+i, ty+j, ch++);
@@ -595,6 +595,12 @@ hit(word x, word y, word crash, word owner)
   if(hit) {
     switch(things[which].type) {
     case THING_POWERPLANT:
+      if (ppblip == 0) {
+        ui8 ch = 244;
+        for(int j=0; j<3; j++)
+          for(i=0; i<3; i++)
+            writeblock(things[which].px+i, things[which].py+j, ch++);
+      }
       ppblip+=10;
       if(ppblip>100)
         things[which].alive=1;  /* Dying */
@@ -896,4 +902,18 @@ userestartpoint(restartpoint *restartxy, int loaded, int reverse, restartinfo *r
   restart->x=(lenx+restartxy->x-(154>>3))%lenx;
   restart->y=restartxy->y-(82>>3);
   restart->loaded=loaded;
+}
+
+void restorepowerplant(void)
+{
+  word i;
+  thing *thingptr;
+
+  for(i=0, thingptr=things; i<nrthings; i++, thingptr++)
+    if((*thingptr).alive>0 && thingptr->type == THING_POWERPLANT) {
+      ui8 ch = 'd';
+      for(int j=0; j<3; j++)
+        for(i=0; i<3; i++)
+          writeblock(thingptr->px+i, thingptr->py+j, ch++);
+    }
 }
