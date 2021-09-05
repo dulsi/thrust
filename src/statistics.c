@@ -155,7 +155,7 @@ updatestatistics(long planets, long bunkers, long level, long pods, long fuelacq
   bool achieved;
   if ((pods > 0) && (GamerzillaGetTrophy(game_id, "First Pod", &achieved)) && (!achieved))
     GamerzillaSetTrophy(game_id, "First Pod");
-  if ((stats.current.podsacquired == stats.current.level) && (GamerzillaGetTrophy(game_id, "Completed Normal Levels", &achieved)) && (!achieved))
+  if ((pods > 0) && (stats.current.podsacquired == stats.current.level) && (GamerzillaGetTrophy(game_id, "Completed Normal Levels", &achieved)) && (!achieved))
     GamerzillaSetTrophyStat(game_id, "Completed Normal Levels", stats.current.level);
 #endif
 }

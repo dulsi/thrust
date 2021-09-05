@@ -216,7 +216,7 @@ get_user_path()
       strcpy(userPath, getenv("HOME"));
       strcat(userPath, "/.local/share");
     }
-    strcat(userPath, "/thrust/");
+    strcat(userPath, "/inertiablast/");
 #endif
     if (0 != stat(userPath, &statbuf))
     {
