@@ -135,7 +135,7 @@
 #define PACKAGE_TARNAME "inertiablast"
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "0.90"
+#define PACKAGE_VERSION "0.91"
 
 /* foo */
 #define PRINTF_RETURN 1
@@ -144,7 +144,7 @@
 #define RETSIGTYPE void
 
 /* Version number of package */
-#define VERSION "0.90"
+#define VERSION "0.91"
 
 /* Define to empty if `const' does not conform to ANSI C. */
 /* #undef const */
