@@ -3,6 +3,7 @@ CMake_Minimum_Required (VERSION 3.1)
 
 Set (BINDIR "bin" CACHE STRING "Where to install binaries")
 Set (DATAROOTDIR "${CMAKE_INSTALL_PREFIX}/share" CACHE STRING "Sets the root of data directories to a non-default location")
+Set (ICONDIR "${DATAROOTDIR}/icons" CACHE STRING "Sets the icon directory for desktop entry to a non-default location.")
 
 add_definitions(-DDATA_DIR=\"${DATAROOTDIR}/inertiablast\")
 
@@ -52,3 +53,8 @@ Target_Link_Libraries (
 
 Install (DIRECTORY ${PROJECT_SOURCE_DIR}/gamerzilla DESTINATION ${DATAROOTDIR}/inertiablast/)
 Install (TARGETS inertiablast RUNTIME DESTINATION ${BINDIR})
+
+if ("${CMAKE_SYSTEM_NAME}" MATCHES "Linux")
+	Install (FILES datasrc/icon.png DESTINATION ${ICONDIR}/hicolor/48x48/apps/ RENAME inertiablast.png)
+	Install (FILES inertiablast.desktop DESTINATION ${DATAROOTDIR}/applications/)
+endif ("${CMAKE_SYSTEM_NAME}" MATCHES "Linux")

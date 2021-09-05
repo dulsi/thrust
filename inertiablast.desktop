@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Inertia Blast
+Comment=Steal energy pods to defeat the empire
+TryExec=inertiablast
+Exec=inertiablast %f
+Terminal=false
+Type=Application
+Icon=inertiablast
+Categories=Game;Arcade;
+
