@@ -1,6 +1,6 @@
 Name:           inertiablast
-Version:        0.91
-Release:        2%{?dist}
+Version:        0.92
+Release:        1%{?dist}
 Summary:        Steal energy pods to defeat the empire
 # Almost all is GPLv2+ with some graphics being CC-BY-SA
 License:        GPLv2+ and CC-BY-SA
@@ -10,7 +10,7 @@ Source0:        %{url}/%{name}-%{version}.tgz
 
 BuildRequires: cmake
 BuildRequires: desktop-file-utils
-BuildRequires: gcc-c++
+BuildRequires: gcc
 BuildRequires: libgamerzilla-devel
 BuildRequires: libappstream-glib
 BuildRequires: make
@@ -40,10 +40,7 @@ Inertia Blast is a remake of an C64 game called Thrust.
 
 %install
 %cmake_install
-mkdir -p %{buildroot}%{_datadir}/man/man6
-install -p -m 644 %{name}.man \
-    %{buildroot}%{_datadir}/man/man6/%{name}.6
-
+\
 
 %check
 desktop-file-validate %{buildroot}%{_datadir}/applications/%{name}.desktop
@@ -62,6 +59,9 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/%{name}.metain
 
 
 %changelog
+* Mon Sep 06 2021 Dennis Payne <dulsi@identicalsoftware.com> - 0.92-1
+- Upgrade to new release.
+
 * Mon Sep 06 2021 Dennis Payne <dulsi@identicalsoftware.com> - 0.91-2
 - Add man page, use name macro everywhere and update license.
 

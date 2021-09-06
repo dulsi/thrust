@@ -1,4 +1,4 @@
-Project (inertiablast)
+Project (inertiablast C)
 CMake_Minimum_Required (VERSION 3.1)
 
 Set (BINDIR "bin" CACHE STRING "Where to install binaries")
@@ -58,4 +58,5 @@ if ("${CMAKE_SYSTEM_NAME}" MATCHES "Linux")
 	Install (FILES datasrc/icon.png DESTINATION ${ICONDIR}/hicolor/48x48/apps/ RENAME inertiablast.png)
 	Install (FILES inertiablast.desktop DESTINATION ${DATAROOTDIR}/applications/)
 	Install (FILES inertiablast.metainfo.xml DESTINATION ${DATAROOTDIR}/metainfo/)
+	Install (FILES inertiablast.man DESTINATION ${DATAROOTDIR}/man/man6/ RENAME inertiablast.6)
 endif ("${CMAKE_SYSTEM_NAME}" MATCHES "Linux")
