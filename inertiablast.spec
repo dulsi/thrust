@@ -1,8 +1,9 @@
 Name:           inertiablast
 Version:        0.91
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Steal energy pods to defeat the empire
-License:        GPLv2+
+# Almost all is GPLv2+ with some graphics being CC-BY-SA
+License:        GPLv2+ and CC-BY-SA
 URL:            http://identicalsoftware.com/inertiablast/
 
 Source0:        %{url}/%{name}-%{version}.tgz
@@ -39,23 +40,30 @@ Inertia Blast is a remake of an C64 game called Thrust.
 
 %install
 %cmake_install
+mkdir -p %{buildroot}%{_datadir}/man/man6
+install -p -m 644 %{name}.man \
+    %{buildroot}%{_datadir}/man/man6/%{name}.6
 
 
 %check
-desktop-file-validate %{buildroot}%{_datadir}/applications/inertiablast.desktop
-appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/inertiablast.metainfo.xml
+desktop-file-validate %{buildroot}%{_datadir}/applications/%{name}.desktop
+appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/%{name}.metainfo.xml
 
 
 %files
 %doc README
 %license COPYING
-%{_bindir}/inertiablast
-%{_datadir}/inertiablast
-%{_datadir}/icons/hicolor/*/apps/inertiablast.png
+%{_bindir}/%{name}
+%{_datadir}/%{name}
+%{_datadir}/icons/hicolor/*/apps/%{name}.png
 %{_metainfodir}/%{name}.metainfo.xml
-%{_datadir}/applications/inertiablast.desktop
+%{_datadir}/applications/%{name}.desktop
+%{_datadir}/man/man6/%{name}.6*
 
 
 %changelog
+* Mon Sep 06 2021 Dennis Payne <dulsi@identicalsoftware.com> - 0.91-2
+- Add man page, use name macro everywhere and update license.
+
 * Sun Sep 05 2021 Dennis Payne <dulsi@identicalsoftware.com> - 0.91-1
 - Initial build
