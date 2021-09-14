@@ -2,8 +2,8 @@ Name:           inertiablast
 Version:        0.92
 Release:        2%{?dist}
 Summary:        Steal energy pods to defeat the empire
-# Almost all is GPLv2+ with some graphics being CC-BY-SA
-License:        GPLv2+ and CC-BY-SA
+# Almost all is GPLv2+ with some graphics using the other licenses
+License:        GPLv2+ and CC0 and CC-BY and (CC-BY or GPLv3)
 URL:            http://identicalsoftware.com/inertiablast/
 
 Source0:        %{url}/%{name}-%{version}.tgz

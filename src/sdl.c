@@ -37,6 +37,7 @@ SDL_Surface *ISDLMainScreen;
 SDL_Surface *ISDLScreen;
 unsigned char *IScreenMain;
 IPalette IPaletteMain;
+int displayMult = 1;
 
 void
 clearscr(void)
@@ -144,26 +145,35 @@ displayscreen(unsigned long us)
   SDL_Rect dest;
   dest.x = 0;
   dest.y = 0;
-  dest.w = 320;
-  dest.h = 200;
+  dest.w = 320 * displayMult;
+  dest.h = 200 * displayMult;
   SDL_LockTexture(ISDLMainTexture, &dest, &pixels, &pitch);
-  int x, y;
+  int x, y, xMult, yMult;
   unsigned char *curPos;
   Uint8 *realLine;
+  Uint8 *prevLine;
   Uint8 *realPos;
 
   curPos = IScreenMain;
   realPos = (Uint8 *)pixels;
   for (y = 0; y < 200; ++y)
   {
-    realLine = realPos;
-    for (x = 0; x < 320; ++x)
+    prevLine = curPos;
+    for (yMult = 0; yMult < displayMult; yMult++)
     {
-      SDL_GetRGB(*curPos, ISDLScreen->format, realPos + 2, realPos + 1, realPos);
-      realPos += 4;
-      ++curPos;
+      curPos = prevLine;
+      realLine = realPos;
+      for (x = 0; x < 320; ++x)
+      {
+        for (xMult = 0; xMult < displayMult; xMult++)
+        {
+          SDL_GetRGB(*curPos, ISDLScreen->format, realPos + 2, realPos + 1, realPos);
+          realPos += 4;
+        }
+        ++curPos;
+      }
+      realPos = realLine + pitch;
     }
-    realPos = realLine + pitch;
   }
   SDL_UnlockTexture(ISDLMainTexture);
   SDL_RenderClear(ISDLMainRenderer);
@@ -259,6 +269,11 @@ graphicsinit(int argc, char **argv)
     case 'w':
       windowed = 1;
       break;
+    case '2':
+      displayMult = 2;
+      break;
+    default:
+      break;
     }
   } while(optc != EOF);
 
@@ -270,7 +285,7 @@ graphicsinit(int argc, char **argv)
   ISDLMainWindow = SDL_CreateWindow("Thrust",
     SDL_WINDOWPOS_UNDEFINED,
     SDL_WINDOWPOS_UNDEFINED,
-    320, 200,
+    320 * displayMult, 200 * displayMult,
     (!windowed ? SDL_WINDOW_FULLSCREEN_DESKTOP : 0));
   if (ISDLMainWindow == NULL)
   {
@@ -286,13 +301,13 @@ graphicsinit(int argc, char **argv)
   ISDLMainTexture = SDL_CreateTexture(ISDLMainRenderer,
     SDL_PIXELFORMAT_ARGB8888,
     SDL_TEXTUREACCESS_STREAMING,
-    320, 200);
+    320 * displayMult, 200 * displayMult);
   if (ISDLMainTexture == NULL)
   {
     printf("Failed - SDL_CreateTexture\n");
     exit(0);
   }
-  ISDLMainScreen = SDL_CreateRGBSurface(0, 320, 200, 32,
+  ISDLMainScreen = SDL_CreateRGBSurface(0, 320 * displayMult, 200 * displayMult, 32,
     0x00FF0000,
     0x0000FF00,
     0x000000FF,

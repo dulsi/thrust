@@ -30,8 +30,9 @@
       { "geometry",       required_argument, 0, 'g' }, \
       { "double",         no_argument,       0, '2' } 
 
-#define SDL_OPTC "w"
+#define SDL_OPTC "w2"
 #define SDL_OPTS \
-      { "windowed",       no_argument,       0, 'w' }
+      { "windowed",       no_argument,       0, 'w' }, \
+      { "double",         no_argument,       0, '2' } 
 
 #endif /* OPTIONS_H */
