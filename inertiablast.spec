@@ -1,6 +1,6 @@
 Name:           inertiablast
 Version:        0.92
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Steal energy pods to defeat the empire
 # Almost all is GPLv2+ with some graphics being CC-BY-SA
 License:        GPLv2+ and CC-BY-SA
@@ -14,8 +14,8 @@ BuildRequires: gcc
 BuildRequires: libgamerzilla-devel
 BuildRequires: libappstream-glib
 BuildRequires: make
-BuildRequires: SDL-devel
-BuildRequires: SDL_mixer-devel
+BuildRequires: SDL2-devel
+BuildRequires: SDL2_mixer-devel
 Requires:      hicolor-icon-theme
 
 
@@ -59,6 +59,9 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/%{name}.metain
 
 
 %changelog
+* Mon Sep 13 2021 Dennis Payne <dulsi@identicalsoftware.com> - 0.92-2
+- Fix buildrequires to use SDL2 not SDL.
+
 * Mon Sep 06 2021 Dennis Payne <dulsi@identicalsoftware.com> - 0.92-1
 - Upgrade to new release.
 
