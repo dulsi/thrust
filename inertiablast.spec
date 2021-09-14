@@ -1,6 +1,6 @@
 Name:           inertiablast
-Version:        0.92
-Release:        2%{?dist}
+Version:        0.93
+Release:        1%{?dist}
 Summary:        Steal energy pods to defeat the empire
 # Almost all is GPLv2+ with some graphics using the other licenses
 License:        GPLv2+ and CC0 and CC-BY and (CC-BY or GPLv3)
@@ -59,6 +59,9 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/%{name}.metain
 
 
 %changelog
+* Sun Sep 14 2021 Dennis Payne <dulsi@identicalsoftware.com> - 0.93-1
+- Upgrade to new release
+
 * Mon Sep 13 2021 Dennis Payne <dulsi@identicalsoftware.com> - 0.92-2
 - Fix buildrequires to use SDL2 not SDL.
 
