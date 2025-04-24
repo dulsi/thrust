@@ -292,7 +292,7 @@ graphicsinit(int argc, char **argv)
     printf("Failed - SDL_CreateWindow\n");
     exit(0);
   }
-  ISDLMainRenderer = SDL_CreateRenderer(ISDLMainWindow, -1, 0);
+  ISDLMainRenderer = SDL_CreateRenderer(ISDLMainWindow, -1, SDL_RENDERER_PRESENTVSYNC);
   if (ISDLMainRenderer == NULL)
   {
     printf("Failed - SDL_CreateRenderer\n");

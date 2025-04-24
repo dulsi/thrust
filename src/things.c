@@ -39,8 +39,7 @@ word ppx,ppy,ppcount;	/* Power Plant variables */
 word ppblip;
 
 void
-newslider(x, y, type)
-     int x, y, type;
+newslider(int x, int y, int type)
 {
   sliders[nrsliders].x1=x;
   sliders[nrsliders].y1=y;
